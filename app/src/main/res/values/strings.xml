@@ -34,4 +34,13 @@
     <string name="category_first_aid">First Aid</string>
     <!-- Add more category strings here as needed -->
 
+    <!-- Product Detail Page Strings -->
+    <string name="product_detail_title">Medicine Details</string>
+    <string name="description_label">Description:</string>
+    <string name="dosage_label">Dosage:</string>
+    <string name="side_effects_label">Side Effects:</string>
+    <string name="precautions_label">Precautions:</string>
+    <string name="quantity_label">Quantity:</string>
+    <string name="total_price_label">Total:</string>
+
 </resources>

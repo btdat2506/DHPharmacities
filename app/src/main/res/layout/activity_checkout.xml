@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
     tools:context=".CheckoutActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -23,29 +22,40 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:text="@string/checkout_title"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:layout_gravity="start"/>
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
 
         </androidx.appcompat.widget.Toolbar>
+
+        <!--<androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/checkout_items_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_cart_checkout" />-->
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="8dp"
         android:text="@string/order_summary"
-    android:textSize="20sp"
-    android:layout_marginTop="24dp"
-    android:layout_marginBottom="16dp"
-    android:textStyle="bold"/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/checkout_items_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:nestedScrollingEnabled="false"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_cart_checkout" />
 

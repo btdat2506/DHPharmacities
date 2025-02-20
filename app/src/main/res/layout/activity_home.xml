@@ -64,10 +64,8 @@
             android:id="@+id/home_category_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabMode="scrollable"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabTextColor="@android:color/white" />
+            app:tabMode="scrollable" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

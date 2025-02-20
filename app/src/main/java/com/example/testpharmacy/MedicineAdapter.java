@@ -1,6 +1,7 @@
 package com.example.testpharmacy; // Replace with your actual package name
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,16 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
                 // TODO: Implement Add to Cart functionality
                 Toast.makeText(context, "Added " + medicine.getName() + " to cart!", Toast.LENGTH_SHORT).show();
                 // You'll need to manage the cart data (e.g., using a CartManager class or similar)
+            }
+        });
+
+        // Add click listener to the entire item view to open ProductDetailActivity
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ProductDetailActivity.class);
+                intent.putExtra(ProductDetailActivity.EXTRA_MEDICINE, (CharSequence) medicine); // Pass the Medicine object
+                context.startActivity(intent);
             }
         });
     }
