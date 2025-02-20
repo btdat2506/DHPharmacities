@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HDPharmacities</string>
+    <string name="app_logo">HDPharmacities Logo</string>
+    <string name="login_signup_title">Login or Sign Up</string>
+    <string name="login_tab_text">Login</string>
+    <string name="signup_tab_text">Sign Up</string>
+    <string name="email_phone_hint">Email or Phone Number</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="forgot_password_text">Forgot Password?</string>
+    <string name="login_button_text">Login</string>
+    <string name="signup_button_text">Sign Up</string>
+    <string name="cart_icon">Shopping Cart</string>
+    <string name="cart_title">My Cart</string>
+    <string name="subtotal">Subtotal:</string>
+    <string name="shipping">Shipping:</string>
+    <string name="free">Free</string>
+    <string name="total">Total:</string>
+    <string name="checkout">Checkout</string>
+    <string name="medicine_image">Medicine Image</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="remove">Remove</string>
+    <string name="checkout_title">Checkout</string>
+    <string name="order_summary">Order Summary</string>
+    <string name="order_confirmation_message">Thank you for your order!</string>
+    <string name="continue_shopping">Continue Shopping</string>
+
+    <!-- Category Names (Placeholder - Replace with your actual categories) -->
+    <string name="category_pain_relievers">Pain Relievers</string>
+    <string name="category_antibiotics">Antibiotics</string>
+    <string name="category_vitamins">Vitamins</string>
+    <string name="category_cold_flu">Cold and Flu</string>
+    <string name="category_first_aid">First Aid</string>
+    <!-- Add more category strings here as needed -->
+
+</resources>

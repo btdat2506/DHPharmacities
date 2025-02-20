@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Brand Colors -->
+    <color name="colorPrimary">#4CAF50</color> <!-- Example: Green 500 -->
+    <color name="colorPrimaryDark">#388E3C</color> <!-- Example: Green 700 (Darker shade of primary) -->
+    <color name="colorAccent">#FF4081</color> <!-- Example: Pink A200 (Accent color) -->
+
+    <!-- Background Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="light_gray">#F0F0F0</color>
+    <color name="cart_summary_background">#F5F5F5</color> <!-- Slightly darker gray for cart summary -->
+    <color name="checkout_summary_background">#F5F5F5</color> <!-- Same for checkout summary -->
+
+    <!-- Text Colors -->
+    <color name="black">#000000</color>
+    <color name="dark_gray_text">#424242</color> <!-- Dark Gray for primary text -->
+    <color name="gray_text">#757575</color> <!-- Gray for secondary text or hints -->
+
+    <!-- Error Color -->
+    <color name="error_red">#D32F2F</color> <!-- Example: Red 700 for errors -->
+
+    <!-- Other UI Colors (Optional, add as needed) -->
+    <!-- Example:  If you want a specific color for your buttons -->
+    <!-- <color name="button_background">#....</color> -->
+    <!-- <color name="button_text_color">#....</color> -->
+
+</resources>
