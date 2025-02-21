@@ -31,29 +31,45 @@
                 android:id="@+id/cart_icon_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="right"
                 android:padding="8dp">
 
                 <ImageView
                     android:id="@+id/home_cart_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/cart_icon"
                     android:src="@drawable/ic_shopping_cart"
-                android:contentDescription="@string/cart_icon"
-                android:layout_marginEnd="8dp"
-                app:tint="@android:color/white" />
+                    app:tint="@android:color/white" />
 
                 <TextView
                     android:id="@+id/cart_badge_count"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
+                    android:layout_gravity="top|end"
                     android:background="@drawable/badge_background"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:text="0"
-                android:layout_gravity="top|end"
-                android:visibility="gone"/>
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/profile_icon_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/home_profile_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/profile_icon"
+                    android:src="@drawable/ic_placeholder_profile"
+                    app:tint="@android:color/white" />
 
             </FrameLayout>
 

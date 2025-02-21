@@ -1,27 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Primary Brand Colors -->
-    <color name="colorPrimary">#4CAF50</color> <!-- Example: Green 500 -->
-    <color name="colorPrimaryDark">#388E3C</color> <!-- Example: Green 700 (Darker shade of primary) -->
-    <color name="colorAccent">#FF4081</color> <!-- Example: Pink A200 (Accent color) -->
+<!--    <color name="colorPrimary">#4CAF50</color> &lt;!&ndash; Example: Green 500 &ndash;&gt;
+    <color name="colorPrimaryDark">#388E3C</color> &lt;!&ndash; Example: Green 700 (Darker shade of primary) &ndash;&gt;
+    <color name="colorAccent">#FF4081</color> &lt;!&ndash; Example: Pink A200 (Accent color) &ndash;&gt;
 
-    <!-- Background Colors -->
+    &lt;!&ndash; Background Colors &ndash;&gt;
     <color name="white">#FFFFFF</color>
     <color name="light_gray">#F0F0F0</color>
-    <color name="cart_summary_background">#F5F5F5</color> <!-- Slightly darker gray for cart summary -->
-    <color name="checkout_summary_background">#F5F5F5</color> <!-- Same for checkout summary -->
+    <color name="cart_summary_background">#F5F5F5</color> &lt;!&ndash; Slightly darker gray for cart summary &ndash;&gt;
+    <color name="checkout_summary_background">#F5F5F5</color> &lt;!&ndash; Same for checkout summary &ndash;&gt;
 
-    <!-- Text Colors -->
+    &lt;!&ndash; Text Colors &ndash;&gt;
     <color name="black">#000000</color>
-    <color name="dark_gray_text">#424242</color> <!-- Dark Gray for primary text -->
-    <color name="gray_text">#757575</color> <!-- Gray for secondary text or hints -->
+    <color name="dark_gray_text">#424242</color> &lt;!&ndash; Dark Gray for primary text &ndash;&gt;
+    <color name="gray_text">#757575</color> &lt;!&ndash; Gray for secondary text or hints &ndash;&gt;
 
-    <!-- Error Color -->
-    <color name="error_red">#D32F2F</color> <!-- Example: Red 700 for errors -->
+    &lt;!&ndash; Error Color &ndash;&gt;
+    <color name="error_red">#D32F2F</color> &lt;!&ndash; Example: Red 700 for errors &ndash;&gt;-->
 
     <!-- Other UI Colors (Optional, add as needed) -->
     <!-- Example:  If you want a specific color for your buttons -->
     <!-- <color name="button_background">#....</color> -->
     <!-- <color name="button_text_color">#....</color> -->
+
+
+    <!-- **Blue Palette from Color Picker (HDPharmacities Brand Color)** -->
+    <color name="hd_blue_500">#012995</color> <!-- Your primary blue - HEX: 012995 -->
+    <color name="hd_blue_700">#001E6A</color> <!-- Darker shade of blue for status bar, etc. (Adjust if needed) -->
+    <color name="hd_blue_300">#445EC5</color> <!-- Lighter shade of blue for accent, secondary, etc. (Adjust if needed) -->
+    <color name="hd_blue_200">#7A8FCF</color> <!-- Even lighter shade (Adjust if needed) -->
+
+    <!-- **Light Theme Colors** -->
+    <color name="light_primary">@color/hd_blue_500</color>
+    <color name="light_primary_dark">@color/hd_blue_700</color>
+    <color name="light_accent">@color/hd_blue_300</color>
+    <color name="light_background">#FFFFFF</color> <!-- White background for light theme -->
+    <color name="light_surface">#FFFFFF</color> <!-- Surface color (cards, dialogs) - White for light theme -->
+    <color name="light_text_primary">#DE000000</color> <!-- Black with alpha for primary text on light background -->
+    <color name="light_text_secondary">#8A000000</color> <!-- Black with more alpha for secondary text -->
+    <color name="light_icon_tint">@color/light_text_primary</color> <!-- Icon tint color for light theme -->
+
+    <!-- **Dark Theme Colors** -->
+    <color name="dark_primary">@color/hd_blue_300</color> <!-- Lighter blue as primary for dark theme -->
+    <color name="dark_primary_dark">@color/hd_blue_500</color> <!-- Original blue as darker shade for dark theme -->
+    <color name="dark_accent">@color/hd_blue_200</color> <!-- Even lighter blue as accent for dark theme -->
+    <color name="dark_background">#121212</color> <!-- Dark Gray background for dark theme (Material Dark Default) -->
+    <color name="dark_surface">#1E1E1E</color> <!-- Surface color (cards, dialogs) - Darker Gray for dark theme -->
+    <color name="dark_text_primary">#FFFFFF</color> <!-- White text for primary text on dark background -->
+    <color name="dark_text_secondary">#B3FFFFFF</color> <!-- White with more alpha for secondary text -->
+    <color name="dark_icon_tint">@color/dark_text_primary</color> <!-- Icon tint color for dark theme -->
+
+    <!-- **Neutral Colors (Shared by both themes)** -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="light_gray">#F0F0F0</color>
+    <color name="cart_summary_background">#F5F5F5</color>
+    <color name="checkout_summary_background">#F5F5F5</color>
+    <color name="error_red">#D32F2F</color>
+    <color name="gray_text">#757575</color>
+    <color name="dark_gray_text">#424242</color>
 
 </resources>

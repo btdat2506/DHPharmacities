@@ -26,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private TextView cartBadgeCountTextView;
     private View cartIconContainer;
+    private View profileIconContainer;
 
     // Placeholder for medicine categories
     private List<String> categoryNames = new ArrayList<>();
@@ -42,8 +43,10 @@ public class HomeActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.home_view_pager);
         cartBadgeCountTextView = findViewById(R.id.cart_badge_count);
         cartIconContainer = findViewById(R.id.cart_icon_container);
+        profileIconContainer = findViewById(R.id.profile_icon_container);
 
         // Initialize category names (replace with actual categories)
+        categoryNames.add("All Items"); // Add "All Items" as the first category
         categoryNames.add("Pain Relievers");
         categoryNames.add("Antibiotics");
         categoryNames.add("Vitamins");
@@ -66,6 +69,14 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        profileIconContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
                 startActivity(intent);
             }
         });
@@ -96,29 +107,13 @@ public class HomeActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            // TODO: Create and return Fragment for each category based on position
-            // For now, returning a generic category fragment (replace with actual category fragments)
-            switch (position) {
-                case 0:
-                    return new CategoryPainRelieversFragment(); // Example: Pain Relievers Fragment
-                // Add cases for other categories and return respective fragments
-                default:
-                    return new GenericCategoryFragment(); // Placeholder for other categories
-            }
+            String categoryName = categoryNames.get(position); // Get category name for this position
+            return GenericCategoryFragment.newInstance(categoryName); // Create GenericCategoryFragment with category name
         }
 
         @Override
         public int getItemCount() {
             return categoryNames.size(); // Number of categories
-        }
-    }
-
-    // Generic Placeholder Fragment for categories (Replace with actual category fragments)
-    public static class GenericCategoryFragment extends Fragment {
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            // You can inflate a default layout here if needed, or return null if the fragment is dynamically populated
-            return inflater.inflate(R.layout.fragment_category_pain_relievers, container, false); // Reusing pain relievers layout as a placeholder
         }
     }
 }

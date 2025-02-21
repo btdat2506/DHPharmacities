@@ -27,6 +27,7 @@
     <string name="continue_shopping">Continue Shopping</string>
 
     <!-- Category Names (Placeholder - Replace with your actual categories) -->
+    <string name="category_all_items">All Items</string>
     <string name="category_pain_relievers">Pain Relievers</string>
     <string name="category_antibiotics">Antibiotics</string>
     <string name="category_vitamins">Vitamins</string>
@@ -43,4 +44,26 @@
     <string name="quantity_label">Quantity:</string>
     <string name="total_price_label">Total:</string>
 
+    <string name="profile_icon">Profile</string>
+    <!-- ... other strings ... -->
+    <string name="profile_title">Profile</string>
+    <!-- ... other profile strings ... -->
+    <string name="profile_name_hint">Your Name</string>
+    <string name="profile_email_hint">Your Email</string>
+    <string name="profile_phone_hint">Your Phone Number</string>
+    <string name="profile_address_hint">Your Address</string>
+    <string name="profile_medical_notice_hint">Medical Conditions/Allergies</string>
+    <string name="profile_emergency_contact_hint">Emergency Contact Name and Phone</string>
+    <string name="profile_save_button_text">Save Changes</string>
+
+    <!-- ... other strings ... -->
+    <!-- ... rest of categories ... -->
+    <string name="profile_image">User Profile Image</string>
+    <string name="profile_name_label">Name:</string>
+    <string name="profile_email_label">Email:</string>
+    <string name="profile_phone_label">Phone:</string>
+
+    <string name="profile_address_label">Address:</string>
+    <string name="profile_medical_notice_label">Medical Conditions/Allergies:</string>
+    <string name="profile_emergency_contact_label">Emergency Contact:</string>
 </resources>
