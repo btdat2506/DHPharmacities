@@ -1,6 +1,9 @@
 package com.example.testpharmacy; // Replace with your actual package name
 
-public class Medicine {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Medicine implements Parcelable {
     private String name;
     private double price;
     private int imageResourceId; // Resource ID of the image drawable
@@ -10,6 +13,24 @@ public class Medicine {
         this.price = price;
         this.imageResourceId = imageResourceId;
     }
+
+    protected Medicine(Parcel in) {
+        name = in.readString();
+        price = in.readDouble();
+        imageResourceId = in.readInt();
+    }
+
+    public static final Creator<Medicine> CREATOR = new Creator<Medicine>() {
+        @Override
+        public Medicine createFromParcel(Parcel in) {
+            return new Medicine(in);
+        }
+
+        @Override
+        public Medicine[] newArray(int size) {
+            return new Medicine[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -33,5 +54,17 @@ public class Medicine {
 
     public void setImageResourceId(int imageResourceId) {
         this.imageResourceId = imageResourceId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeDouble(price);
+        dest.writeInt(imageResourceId);
     }
 }

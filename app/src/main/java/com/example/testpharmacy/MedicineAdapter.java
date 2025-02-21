@@ -52,7 +52,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ProductDetailActivity.class);
-                intent.putExtra(ProductDetailActivity.EXTRA_MEDICINE, (CharSequence) medicine); // Pass the Medicine object
+                intent.putExtra(ProductDetailActivity.EXTRA_MEDICINE, medicine); // Pass the Medicine object
                 context.startActivity(intent);
             }
         });
