@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
+import com.example.testpharmacy.Database.DatabaseHelper;
+
 public class SignupFragment extends Fragment {
 
     private EditText emailPhoneEditText;
@@ -54,18 +56,25 @@ public class SignupFragment extends Fragment {
         // For now, let's simulate a successful signup if passwords match
 
         if (!emailPhone.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()) {
-            if (password.equals(confirmPassword)) {
-                // Simulate successful signup
-                Toast.makeText(getContext(), "Signup Successful!", Toast.LENGTH_SHORT).show();
-                errorTextView.setVisibility(View.GONE);
+            DatabaseHelper databaseHelper = new DatabaseHelper(getActivity().getBaseContext());
+            Boolean checkUserMail = databaseHelper.checkUserMail(emailPhone);
 
-                // Navigate to Home Activity after successful signup (or Login page if you prefer)
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(intent);
-                getActivity().finish(); // Optional: Close LoginSignupActivity after signup
-            } else {
-                errorTextView.setText("Passwords do not match.");
+            if(checkUserMail) {
+                errorTextView.setText("Tài khoản đã có người sử dụng");
                 errorTextView.setVisibility(View.VISIBLE);
+            } else {
+                if (password.equals(confirmPassword)) {
+                    // Simulate successful signup
+                    databaseHelper.addUser(emailPhone, password);
+
+                    // Navigate to Home Activity after successful signup (or Login page if you prefer)
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    startActivity(intent);
+                    getActivity().finish(); // Optional: Close LoginSignupActivity after signup
+                } else {
+                    errorTextView.setText("Passwords do not match.");
+                    errorTextView.setVisibility(View.VISIBLE);
+                }
             }
         } else {
             errorTextView.setText("Please fill in all fields.");

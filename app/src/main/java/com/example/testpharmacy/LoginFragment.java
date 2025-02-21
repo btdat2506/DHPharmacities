@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
+import com.example.testpharmacy.Database.DatabaseHelper;
+
 public class LoginFragment extends Fragment {
 
     private EditText emailPhoneEditText;
@@ -62,13 +64,18 @@ public class LoginFragment extends Fragment {
 
         if (!emailPhone.isEmpty() && !password.isEmpty()) {
             // Simulate successful login
-            Toast.makeText(getContext(), "Login Successful!", Toast.LENGTH_SHORT).show();
-            errorTextView.setVisibility(View.GONE); // Hide error message if it was visible
+            DatabaseHelper databaseHelper = new DatabaseHelper(getActivity().getBaseContext());
+            Boolean checkUser = databaseHelper.checkUserMailAndMk(emailPhone, password);
 
-            // Navigate to Home Activity after successful login
-            Intent intent = new Intent(getActivity(), HomeActivity.class);
-            startActivity(intent);
-            getActivity().finish(); // Optional: Close LoginSignupActivity after login
+            if(checkUser) {
+                // Navigate to Home Activity after successful login
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intent);
+                getActivity().finish(); // Optional: Close LoginSignupActivity after login
+            } else {
+                errorTextView.setText("The email or password is incorrect.");
+                errorTextView.setVisibility(View.VISIBLE);
+            }
         } else {
             errorTextView.setText("Please enter email/phone and password.");
             errorTextView.setVisibility(View.VISIBLE);
