@@ -9,9 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.testpharmacy.Database.DatabaseHelper;
+import com.example.testpharmacy.Database.UserDao;
 
 public class LoginFragment extends Fragment {
 
@@ -20,6 +23,20 @@ public class LoginFragment extends Fragment {
     private Button loginButton;
     private TextView forgotPasswordTextView;
     private TextView errorTextView;
+
+    private UserDao userDao;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        userDao = new UserDao(getContext()); // **1. Instantiate UserDao in onCreate**
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        userDao.close(); // **4. Close database in onPause**
+    }
 
     public LoginFragment() {
         // Required empty public constructor
@@ -30,6 +47,9 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity().getBaseContext());
+        databaseHelper.open();
 
         emailPhoneEditText = view.findViewById(R.id.login_email_phone_edit_text);
         passwordEditText = view.findViewById(R.id.login_password_edit_text);
@@ -64,8 +84,8 @@ public class LoginFragment extends Fragment {
 
         if (!emailPhone.isEmpty() && !password.isEmpty()) {
             // Simulate successful login
-            DatabaseHelper databaseHelper = new DatabaseHelper(getActivity().getBaseContext());
-            Boolean checkUser = databaseHelper.checkUserMailAndMk(emailPhone, password);
+            userDao.open();
+            Boolean checkUser = userDao.checkUserMailAndMk(emailPhone, password);
 
             if(checkUser) {
                 // Navigate to Home Activity after successful login
