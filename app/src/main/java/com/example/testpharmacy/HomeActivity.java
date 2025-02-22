@@ -31,6 +31,10 @@ public class HomeActivity extends AppCompatActivity {
     // Placeholder for medicine categories
     private List<String> categoryNames = new ArrayList<>();
 
+    // --- Simulate User Login Status ---
+    private boolean isLoggedIn = false; // Initially set to false (user not logged in)
+    // In a real app, you would check actual authentication status here
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,11 +77,19 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        // Set click listener for the profile icon - MODIFIED
         profileIconContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-                startActivity(intent);
+                if (isLoggedIn) { // Check login status
+                    // If logged in, go to ProfileActivity
+                    Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                } else {
+                    // If not logged in, go to LoginSignupActivity
+                    Intent intent = new Intent(HomeActivity.this, LoginSignupActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
