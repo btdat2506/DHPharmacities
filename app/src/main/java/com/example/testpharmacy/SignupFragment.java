@@ -9,9 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.testpharmacy.Database.DatabaseHelper;
+import com.example.testpharmacy.Database.UserDao;
+import com.example.testpharmacy.Model.User;
 
 public class SignupFragment extends Fragment {
 
@@ -20,6 +23,20 @@ public class SignupFragment extends Fragment {
     private EditText confirmPasswordEditText;
     private Button signupButton;
     private TextView errorTextView;
+
+    private UserDao userDao;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        userDao = new UserDao(getContext()); // **1. Instantiate UserDao in onCreate**
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        userDao.close(); // **4. Close database in onPause**
+    }
 
     public SignupFragment() {
         // Required empty public constructor
@@ -56,8 +73,8 @@ public class SignupFragment extends Fragment {
         // For now, let's simulate a successful signup if passwords match
 
         if (!emailPhone.isEmpty() && !password.isEmpty() && !confirmPassword.isEmpty()) {
-            DatabaseHelper databaseHelper = new DatabaseHelper(getActivity().getBaseContext());
-            Boolean checkUserMail = databaseHelper.checkUserMail(emailPhone);
+            userDao.open();
+            Boolean checkUserMail = userDao.checkUserMail(emailPhone);
 
             if(checkUserMail) {
                 errorTextView.setText("Tài khoản đã có người sử dụng");
@@ -65,7 +82,17 @@ public class SignupFragment extends Fragment {
             } else {
                 if (password.equals(confirmPassword)) {
                     // Simulate successful signup
-                    databaseHelper.addUser(emailPhone, password);
+                    User newUser = new User();
+                    newUser.setEmail(emailPhone);
+                    newUser.setPassword(password);
+                    long userId = userDao.createUser(newUser);
+
+                    if(userId != -1) {
+                        Toast.makeText(getContext(), "Signup Successful!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        errorTextView.setText("Signup failed. Please try again.");
+                        errorTextView.setVisibility(View.VISIBLE);
+                    }
 
                     // Navigate to Home Activity after successful signup (or Login page if you prefer)
                     Intent intent = new Intent(getActivity(), ProfileActivity.class);
