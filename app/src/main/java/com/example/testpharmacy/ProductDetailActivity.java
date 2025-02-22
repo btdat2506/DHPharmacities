@@ -76,7 +76,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void populateUI(Medicine medicine) {
         medicineNameTextView.setText(medicine.getName());
-        medicinePriceTextView.setText("₹" + String.format("%.2f", medicine.getPrice()));
+        medicinePriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
         medicineImageView.setImageResource(medicine.getImageResourceId());
 
         // Placeholder descriptions, dosage, side effects, precautions

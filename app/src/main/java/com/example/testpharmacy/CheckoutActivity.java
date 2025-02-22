@@ -127,9 +127,9 @@ public class CheckoutActivity extends AppCompatActivity {
         double shippingCost = 0; // Free shipping
         double total = subtotal + shippingCost;
 
-        subtotalTextView.setText("₹" + String.format("%.2f", subtotal));
+        subtotalTextView.setText(String.format("%.3f", subtotal) + "đ");
         shippingTextView.setText(R.string.free);
-        totalTextView.setText("₹" + String.format("%.2f", total));
+        totalTextView.setText(String.format("%.3f", total) + "đ");
     }
 
     // --- Method to generate placeholder Order Number ---

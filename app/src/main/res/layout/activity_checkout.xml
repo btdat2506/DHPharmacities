@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="₹0.00" />
+                android:text="0.000đ" />
         </LinearLayout>
 
         <LinearLayout
@@ -191,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:text="₹0.00" />
+                android:text="0.000đ" />
         </LinearLayout>
 
         <TextView
