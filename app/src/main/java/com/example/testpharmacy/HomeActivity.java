@@ -42,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar); // Set Toolbar as ActionBar
+        getSupportActionBar().setDisplayShowTitleEnabled(false); // Add this line to remove default title
 
         tabLayout = findViewById(R.id.home_category_tabs);
         viewPager = findViewById(R.id.home_view_pager);

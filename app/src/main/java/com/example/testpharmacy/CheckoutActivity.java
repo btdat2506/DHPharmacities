@@ -32,6 +32,7 @@ public class CheckoutActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.checkout_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Show back button
+        getSupportActionBar().setDisplayShowTitleEnabled(false); // Add this line to remove default title
 
         checkoutItemsRecyclerView = findViewById(R.id.checkout_items_recycler_view);
         subtotalTextView = findViewById(R.id.checkout_subtotal_text_view);

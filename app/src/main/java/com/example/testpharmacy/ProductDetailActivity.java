@@ -34,6 +34,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.product_detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Show back button
+        getSupportActionBar().setDisplayShowTitleEnabled(false); // Add this line to remove default title
 
         medicineImageView = findViewById(R.id.detail_medicine_image_view);
         medicineNameTextView = findViewById(R.id.detail_medicine_name_text_view);

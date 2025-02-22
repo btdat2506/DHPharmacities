@@ -31,6 +31,7 @@ public class CartActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.cart_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Show back button
+        getSupportActionBar().setDisplayShowTitleEnabled(false); // Add this line to remove default title
 
         cartItemsRecyclerView = findViewById(R.id.cart_items_recycler_view);
         subtotalTextView = findViewById(R.id.cart_subtotal_text_view);
