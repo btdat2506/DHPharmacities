@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:text="₹100.00" />
+                android:text="100.000đ" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -86,30 +86,41 @@
                     android:paddingBottom="0dp"
                     android:text="+"
                     android:textSize="16sp" />
+
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/gravity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="end">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/cart_item_total_price_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="100.000đ"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="₹100.00" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/cart_item_remove_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:background="@android:color/transparent"
                 android:text="@string/remove"
+                android:textColor="@color/error_red"
                 android:textSize="12sp"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
+                android:padding="0dp"
+                android:paddingStart="0dp"
+                android:paddingLeft="0dp"
+                android:paddingTop="0dp"
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp"
+                android:paddingBottom="0dp" />
         </LinearLayout>
 
     </LinearLayout>

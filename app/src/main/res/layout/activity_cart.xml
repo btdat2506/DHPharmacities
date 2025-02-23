@@ -23,9 +23,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cart_title"
-            android:textSize="20sp"
-            android:textColor="@android:color/white"
-            android:layout_gravity="start"/>
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:layout_gravity="start"/>
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -38,6 +38,133 @@
         android:padding="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_cart" />
+
+    <TextView
+        android:id="@+id/cart_shipping_info_more_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/edit_shipping_info"
+    android:textSize="16sp"
+    android:padding="8dp"
+    android:textColor="?attr/colorAccent"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"/>
+
+    <LinearLayout
+        android:id="@+id/cart_shipping_info_preview_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="16dp"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/cart_shipping_name_preview_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="Name: "/>
+
+        <TextView
+            android:id="@+id/cart_shipping_phone_preview_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:text="Phone: "/>
+
+        <TextView
+            android:id="@+id/cart_shipping_address_preview_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:text="Address: "/>
+
+        <TextView
+            android:id="@+id/cart_shipping_note_preview_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:text="Note: "/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/cart_shipping_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="16dp"
+        android:visibility="gone">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/shipping_name_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cart_shipping_name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/shipping_phone_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cart_shipping_phone_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/shipping_address_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cart_shipping_address_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:lines="2" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/shipping_note_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/cart_shipping_note_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:lines="2" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -64,14 +191,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/subtotal"
-            android:textSize="16sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/cart_subtotal_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="₹0.00" />
+                android:text="0.000đ" />
         </LinearLayout>
 
         <LinearLayout
@@ -86,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/shipping"
-            android:textSize="16sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/cart_shipping_text_view"
@@ -107,8 +234,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/total"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/cart_total_text_view"
@@ -116,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:text="₹0.00" />
+                android:text="0.000đ" />
         </LinearLayout>
 
         <Button
