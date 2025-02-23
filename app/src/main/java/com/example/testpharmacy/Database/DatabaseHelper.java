@@ -96,6 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(tbCartItems);
         // You can optionally insert initial data here if needed (e.g., default products)
         db.execSQL(INSERT_ADMIN);
+        // Product for test.
     }
 
     @Override
