@@ -89,7 +89,7 @@ public class LoginFragment extends Fragment {
 
             if(checkUser) {
                 // Navigate to Home Activity after successful login
-                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
                 startActivity(intent);
                 getActivity().finish(); // Optional: Close LoginSignupActivity after login
             } else {
