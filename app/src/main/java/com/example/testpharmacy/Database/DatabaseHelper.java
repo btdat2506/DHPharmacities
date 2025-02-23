@@ -13,7 +13,7 @@ import com.example.testpharmacy.Model.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private Context context;
-    public static String TB_USERS = "users";
+    public static final String TB_USERS = "users";
     public static final String TB_PRODUCTS = "products";
     public static final String TB_CART_ITEMS = "cart_items";
 
@@ -47,7 +47,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CART_QUANTITY = "quantity";
     public static final String COLUMN_CART_ADDED_AT = "added_at";
 
-    private UserDao userDao;
+    public static final String INSERT_ADMIN = "INSERT INTO " + TB_USERS + " (" +
+            COLUMN_USER_NAME + ", " + COLUMN_USER_EMAIL + ", " + COLUMN_USER_PASSWORD +
+            ") VALUES ('admin', 'admin@gmail.com', 'admin123')";
+
+    public static final String INSERT_PRODUCT_1 = "INSERT INTO " + TB_PRODUCTS + " (" +
+            COLUMN_PRODUCT_NAME + ", " + COLUMN_PRODUCT_DESCRIPTION + ", " +
+            COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_PRICE + ", " +
+            COLUMN_PRODUCT_IMAGE_URL + ", " + COLUMN_PRODUCT_STOCK_QUANTITY +
+            ") VALUES ('Hỗn dịch uống Amoxicillin 250mg Imexpharm điều trị nhiễm khuẩn đường hô hấp, đường mật, đường tiêu hóa (12 gói)', " +
+            "'Thuốc Amoxicillin của Công ty Cổ phần Dược phẩm IMEXPHARM, có thành phần chính là Amoxicillin. Đây là thuốc dùng để điều trị các nhiễm khuẩn do các vi khuẩn nhạy cảm với thuốc tại các vị trí: Đường hô hấp trên, đường hô hấp dưới, nhiễm khuẩn đường mật, đường tiêu hóa, đường tiết niệu - sinh dục, dự phòng viêm nội tâm mạc.', " +
+            "'Thuốc kháng sinh', 32.400, 'https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/9_528e8474cf.png', 100)";
+
+    public static final String INSERT_PRODUCT_2 = "INSERT INTO " + TB_PRODUCTS + " (" +
+            COLUMN_PRODUCT_NAME + ", " + COLUMN_PRODUCT_DESCRIPTION + ", " +
+            COLUMN_PRODUCT_CATEGORY + ", " + COLUMN_PRODUCT_PRICE + ", " +
+            COLUMN_PRODUCT_IMAGE_URL + ", " + COLUMN_PRODUCT_STOCK_QUANTITY +
+            ") VALUES ('Thuốc Exopadin 60mg Trường Thọ điều trị viêm mũi dị ứng, mày đay (3 vỉ x 10 viên)', " +
+            "'Thuốc Exopadin là sản phẩm của Công ty Cổ phần Dược phẩm Trường Thọ có thành phần chính là Fexofenadin hydroclorid. Đây là thuốc được chỉ định để điều trị viêm mũi dị ứng theo mùa, điều trị các biểu hiện ngoài da không biến chứng của mày đay vô căn mạn tính ở người lớn và trẻ em từ 12 tuổi trở lên. Thuốc làm giảm ngứa và số lượng dát mày đay một cách đáng kể.', " +
+            "'Thuốc dị ứng', 60.000, 'https://cdn.nhathuoclongchau.com.vn/unsafe/768x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/IMG_0238_fc19904162.jpg', 100)";
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, "HDPharmacities.db", null, 1);
@@ -92,9 +110,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(tbProducts);
         db.execSQL(tbCartItems);
         // You can optionally insert initial data here if needed (e.g., default products)
-//        userDao.open();
-//        long reslut = userDao.createUser(new User("admin", "admin@gmail.com", "", "admin123", "", ""));
-//        userDao.close();
+        db.execSQL(INSERT_ADMIN);
+        // Product for test.
+        db.execSQL(INSERT_PRODUCT_1);
+        db.execSQL(INSERT_PRODUCT_2);
     }
 
     @Override
