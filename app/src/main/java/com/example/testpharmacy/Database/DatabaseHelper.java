@@ -13,7 +13,7 @@ import com.example.testpharmacy.Model.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private Context context;
-    public static String TB_USERS = "users";
+    public static final String TB_USERS = "users";
     public static final String TB_PRODUCTS = "products";
     public static final String TB_CART_ITEMS = "cart_items";
 
@@ -47,7 +47,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CART_QUANTITY = "quantity";
     public static final String COLUMN_CART_ADDED_AT = "added_at";
 
-    private UserDao userDao;
+    public static final String INSERT_ADMIN = "INSERT INTO " + TB_USERS + " (" +
+            COLUMN_USER_NAME + ", " + COLUMN_USER_EMAIL + ", " + COLUMN_USER_PASSWORD +
+            ") VALUES ('admin', 'admin@gmail.com', 'admin123')";
+
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, "HDPharmacities.db", null, 1);
@@ -92,9 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(tbProducts);
         db.execSQL(tbCartItems);
         // You can optionally insert initial data here if needed (e.g., default products)
-//        userDao.open();
-//        long reslut = userDao.createUser(new User("admin", "admin@gmail.com", "", "admin123", "", ""));
-//        userDao.close();
+        db.execSQL(INSERT_ADMIN);
     }
 
     @Override
