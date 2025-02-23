@@ -9,80 +9,103 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.testpharmacy.Model.User;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private Context context;
-    public static String TB_USERS = "USERS";
+    public static String TB_USERS = "users";
+    public static final String TB_PRODUCTS = "products";
+    public static final String TB_CART_ITEMS = "cart_items";
 
-    public static String TB_USER_ID = "ID";
-    public static String TB_USER_MAIL = "MAIL";
-    public static String TB_USER_MATKHAU = "MATKHAU";
+    // Common Column Names
+    public static final String COLUMN_ID = "_id"; // Standard convention for primary key
+
+    // Users Table - Column Names
+    public static final String COLUMN_USER_ID = "user_id"; // Alias for _id if needed for clarity
+    public static final String COLUMN_USER_NAME = "name";
+    public static final String COLUMN_USER_EMAIL = "email";
+    public static final String COLUMN_USER_PHONE = "phone_number";
+    public static final String COLUMN_USER_PASSWORD = "password";
+    public static final String COLUMN_USER_ADDRESS = "address";
+    public static final String COLUMN_USER_MEDICAL_NOTICE = "medical_notice";
+    public static final String COLUMN_CREATED_AT = "created_at";
+    public static final String COLUMN_UPDATED_AT = "updated_at";
+
+    // Products Table - Column Names
+    public static final String COLUMN_PRODUCT_ID = "product_id"; // Alias for _id if needed
+    public static final String COLUMN_PRODUCT_NAME = "name";
+    public static final String COLUMN_PRODUCT_DESCRIPTION = "description";
+    public static final String COLUMN_PRODUCT_CATEGORY = "category";
+    public static final String COLUMN_PRODUCT_PRICE = "price";
+    public static final String COLUMN_PRODUCT_IMAGE_URL = "image_url"; // Or use resource ID if storing locally
+    public static final String COLUMN_PRODUCT_STOCK_QUANTITY = "stock_quantity";
+
+    // Cart Items Table - Column Names
+    public static final String COLUMN_CART_ITEM_ID = "cart_item_id"; // Alias for _id
+    public static final String COLUMN_CART_USER_ID = "user_id"; // Foreign Key to Users table
+    public static final String COLUMN_CART_PRODUCT_ID = "product_id"; // Foreign Key to Products table
+    public static final String COLUMN_CART_QUANTITY = "quantity";
+    public static final String COLUMN_CART_ADDED_AT = "added_at";
+
+    private UserDao userDao;
 
     public DatabaseHelper(@Nullable Context context) {
-        super(context, "DrugStore.db", null, 1);
+        super(context, "HDPharmacities.db", null, 1);
         this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String tbUser = "CREATE TABLE " + TB_USERS + " ( " + TB_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + TB_USER_MAIL + " TEXT, " + TB_USER_MATKHAU + " TEXT )";
+        String tbUsers = "CREATE TABLE " + TB_USERS + "(" +
+                COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + // SQLite uses INTEGER PRIMARY KEY AUTOINCREMENT
+                COLUMN_USER_NAME + " TEXT," +
+                COLUMN_USER_EMAIL + " TEXT UNIQUE," +
+                COLUMN_USER_PHONE + " TEXT UNIQUE," +
+                COLUMN_USER_PASSWORD + " TEXT," +
+                COLUMN_USER_ADDRESS + " TEXT," +
+                COLUMN_USER_MEDICAL_NOTICE + " TEXT," +
+                COLUMN_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                COLUMN_UPDATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                ")";
+        String tbProducts = "CREATE TABLE " + TB_PRODUCTS + "(" +
+                COLUMN_PRODUCT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_PRODUCT_NAME + " TEXT," +
+                COLUMN_PRODUCT_DESCRIPTION + " TEXT," +
+                COLUMN_PRODUCT_CATEGORY + " TEXT," +
+                COLUMN_PRODUCT_PRICE + " REAL," + // SQLite uses REAL for floating point numbers
+                COLUMN_PRODUCT_IMAGE_URL + " TEXT," +
+                COLUMN_PRODUCT_STOCK_QUANTITY + " INTEGER," +
+                COLUMN_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                COLUMN_UPDATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
+                ")";
+        String tbCartItems = "CREATE TABLE " + TB_CART_ITEMS + "(" +
+                COLUMN_CART_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_CART_USER_ID + " INTEGER," + // Foreign Key to Users
+                COLUMN_CART_PRODUCT_ID + " INTEGER," + // Foreign Key to Products
+                COLUMN_CART_QUANTITY + " INTEGER," +
+                COLUMN_CART_ADDED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                "FOREIGN KEY(" + COLUMN_CART_USER_ID + ") REFERENCES " + TB_USERS + "(" + COLUMN_USER_ID + ")," +
+                "FOREIGN KEY(" + COLUMN_CART_PRODUCT_ID + ") REFERENCES " + TB_PRODUCTS + "(" + COLUMN_PRODUCT_ID + ")" +
+                ")";
 
-        db.execSQL(tbUser);
+        db.execSQL(tbUsers);
+        db.execSQL(tbProducts);
+        db.execSQL(tbCartItems);
+        // You can optionally insert initial data here if needed (e.g., default products)
+//        userDao.open();
+//        long reslut = userDao.createUser(new User("admin", "admin@gmail.com", "", "admin123", "", ""));
+//        userDao.close();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TB_USERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TB_PRODUCTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TB_CART_ITEMS);
         onCreate(db);
     }
 
     public SQLiteDatabase open(){
         return this.getWritableDatabase();
     }
-
-    public void addUser(String userMail, String userPass) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TB_USERS + " WHERE "
-                + TB_USER_MAIL + " = ?", new String[]{userMail});
-
-        if(cursor.getCount() > 0) {
-            Toast.makeText(context, "Người dùng đã tồn tại.", Toast.LENGTH_SHORT).show();
-        } else {
-            ContentValues cv = new ContentValues();
-
-            cv.put(TB_USER_MAIL, userMail);
-            cv.put(TB_USER_MATKHAU, userPass);
-            long result = db.insert(TB_USERS, null, cv);
-            if(result == -1) {
-                Toast.makeText(context, "Signup Fail!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(context, "Signup Successful!", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    public Boolean checkUserMail(String userMail) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TB_USERS + " WHERE "
-                + TB_USER_MAIL + " = ?", new String[]{userMail});
-
-        if(cursor.getCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public Boolean checkUserMailAndMk(String userMail, String userMk) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TB_USERS + " WHERE "
-                + TB_USER_MAIL + " = ? AND " + TB_USER_MATKHAU + " = ?", new String[]{userMail, userMk});
-
-        if(cursor.getCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }
