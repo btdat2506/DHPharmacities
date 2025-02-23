@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
-    private static final int SPLASH_TIME_OUT = 2000; // 2 seconds
+    private static final int SPLASH_TIME_OUT = 1500; // 2 seconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity (Login/Signup in this case)
-                Intent i = new Intent(SplashScreenActivity.this, LoginSignupActivity.class);
+                Intent i = new Intent(SplashScreenActivity.this, HomeActivity.class);
                 startActivity(i);
 
                 // close this activity

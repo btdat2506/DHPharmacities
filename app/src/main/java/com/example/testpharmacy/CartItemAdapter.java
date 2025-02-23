@@ -39,10 +39,10 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         Medicine medicine = cartItem.getMedicine();
 
         holder.itemNameTextView.setText(medicine.getName());
-        holder.itemPriceTextView.setText("₹" + String.format("%.2f", medicine.getPrice()));
+        holder.itemPriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
         holder.itemImageView.setImageResource(medicine.getImageResourceId());
         holder.itemQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
-        holder.itemTotalPriceTextView.setText("₹" + String.format("%.2f", cartItem.getTotalPrice()));
+        holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
 
         holder.increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +50,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
                 int currentQuantity = cartItem.getQuantity();
                 cartItem.setQuantity(currentQuantity + 1);
                 holder.itemQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
-                holder.itemTotalPriceTextView.setText("₹" + String.format("%.2f", cartItem.getTotalPrice()));
+                holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
                 if (cartActivity != null) {
                     cartActivity.updateCartSummary(); // Update cart summary in CartActivity
                 }
@@ -64,7 +64,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
                 if (currentQuantity > 1) {
                     cartItem.setQuantity(currentQuantity - 1);
                     holder.itemQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
-                    holder.itemTotalPriceTextView.setText("₹" + String.format("%.2f", cartItem.getTotalPrice()));
+                    holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
                     if (cartActivity != null) {
                         cartActivity.updateCartSummary(); // Update cart summary in CartActivity
                     }

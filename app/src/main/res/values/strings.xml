@@ -66,4 +66,17 @@
     <string name="profile_address_label">Address:</string>
     <string name="profile_medical_notice_label">Medical Conditions/Allergies:</string>
     <string name="profile_emergency_contact_label">Emergency Contact:</string>
+
+    <!-- ... other strings ... -->
+    <string name="edit_shipping_info">Edit Shipping Info</string>
+    <string name="done_editing_shipping_info">Done Editing Shipping Info</string>
+    <string name="more_shipping_info">More Shipping Info</string> <!-- Keep for backwards compatibility if needed -->
+    <string name="less_shipping_info">Less Shipping Info</string> <!-- Keep for backwards compatibility if needed -->
+    <string name="shipping_name_hint">Shipping Name</string>
+    <string name="shipping_phone_hint">Shipping Phone Number</string>
+    <string name="shipping_address_hint">Shipping Address</string>
+    <string name="shipping_note_hint">Shipping Note (Optional)</string>
+    <string name="shipping_information">Shipping Information</string> <!-- Title for Shipping Info in Checkout -->
+    <string name="order_number">Order Number: %s</string> <!-- String format for order number -->
+    <!-- ... other strings ... -->
 </resources>

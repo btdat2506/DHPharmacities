@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ... dark theme palette colors ... -->
+
+    <!-- Neutral Colors - For Dark Theme, redefine summary backgrounds to be DARKER -->
+    <color name="cart_summary_background">#282828</color>  <!-- Darker gray for dark theme cart summary -->
+    <color name="checkout_summary_background">#282828</color> <!-- Darker gray for dark theme checkout summary -->
+</resources>

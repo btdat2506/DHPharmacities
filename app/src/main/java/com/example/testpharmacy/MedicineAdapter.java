@@ -35,7 +35,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
     public void onBindViewHolder(@NonNull MedicineViewHolder holder, int position) {
         Medicine medicine = medicineList.get(position);
         holder.medicineNameTextView.setText(medicine.getName());
-        holder.medicinePriceTextView.setText("₹" + String.format("%.2f", medicine.getPrice())); // Format price
+        holder.medicinePriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ"); // Format price
         holder.medicineImageView.setImageResource(medicine.getImageResourceId()); // Set image resource
 
         holder.addToCartButton.setOnClickListener(new View.OnClickListener() {
