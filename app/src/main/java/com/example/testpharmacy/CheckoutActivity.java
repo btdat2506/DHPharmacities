@@ -114,8 +114,8 @@ public class CheckoutActivity extends AppCompatActivity {
     // Reusing the same placeholder method from CartActivity for simplicity in Checkout
     private List<CartItem> createPlaceholderCartItems() {
         List<CartItem> cartItems = new ArrayList<>();
-        cartItems.add(new CartItem(new Medicine("Aspirin", 50.0, R.drawable.ic_placeholder_medicine), 2));
-        cartItems.add(new CartItem(new Medicine("Paracetamol", 30.0, R.drawable.ic_placeholder_medicine), 1));
+        cartItems.add(new CartItem(new Medicine("Aspirin", 50.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 2));
+        cartItems.add(new CartItem(new Medicine("Paracetamol", 30.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 1));
         return cartItems;
     }
 

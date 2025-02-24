@@ -1,9 +1,11 @@
 package com.example.testpharmacy; // Replace with your actual package name
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,13 +20,21 @@ public class ProductDetailActivity extends AppCompatActivity {
     private ImageView medicineImageView;
     private TextView medicineNameTextView;
     private TextView medicinePriceTextView;
-    private TextView medicineDescriptionTextView; // Placeholder for description
-    private TextView medicineDosageTextView; // Placeholder for dosage
-    private TextView medicineSideEffectsTextView; // Placeholder for side effects
-    private TextView medicinePrecautionsTextView; // Placeholder for precautions
+    private TextView medicineUnitTextView;
+    private TextView medicineDescriptionTextView;
+    private TextView medicineDosageTextView;
+    private TextView medicineSideEffectsTextView;
+    private TextView medicinePrecautionsTextView;
     private Button addToCartButton;
 
+    // --- Quantity Controls UI Elements ---
+    private EditText quantityEditText; // Quantity EditText
+    private Button decreaseQuantityButton;
+    private Button increaseQuantityButton;
+    private TextView totalPriceTextView;
+
     private Medicine medicine; // To hold the Medicine object passed from HomeActivity
+    private int currentQuantity = 1; // Track current quantity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,36 +43,94 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.product_detail_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Show back button
-        getSupportActionBar().setDisplayShowTitleEnabled(false); // Add this line to remove default title
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         medicineImageView = findViewById(R.id.detail_medicine_image_view);
         medicineNameTextView = findViewById(R.id.detail_medicine_name_text_view);
         medicinePriceTextView = findViewById(R.id.detail_medicine_price_text_view);
+        medicineUnitTextView = findViewById(R.id.detail_medicine_price_per_unit);
         medicineDescriptionTextView = findViewById(R.id.detail_medicine_description_text_view);
         medicineDosageTextView = findViewById(R.id.detail_medicine_dosage_text_view);
         medicineSideEffectsTextView = findViewById(R.id.detail_medicine_side_effects_text_view);
         medicinePrecautionsTextView = findViewById(R.id.detail_medicine_precautions_text_view);
         addToCartButton = findViewById(R.id.detail_add_to_cart_button);
 
+        // --- Find Quantity Control UI Elements ---
+        quantityEditText = findViewById(R.id.detail_quantity_edit_text);
+        decreaseQuantityButton = findViewById(R.id.detail_quantity_decrease_button);
+        increaseQuantityButton = findViewById(R.id.detail_quantity_increase_button);
+        totalPriceTextView = findViewById(R.id.detail_total_price_text_view);
+
+
         // Get the Medicine object from the Intent
-        medicine = getIntent().getParcelableExtra(EXTRA_MEDICINE); // Retrieve using the key
+        medicine = getIntent().getParcelableExtra(EXTRA_MEDICINE);
 
         if (medicine != null) {
-            populateUI(medicine); // Populate UI elements with medicine data
+            populateUI(medicine);
         } else {
-            // Handle error: Medicine object not passed correctly
             Toast.makeText(this, "Error: Medicine details not found.", Toast.LENGTH_SHORT).show();
-            finish(); // Close the activity if medicine data is missing
+            finish();
         }
 
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (medicine != null) {
-                    // TODO: Implement Add to Cart functionality (similar to MedicineAdapter)
+                    // TODO: Implement Add to Cart functionality
                     Toast.makeText(ProductDetailActivity.this, "Added " + medicine.getName() + " to cart!", Toast.LENGTH_SHORT).show();
                     // You'll need to manage the cart data (e.g., using a CartManager class or similar)
+                }
+            }
+        });
+
+        // --- TextWatcher for Quantity EditText ---
+        quantityEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No action needed before text change
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No action needed during text change
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String quantityStr = s.toString();
+                currentQuantity = 1; // Default quantity if input is invalid or empty
+                try {
+                    currentQuantity = Integer.parseInt(quantityStr);
+                    if (currentQuantity <= 0) {
+                        currentQuantity = 1; // Ensure quantity is at least 1
+                        quantityEditText.setText(String.valueOf(currentQuantity)); // Reset EditText to 1
+                    }
+                } catch (NumberFormatException e) {
+                    currentQuantity = 1; // Default to 1 if parsing fails
+                    quantityEditText.setText(String.valueOf(currentQuantity)); // Reset EditText to 1
+                }
+                updateTotalPrice(); // Update total price based on quantity
+            }
+        });
+
+
+        increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentQuantity++;
+                quantityEditText.setText(String.valueOf(currentQuantity)); // Update EditText
+                updateTotalPrice(); // Update total price
+            }
+        });
+
+        decreaseQuantityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentQuantity > 1) {
+                    currentQuantity--;
+                    quantityEditText.setText(String.valueOf(currentQuantity)); // Update EditText
+                    updateTotalPrice(); // Update total price
                 }
             }
         });
@@ -70,19 +138,26 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed(); // Go back when back button in toolbar is pressed
+        onBackPressed();
         return true;
     }
 
     private void populateUI(Medicine medicine) {
         medicineNameTextView.setText(medicine.getName());
         medicinePriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
+        medicineUnitTextView.setText(medicine.getUnit());
         medicineImageView.setImageResource(medicine.getImageResourceId());
+        updateTotalPrice(); // Initial total price calculation
 
         // Placeholder descriptions, dosage, side effects, precautions
         medicineDescriptionTextView.setText("This is a placeholder description for " + medicine.getName() + ".  More detailed information will be added here in a real application.");
         medicineDosageTextView.setText("Dosage: As directed by physician. (Placeholder)");
         medicineSideEffectsTextView.setText("Side Effects: May cause drowsiness. (Placeholder)");
         medicinePrecautionsTextView.setText("Precautions: Consult your doctor before use if pregnant. (Placeholder)");
+    }
+
+    private void updateTotalPrice() {
+        double totalPrice = medicine.getPrice() * currentQuantity;
+        totalPriceTextView.setText(String.format("%.3f", totalPrice) + "đ");
     }
 }

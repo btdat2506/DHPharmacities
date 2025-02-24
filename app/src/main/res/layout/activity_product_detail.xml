@@ -22,10 +22,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:text="@string/product_detail_title"
-                android:textSize="20sp"
                 android:textColor="@android:color/white"
-                android:layout_gravity="start"/>
+                android:textSize="20sp" />
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -53,19 +53,19 @@
                 android:id="@+id/detail_medicine_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_placeholder_medicine"
+                android:layout_marginBottom="16dp"
                 android:contentDescription="@string/medicine_image"
-                android:layout_marginBottom="16dp"/>
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_placeholder_medicine" />
 
             <TextView
                 android:id="@+id/detail_medicine_name_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
                 android:text="Medicine Name"
-                android:layout_marginBottom="8dp"/>
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/detail_medicine_price_text_view2"
+                    android:id="@+id/detail_medicine_price_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
@@ -82,7 +82,7 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/detail_medicine_price_text_view"
+                    android:id="@+id/detail_medicine_price_per_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
@@ -95,66 +95,66 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/description_label"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/detail_medicine_description_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
                 android:text="Placeholder description text..."
-                android:layout_marginBottom="16dp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/dosage_label"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/detail_medicine_dosage_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
                 android:text="Placeholder dosage information..."
-                android:layout_marginBottom="16dp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/side_effects_label"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/detail_medicine_side_effects_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:layout_marginBottom="16dp"
                 android:text="Placeholder side effects information..."
-                android:layout_marginBottom="16dp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/precautions_label"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/detail_medicine_precautions_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:layout_marginBottom="24dp"
                 android:text="Placeholder precautions information..."
-                android:layout_marginBottom="24dp"/>
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>
@@ -170,23 +170,23 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:text="@string/quantity_label"
-            android:textSize="16sp"
-            android:layout_marginEnd="8dp"/>
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
+            android:orientation="horizontal">
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/detail_quantity_decrease_button"
@@ -202,14 +202,17 @@
                     android:text="-"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/detail_quantity_text_view"
+                <EditText
+                    android:id="@+id/detail_quantity_edit_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:textSize="18sp"
-                    android:text="1" />
+                    android:fontFamily="sans-serif-medium"
+                    android:inputType="number"
+                    android:text="1"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
 
                 <Button
                     android:id="@+id/detail_quantity_increase_button"
@@ -229,19 +232,19 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:textSize="16sp"
                 android:text="@string/total_price_label"
-            android:layout_marginEnd="8dp"/>
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/detail_total_price_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="100.000đ"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:text="100.000đ" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
