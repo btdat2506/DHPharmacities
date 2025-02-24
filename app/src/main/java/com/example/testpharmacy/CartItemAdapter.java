@@ -1,12 +1,15 @@
 package com.example.testpharmacy; // Replace with your actual package name
 
 import android.content.Context;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.text.TextWatcher;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
@@ -41,15 +44,49 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         holder.itemNameTextView.setText(medicine.getName());
         holder.itemPriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
         holder.itemImageView.setImageResource(medicine.getImageResourceId());
-        holder.itemQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
+        holder.itemQuantityEditText.setText(String.valueOf(cartItem.getQuantity()));
         holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
+
+        holder.itemQuantityEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No action needed before text change
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // No action needed during text change
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String quantityStr = s.toString();
+                int quantity = 1; // Default quantity if input is invalid or empty
+                try {
+                    quantity = Integer.parseInt(quantityStr);
+                    if (quantity <= 0) {
+                        quantity = 1; // Ensure quantity is at least 1
+                        holder.itemQuantityEditText.setText(String.valueOf(quantity)); // Reset EditText to 1
+                    }
+                } catch (NumberFormatException e) {
+                    quantity = 1; // Default to 1 if parsing fails
+                    holder.itemQuantityEditText.setText(String.valueOf(quantity)); // Reset EditText to 1
+                }
+
+                cartItem.setQuantity(quantity); // Update CartItem quantity
+                holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ"); // Update item total
+                if (cartActivity != null) {
+                    cartActivity.updateCartSummary(); // Update cart summary in CartActivity
+                }
+            }
+        });
 
         holder.increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int currentQuantity = cartItem.getQuantity();
                 cartItem.setQuantity(currentQuantity + 1);
-                holder.itemQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
+                holder.itemQuantityEditText.setText(String.valueOf(cartItem.getQuantity()));
                 holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
                 if (cartActivity != null) {
                     cartActivity.updateCartSummary(); // Update cart summary in CartActivity
@@ -63,7 +100,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
                 int currentQuantity = cartItem.getQuantity();
                 if (currentQuantity > 1) {
                     cartItem.setQuantity(currentQuantity - 1);
-                    holder.itemQuantityTextView.setText(String.valueOf(cartItem.getQuantity()));
+                    holder.itemQuantityEditText.setText(String.valueOf(cartItem.getQuantity()));
                     holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
                     if (cartActivity != null) {
                         cartActivity.updateCartSummary(); // Update cart summary in CartActivity
@@ -102,7 +139,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         ImageView itemImageView;
         TextView itemNameTextView;
         TextView itemPriceTextView;
-        TextView itemQuantityTextView;
+        EditText itemQuantityEditText;
         TextView itemTotalPriceTextView;
         Button increaseQuantityButton;
         Button decreaseQuantityButton;
@@ -113,7 +150,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
             itemImageView = itemView.findViewById(R.id.cart_item_image_view);
             itemNameTextView = itemView.findViewById(R.id.cart_item_name_text_view);
             itemPriceTextView = itemView.findViewById(R.id.cart_item_price_text_view);
-            itemQuantityTextView = itemView.findViewById(R.id.cart_item_quantity_text_view);
+            itemQuantityEditText = itemView.findViewById(R.id.cart_item_quantity_edit_text);
             itemTotalPriceTextView = itemView.findViewById(R.id.cart_item_total_price_text_view);
             increaseQuantityButton = itemView.findViewById(R.id.cart_item_increase_button);
             decreaseQuantityButton = itemView.findViewById(R.id.cart_item_decrease_button);

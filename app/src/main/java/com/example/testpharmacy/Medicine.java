@@ -1,22 +1,51 @@
-package com.example.testpharmacy; // Replace with your actual package name
+package com.example.testpharmacy; // Assuming you want to put Model classes in Model folder
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Medicine implements Parcelable {
-    private String name;
-    private double price;
-    private int imageResourceId; // Resource ID of the image drawable
+    private long productId;        // From Product.java - Maps to COLUMN_PRODUCT_ID
+    private String name;           // Maps to COLUMN_PRODUCT_NAME
+    private String description;    // Maps to COLUMN_PRODUCT_DESCRIPTION
+    private String category;       // Maps to COLUMN_PRODUCT_CATEGORY
+    private double price;          // Maps to COLUMN_PRODUCT_PRICE
+    private String imageUrl;       // Maps to COLUMN_PRODUCT_IMAGE_URL
+    private int stockQuantity;     // Maps to COLUMN_PRODUCT_STOCK_QUANTITY
+    private String unit;         // Kept from original Medicine.java
+    private int imageResourceId;   // Kept from original Medicine.java
 
-    public Medicine(String name, double price, int imageResourceId) {
-        this.name = name;
-        this.price = price;
-        this.imageResourceId = imageResourceId;
+    public Medicine() {
+        // Default constructor
     }
 
+    public Medicine(String name, double price, String unit, int imageResourceId) { // Kept original constructor
+        this.name = name;
+        this.price = price;
+        this.unit = unit;
+        this.imageResourceId = imageResourceId; // Kept imageResourceId
+    }
+
+    public Medicine(String name, double price, String unit, int imageResourceId, String description, String category, String imageUrl, int stockQuantity) { // New Constructor with all fields
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.stockQuantity = stockQuantity;
+        this.unit = unit;
+        this.imageResourceId = imageResourceId; // Kept imageResourceId
+    }
+
+
     protected Medicine(Parcel in) {
+        productId = in.readLong();
         name = in.readString();
+        description = in.readString();
+        category = in.readString();
         price = in.readDouble();
+        imageUrl = in.readString();
+        stockQuantity = in.readInt();
+        unit = in.readString();
         imageResourceId = in.readInt();
     }
 
@@ -32,12 +61,36 @@ public class Medicine implements Parcelable {
         }
     };
 
+    public long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public double getPrice() {
@@ -48,6 +101,22 @@ public class Medicine implements Parcelable {
         this.price = price;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
     public int getImageResourceId() {
         return imageResourceId;
     }
@@ -55,6 +124,14 @@ public class Medicine implements Parcelable {
     public void setImageResourceId(int imageResourceId) {
         this.imageResourceId = imageResourceId;
     }
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
 
     @Override
     public int describeContents() {
@@ -63,8 +140,14 @@ public class Medicine implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(productId);
         dest.writeString(name);
+        dest.writeString(description);
+        dest.writeString(category);
         dest.writeDouble(price);
+        dest.writeString(imageUrl);
+        dest.writeInt(stockQuantity);
+        dest.writeString(unit);
         dest.writeInt(imageResourceId);
     }
 }

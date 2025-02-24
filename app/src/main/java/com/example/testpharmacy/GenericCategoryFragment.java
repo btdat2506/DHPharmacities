@@ -91,39 +91,39 @@ public class GenericCategoryFragment extends Fragment {
 
     private List<Medicine> createPainRelievers() {
         List<Medicine> painRelievers = new ArrayList<>();
-        painRelievers.add(new Medicine("Aspirin", 50.0, R.drawable.ic_placeholder_medicine));
-        painRelievers.add(new Medicine("Paracetamol", 30.0, R.drawable.ic_placeholder_medicine));
-        painRelievers.add(new Medicine("Ibuprofen", 40.0, R.drawable.ic_placeholder_medicine));
-        painRelievers.add(new Medicine("Naproxen", 60.0, R.drawable.ic_placeholder_medicine));
+        painRelievers.add(new Medicine("Aspirin", 50.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        painRelievers.add(new Medicine("Paracetamol", 30.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        painRelievers.add(new Medicine("Ibuprofen", 40.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        painRelievers.add(new Medicine("Naproxen", 60.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
         return painRelievers;
     }
 
     private List<Medicine> createAntibiotics() {
         List<Medicine> antibiotics = new ArrayList<>();
-        antibiotics.add(new Medicine("Amoxicillin", 70.0, R.drawable.ic_placeholder_medicine));
-        antibiotics.add(new Medicine("Azithromycin", 90.0, R.drawable.ic_placeholder_medicine));
-        antibiotics.add(new Medicine("Ciprofloxacin", 80.0, R.drawable.ic_placeholder_medicine));
+        antibiotics.add(new Medicine("Amoxicillin", 70.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        antibiotics.add(new Medicine("Azithromycin", 90.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        antibiotics.add(new Medicine("Ciprofloxacin", 80.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
         return antibiotics;
     }
 
     private List<Medicine> createVitamins() {
         List<Medicine> vitamins = new ArrayList<>();
-        vitamins.add(new Medicine("Vitamin C", 25.0, R.drawable.ic_placeholder_medicine));
-        vitamins.add(new Medicine("Vitamin D", 35.0, R.drawable.ic_placeholder_medicine));
+        vitamins.add(new Medicine("Vitamin C", 25.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        vitamins.add(new Medicine("Vitamin D", 35.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
         return vitamins;
     }
 
     private List<Medicine> createColdAndFlu() {
         List<Medicine> coldAndFlu = new ArrayList<>();
-        coldAndFlu.add(new Medicine("Cough Syrup", 55.0, R.drawable.ic_placeholder_medicine));
-        coldAndFlu.add(new Medicine("Nasal Spray", 45.0, R.drawable.ic_placeholder_medicine));
+        coldAndFlu.add(new Medicine("Cough Syrup", 55.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        coldAndFlu.add(new Medicine("Nasal Spray", 45.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
         return coldAndFlu;
     }
 
     private List<Medicine> createFirstAid() {
         List<Medicine> firstAid = new ArrayList<>();
-        firstAid.add(new Medicine("Bandages", 20.0, R.drawable.ic_placeholder_medicine));
-        firstAid.add(new Medicine("Antiseptic Cream", 30.0, R.drawable.ic_placeholder_medicine));
+        firstAid.add(new Medicine("Bandages", 20.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        firstAid.add(new Medicine("Antiseptic Cream", 30.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
         return firstAid;
     }
 }

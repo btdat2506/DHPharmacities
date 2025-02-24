@@ -122,8 +122,8 @@ public class CartActivity extends AppCompatActivity {
     private List<CartItem> createPlaceholderCartItems() {
         List<CartItem> cartItems = new ArrayList<>();
         // Add placeholder CartItems (replace with actual cart data)
-        cartItems.add(new CartItem(new Medicine("Aspirin", 50.0, R.drawable.ic_placeholder_medicine), 2)); // 2 Aspirin
-        cartItems.add(new CartItem(new Medicine("Paracetamol", 30.0, R.drawable.ic_placeholder_medicine), 1)); // 1 Paracetamol
+        cartItems.add(new CartItem(new Medicine("Aspirin", 50.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 2)); // 2 Aspirin
+        cartItems.add(new CartItem(new Medicine("Paracetamol", 30.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 1)); // 1 Paracetamol
         // ... add more placeholder cart items
         return cartItems;
     }
