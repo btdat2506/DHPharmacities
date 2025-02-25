@@ -35,7 +35,7 @@ public class CartItemCheckoutAdapter extends RecyclerView.Adapter<CartItemChecko
 
         holder.itemNameTextView.setText(medicine.getName());
         holder.itemPriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
-        holder.itemImageView.setImageResource(medicine.getImageResourceId());
+//        holder.itemImageView.setImageResource(medicine.getImageResourceId());
         holder.itemQuantityTextView.setText("x" + cartItem.getQuantity()); // Display quantity with "x"
     }
 

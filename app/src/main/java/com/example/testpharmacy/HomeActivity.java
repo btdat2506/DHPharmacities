@@ -14,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.testpharmacy.Database.DatabaseHelper;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
@@ -39,6 +41,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(this.getBaseContext());
+        databaseHelper.open();
 
         toolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar); // Set Toolbar as ActionBar

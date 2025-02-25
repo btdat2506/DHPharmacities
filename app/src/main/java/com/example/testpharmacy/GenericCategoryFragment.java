@@ -9,6 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.testpharmacy.Database.MedicineDao;
+import com.example.testpharmacy.Database.UserDao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +23,20 @@ public class GenericCategoryFragment extends Fragment {
     private RecyclerView medicineRecyclerView;
     private MedicineAdapter medicineAdapter;
     private List<Medicine> medicineList; // Placeholder for medicine data
+
+    private MedicineDao medicineDao;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        medicineDao = new MedicineDao(getContext());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        medicineDao.close();
+    }
 
     public GenericCategoryFragment() {
         // Required empty public constructor
@@ -63,11 +81,8 @@ public class GenericCategoryFragment extends Fragment {
 
         if (categoryName.equals("All Items")) {
             // Combine medicines from all categories for "All Items"
-            medicines.addAll(createPainRelievers()); // Assuming you have helper methods like these
-            medicines.addAll(createAntibiotics());
-            medicines.addAll(createVitamins());
-            medicines.addAll(createColdAndFlu());
-            medicines.addAll(createFirstAid());
+            medicines.addAll(createFirstAid()); // to test
+            medicines.addAll(createAllMedicine());
             // ... add calls to methods for other categories if you create them
         } else if (categoryName.equals("Pain Relievers")) {
             medicines.addAll(createPainRelievers()); // Use helper methods to create category-specific lists
@@ -89,34 +104,33 @@ public class GenericCategoryFragment extends Fragment {
 // --- Helper methods to create lists for each category ---
 // You can move these methods outside of createPlaceholderMedicinesForCategory for better organization
 
+    private List<Medicine> createAllMedicine() {
+        List<Medicine> allMedicien = new ArrayList<>();
+        allMedicien = medicineDao.getAllMedicines();
+        return allMedicien;
+    }
+
     private List<Medicine> createPainRelievers() {
         List<Medicine> painRelievers = new ArrayList<>();
-        painRelievers.add(new Medicine("Aspirin", 50.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
-        painRelievers.add(new Medicine("Paracetamol", 30.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
-        painRelievers.add(new Medicine("Ibuprofen", 40.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
-        painRelievers.add(new Medicine("Naproxen", 60.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        painRelievers = medicineDao.getMedicinesByCategory("Pain Relievers");
         return painRelievers;
     }
 
     private List<Medicine> createAntibiotics() {
         List<Medicine> antibiotics = new ArrayList<>();
-        antibiotics.add(new Medicine("Amoxicillin", 70.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
-        antibiotics.add(new Medicine("Azithromycin", 90.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
-        antibiotics.add(new Medicine("Ciprofloxacin", 80.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        antibiotics = medicineDao.getMedicinesByCategory("Antibiotics");
         return antibiotics;
     }
 
     private List<Medicine> createVitamins() {
         List<Medicine> vitamins = new ArrayList<>();
-        vitamins.add(new Medicine("Vitamin C", 25.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
-        vitamins.add(new Medicine("Vitamin D", 35.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        vitamins = medicineDao.getMedicinesByCategory("Vitamins");
         return vitamins;
     }
 
     private List<Medicine> createColdAndFlu() {
         List<Medicine> coldAndFlu = new ArrayList<>();
-        coldAndFlu.add(new Medicine("Cough Syrup", 55.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
-        coldAndFlu.add(new Medicine("Nasal Spray", 45.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        coldAndFlu = medicineDao.getMedicinesByCategory("Cold & Flu");
         return coldAndFlu;
     }
 

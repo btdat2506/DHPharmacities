@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
+
 public class ProductDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_MEDICINE = "extra_medicine"; // Key for passing Medicine object in Intent
@@ -146,11 +148,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         medicineNameTextView.setText(medicine.getName());
         medicinePriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
         medicineUnitTextView.setText(medicine.getUnit());
-        medicineImageView.setImageResource(medicine.getImageResourceId());
+        Glide.with(this)
+                .load(medicine.getImageUrl())
+                .into(medicineImageView);
         updateTotalPrice(); // Initial total price calculation
 
         // Placeholder descriptions, dosage, side effects, precautions
-        medicineDescriptionTextView.setText("This is a placeholder description for " + medicine.getName() + ".  More detailed information will be added here in a real application.");
+        medicineDescriptionTextView.setText(medicine.getDescription());
         medicineDosageTextView.setText("Dosage: As directed by physician. (Placeholder)");
         medicineSideEffectsTextView.setText("Side Effects: May cause drowsiness. (Placeholder)");
         medicinePrecautionsTextView.setText("Precautions: Consult your doctor before use if pregnant. (Placeholder)");
