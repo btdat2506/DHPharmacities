@@ -100,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // Initially set cart badge count to 0 (you'll update this dynamically)
-        updateCartBadgeCount(2);
+        updateCartBadgeCount(0);
     }
 
 

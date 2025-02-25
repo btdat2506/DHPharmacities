@@ -2,6 +2,7 @@ package com.example.testpharmacy; // Replace with your actual package name
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -111,6 +112,12 @@ public class CartActivity extends AppCompatActivity {
                 toggleShippingInfoVisibility();
             }
         });
+
+        // For dubug
+        List<Long> productIdsInCart = CartManager.getInstance().getProductIdsInCart();
+        for (Long productId : productIdsInCart) {
+            Log.d("CartProductId", "Product ID: " + productId);
+        }
     }
 
     @Override
@@ -122,8 +129,9 @@ public class CartActivity extends AppCompatActivity {
     private List<CartItem> createPlaceholderCartItems() {
         List<CartItem> cartItems = new ArrayList<>();
         // Add placeholder CartItems (replace with actual cart data)
-        cartItems.add(new CartItem(new Medicine("Aspirin", 50.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 2)); // 2 Aspirin
-        cartItems.add(new CartItem(new Medicine("Paracetamol", 30.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 1)); // 1 Paracetamol
+//        cartItems.add(new CartItem(new Medicine("Aspirin", 50.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 2)); // 2 Aspirin
+//        cartItems.add(new CartItem(new Medicine("Paracetamol", 30.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 1)); // 1 Paracetamol
+        cartItems = CartManager.getInstance().getCartItems();
         // ... add more placeholder cart items
         return cartItems;
     }

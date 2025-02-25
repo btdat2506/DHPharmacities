@@ -39,7 +39,6 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         Medicine medicine = medicineList.get(position);
         holder.medicineNameTextView.setText(medicine.getName());
         holder.medicinePriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ"); // Format price
-//        holder.medicineImageView.setImageResource(medicine.getImageResourceId()); // Set image resource
         Glide.with(context)
                 .load(medicine.getImageUrl())
                 .into(holder.medicineImageView);
@@ -47,6 +46,12 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
             @Override
             public void onClick(View v) {
                 // TODO: Implement Add to Cart functionality
+                CartManager.getInstance().addToCart(medicine, 1);
+
+                if(context instanceof HomeActivity) {
+                    HomeActivity homeActivity = (HomeActivity) context;
+                    homeActivity.updateCartBadgeCount(CartManager.getInstance().getCartItems().size());
+                }
                 Toast.makeText(context, "Added " + medicine.getName() + " to cart!", Toast.LENGTH_SHORT).show();
                 // You'll need to manage the cart data (e.g., using a CartManager class or similar)
             }

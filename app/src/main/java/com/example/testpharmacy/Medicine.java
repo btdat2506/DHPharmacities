@@ -12,7 +12,6 @@ public class Medicine implements Parcelable {
     private String imageUrl;       // Maps to COLUMN_PRODUCT_IMAGE_URL
     private int stockQuantity;     // Maps to COLUMN_PRODUCT_STOCK_QUANTITY
     private String unit;         // Kept from original Medicine.java
-//    private int imageResourceId;   // Kept from original Medicine.java
 
     public Medicine() {
         // Default constructor
@@ -22,7 +21,6 @@ public class Medicine implements Parcelable {
         this.name = name;
         this.price = price;
         this.unit = unit;
-//        this.imageResourceId = imageResourceId; // Kept imageResourceId
     }
 
     public Medicine(String name, double price, String unit, int imageResourceId, String description, String category, String imageUrl, int stockQuantity) { // New Constructor with all fields
@@ -33,7 +31,6 @@ public class Medicine implements Parcelable {
         this.imageUrl = imageUrl;
         this.stockQuantity = stockQuantity;
         this.unit = unit;
-//        this.imageResourceId = imageResourceId; // Kept imageResourceId
     }
 
 
@@ -46,7 +43,6 @@ public class Medicine implements Parcelable {
         imageUrl = in.readString();
         stockQuantity = in.readInt();
         unit = in.readString();
-//        imageResourceId = in.readInt();
     }
 
     public static final Creator<Medicine> CREATOR = new Creator<Medicine>() {
@@ -117,13 +113,6 @@ public class Medicine implements Parcelable {
         this.stockQuantity = stockQuantity;
     }
 
-//    public int getImageResourceId() {
-//        return imageResourceId;
-//    }
-//
-//    public void setImageResourceId(int imageResourceId) {
-//        this.imageResourceId = imageResourceId;
-//    }
     public String getUnit() {
         return unit;
     }
@@ -148,6 +137,5 @@ public class Medicine implements Parcelable {
         dest.writeString(imageUrl);
         dest.writeInt(stockQuantity);
         dest.writeString(unit);
-//        dest.writeInt(imageResourceId);
     }
 }
