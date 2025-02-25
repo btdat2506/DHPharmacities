@@ -1,5 +1,6 @@
 package com.example.testpharmacy; // Replace with your actual package name
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -80,7 +81,10 @@ public class ProductDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (medicine != null) {
                     // TODO: Implement Add to Cart functionality
+                    CartManager.getInstance().addToCart(medicine, currentQuantity);
                     Toast.makeText(ProductDetailActivity.this, "Added " + medicine.getName() + " to cart!", Toast.LENGTH_SHORT).show();
+
+                    // TODO: Update the number of carts
                     // You'll need to manage the cart data (e.g., using a CartManager class or similar)
                 }
             }

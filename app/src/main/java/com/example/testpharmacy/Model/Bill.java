@@ -1,16 +1,16 @@
 package com.example.testpharmacy.Model;
 
-public class CartItem {
+public class Bill {
     private long cartItemId;      // Maps to COLUMN_CART_ITEM_ID
     private long userId;          // Maps to COLUMN_CART_USER_ID (Foreign Key)
     private long productId;       // Maps to COLUMN_CART_PRODUCT_ID (Foreign Key)
     private int quantity;         // Maps to COLUMN_CART_QUANTITY
 
-    public CartItem() {
+    public Bill() {
         // Default constructor
     }
 
-    public CartItem(long userId, long productId, int quantity) {
+    public Bill(long userId, long productId, int quantity) {
         this.userId = userId;
         this.productId = productId;
         this.quantity = quantity;
