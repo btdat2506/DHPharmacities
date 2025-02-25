@@ -11,6 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.MedicineViewHolder> {
@@ -36,8 +39,10 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
         Medicine medicine = medicineList.get(position);
         holder.medicineNameTextView.setText(medicine.getName());
         holder.medicinePriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ"); // Format price
-        holder.medicineImageView.setImageResource(medicine.getImageResourceId()); // Set image resource
-
+//        holder.medicineImageView.setImageResource(medicine.getImageResourceId()); // Set image resource
+        Glide.with(context)
+                .load(medicine.getImageUrl())
+                .into(holder.medicineImageView);
         holder.addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

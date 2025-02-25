@@ -43,7 +43,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
 
         holder.itemNameTextView.setText(medicine.getName());
         holder.itemPriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
-        holder.itemImageView.setImageResource(medicine.getImageResourceId());
+//        holder.itemImageView.setImageResource(medicine.getImageResourceId());
         holder.itemQuantityEditText.setText(String.valueOf(cartItem.getQuantity()));
         holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
 
