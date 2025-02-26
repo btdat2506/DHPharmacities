@@ -1,6 +1,7 @@
 package com.example.testpharmacy; // Replace with your actual package name
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class GenericCategoryFragment extends Fragment {
 
     private MedicineDao medicineDao;
 
-    @Override
+    /*@Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         medicineDao = new MedicineDao(getContext());
@@ -36,6 +37,25 @@ public class GenericCategoryFragment extends Fragment {
     public void onPause() {
         super.onPause();
         medicineDao.close();
+    }*/
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        medicineDao = new MedicineDao(getContext());
+        medicineDao.open(); // Open the database connection when fragment is created
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        medicineDao.open(); // Reopen if fragment comes back to foreground
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        medicineDao.close(); // Close when fragment is paused
     }
 
     public GenericCategoryFragment() {
@@ -104,9 +124,20 @@ public class GenericCategoryFragment extends Fragment {
 // --- Helper methods to create lists for each category ---
 // You can move these methods outside of createPlaceholderMedicinesForCategory for better organization
 
-    private List<Medicine> createAllMedicine() {
+    /*private List<Medicine> createAllMedicine() {
         List<Medicine> allMedicien = new ArrayList<>();
         allMedicien = medicineDao.getAllMedicines();
+        return allMedicien;
+    }*/
+
+    private List<Medicine> createAllMedicine() {
+        List<Medicine> allMedicien = new ArrayList<>();
+        try {
+            allMedicien = medicineDao.getAllMedicines();
+        } catch (Exception e) {
+            // Handle database error gracefully
+            Log.e("GenericCategoryFragment", "Database error: " + e.getMessage());
+        }
         return allMedicien;
     }
 

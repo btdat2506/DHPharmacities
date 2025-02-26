@@ -68,7 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "'Thuốc Exopadin là sản phẩm của Công ty Cổ phần Dược phẩm Trường Thọ có thành phần chính là Fexofenadin hydroclorid. Đây là thuốc được chỉ định để điều trị viêm mũi dị ứng theo mùa, điều trị các biểu hiện ngoài da không biến chứng của mày đay vô căn mạn tính ở người lớn và trẻ em từ 12 tuổi trở lên. Thuốc làm giảm ngứa và số lượng dát mày đay một cách đáng kể.', " +
             "'Antibiotics', 60.000, 'https://cms-prod.s3-sgn09.fptcloud.com/IMG_0238_fc19904162.jpg', 100, 'vỉ 30 viên')"; // Added unit value
 
-    public static final String INSERT_MEDICIEN_3 = "INSERT INTO " + TB_MEDICINES + " (" +
+    public static final String INSERT_MEDICINE_3 = "INSERT INTO " + TB_MEDICINES + " (" +
             COLUMN_MEDICINE_NAME + ", " + COLUMN_MEDICINE_DESCRIPTION + ", " +
             COLUMN_MEDICINE_CATEGORY + ", " + COLUMN_MEDICINE_PRICE + ", " +
             COLUMN_MEDICINE_IMAGE_URL + ", " + COLUMN_MEDICINE_STOCK_QUANTITY + ", " + COLUMN_MEDICINE_UNIT + // Added unit column to insert
@@ -76,7 +76,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "'Thuốc Panactol extra là sản phẩm của Dược phẩm Khánh Hoà, thành phần chính là Paracetamol 500mg và Cafein 65mg, là thuốc dùng hạ sốt và giảm đau (Đau đầu, đau nửa đầu, đau bụng kinh, đau họng, đau cơ, xương, sốt và đau sau tiêm vaccin, sau nhổ răng/ phẫu thuật nha khoa, đau răng, do viêm xương khớp).', " +
             "'Pain Relievers', 60.000, 'https://cms-prod.s3-sgn09.fptcloud.com/DSC_07308_99ce483742.jpg', 100, 'hộp 10 vỉ')";
 
-    public static final String INSERT_MEDICIEN_4 = "INSERT INTO " + TB_MEDICINES + " (" +
+    public static final String INSERT_MEDICINE_4 = "INSERT INTO " + TB_MEDICINES + " (" +
             COLUMN_MEDICINE_NAME + ", " + COLUMN_MEDICINE_DESCRIPTION + ", " +
             COLUMN_MEDICINE_CATEGORY + ", " + COLUMN_MEDICINE_PRICE + ", " +
             COLUMN_MEDICINE_IMAGE_URL + ", " + COLUMN_MEDICINE_STOCK_QUANTITY + ", " + COLUMN_MEDICINE_UNIT + // Added unit column to insert
@@ -84,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "'Gofen 400 của Công ty Mega Lifesciences Public Company Limited, có thành phần chính ibuprofen, là một thuốc kháng viêm không steroid. Đây là thuốc dùng để điều trị hạ sốt, giảm đau do cảm cúm, đau đầu, đau răng, đau nhức cơ, đau lưng, đau nhẹ do viêm khớp, đau do bong gân, đau bụng kinh.', " +
             "'Pain Relievers', 194.000, 'https://cms-prod.s3-sgn09.fptcloud.com/00003460_gofen_400ml_2721_63db_large_627db09b10.jpg', 100, 'hộp 5 vỉ')";
 
-    public static final String INSERT_MEDICIEN_5 = "INSERT INTO " + TB_MEDICINES + " (" +
+    public static final String INSERT_MEDICINE_5 = "INSERT INTO " + TB_MEDICINES + " (" +
             COLUMN_MEDICINE_NAME + ", " + COLUMN_MEDICINE_DESCRIPTION + ", " +
             COLUMN_MEDICINE_CATEGORY + ", " + COLUMN_MEDICINE_PRICE + ", " +
             COLUMN_MEDICINE_IMAGE_URL + ", " + COLUMN_MEDICINE_STOCK_QUANTITY + ", " + COLUMN_MEDICINE_UNIT + // Added unit column to insert
@@ -93,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "'Vitamins', 150.000, 'https://cms-prod.s3-sgn09.fptcloud.com/DSC_08289_8048425d59.jpg', 100, 'hộp')";
 
     public DatabaseHelper(@Nullable Context context) {
-        super(context, "HDPharmacities.db", null, 1);
+        super(context, "HDPharmacities.db", null, 2); // Increment version from 1 to 2
         this.context = context;
     }
 
@@ -140,9 +140,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Medicine for test.
         db.execSQL(INSERT_MEDICINE_1); // Renamed INSERT_PRODUCT_1 to INSERT_MEDICINE_1
         db.execSQL(INSERT_MEDICINE_2); // Renamed INSERT_PRODUCT_2 to INSERT_MEDICINE_2
-        db.execSQL(INSERT_MEDICIEN_3);
-        db.execSQL(INSERT_MEDICIEN_4);
-        db.execSQL(INSERT_MEDICIEN_5);
+        db.execSQL(INSERT_MEDICINE_3);
+        db.execSQL(INSERT_MEDICINE_4);
+        db.execSQL(INSERT_MEDICINE_5);
     }
 
     @Override
