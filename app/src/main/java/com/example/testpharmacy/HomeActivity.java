@@ -30,6 +30,9 @@ public class HomeActivity extends AppCompatActivity {
     private View cartIconContainer;
     private View profileIconContainer;
 
+    // At the class level:
+    private UserSessionManager sessionManager;
+
     // Placeholder for medicine categories
     private List<String> categoryNames = new ArrayList<>();
 
@@ -41,6 +44,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // Initialize session manager and check login status
+        sessionManager = UserSessionManager.getInstance(this);
+        isLoggedIn = sessionManager.isLoggedIn();
 
         DatabaseHelper databaseHelper = new DatabaseHelper(this.getBaseContext());
         databaseHelper.open();
@@ -101,6 +108,20 @@ public class HomeActivity extends AppCompatActivity {
 
         // Initially set cart badge count to 0 (you'll update this dynamically)
         updateCartBadgeCount(0);
+
+        // Add a logout option in the toolbar if logged in
+        if (isLoggedIn) {
+            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getItemId() == R.id.action_logout) {
+                        logout();
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
 
@@ -133,5 +154,22 @@ public class HomeActivity extends AppCompatActivity {
         public int getItemCount() {
             return categoryNames.size(); // Number of categories
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (isLoggedIn) {
+            getMenuInflater().inflate(R.menu.home_menu, menu);
+        }
+        return true;
+    }
+
+    // Add logout method
+    private void logout() {
+        sessionManager.logout();
+        isLoggedIn = false;
+        Intent intent = new Intent(HomeActivity.this, LoginSignupActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

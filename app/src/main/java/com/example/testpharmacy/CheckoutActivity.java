@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.testpharmacy.Database.BillDao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,8 +66,25 @@ public class CheckoutActivity extends AppCompatActivity {
 
         checkoutItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // --- Retrieve Shipping Information from Intent (passed from CartActivity) ---
+        Intent intent = getIntent();
+        String orderNumber = intent.getStringExtra("orderNumber");
+        String shippingName = intent.getStringExtra("shippingName");
+        String shippingPhone = intent.getStringExtra("shippingPhone");
+        String shippingAddress = intent.getStringExtra("shippingAddress");
+        String shippingNote = intent.getStringExtra("shippingNote");
+
         // Placeholder: Get cart items from CartActivity (or pass via Intent)
-        cartItemList = getCartItemsFromSomewhere(); // Replace with actual cart data retrieval
+        //cartItemList = getCartItemsFromSomewhere(); // Replace with actual cart data retrieval
+
+        // If no order number, generate one (fallback)
+        if (orderNumber == null || orderNumber.isEmpty()) {
+            BillDao billDao = new BillDao(this);
+            billDao.open();
+            orderNumber = billDao.generateOrderNumber();
+            billDao.close();
+        }
+        cartItemList = CartManager.getInstance().getCartItems();
 
         cartItemCheckoutAdapter = new CartItemCheckoutAdapter(this, cartItemList);
         checkoutItemsRecyclerView.setAdapter(cartItemCheckoutAdapter);
@@ -82,18 +102,15 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
-        // --- Retrieve Shipping Information from Intent (passed from CartActivity) ---
-        Intent intent = getIntent();
-        String shippingName = intent.getStringExtra("shippingName");
-        String shippingPhone = intent.getStringExtra("shippingPhone");
-        String shippingAddress = intent.getStringExtra("shippingAddress");
-        String shippingNote = intent.getStringExtra("shippingNote");
+
 
         // --- Populate Shipping Info TextViews ---
         shippingNameTextView.setText("Name: " + shippingName);
         shippingPhoneTextView.setText("Phone: " + shippingPhone);
         shippingAddressTextView.setText("Address: " + shippingAddress);
         shippingNoteTextView.setText("Note: " + shippingNote);
+
+
 
         orderNumberTextView.setText("Order Number: HD-" + generateOrderNumber()); // Set Order Number with placeholder XXX
     }

@@ -85,4 +85,41 @@ public class UserDao {
         user.setMedicalNotice(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_MEDICAL_NOTICE)));
         return user;
     }
+
+    // Add to UserDao.java
+    public boolean updateUser(User user) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COLUMN_USER_NAME, user.getName());
+        values.put(DatabaseHelper.COLUMN_USER_EMAIL, user.getEmail());
+        values.put(DatabaseHelper.COLUMN_USER_PHONE, user.getPhoneNumber());
+        values.put(DatabaseHelper.COLUMN_USER_ADDRESS, user.getAddress());
+        values.put(DatabaseHelper.COLUMN_USER_MEDICAL_NOTICE, user.getMedicalNotice());
+
+        int rowsAffected = database.update(
+                DatabaseHelper.TB_USERS,
+                values,
+                DatabaseHelper.COLUMN_USER_ID + " = ?",
+                new String[] { String.valueOf(user.getUserId()) }
+        );
+
+        return rowsAffected > 0;
+    }
+
+    // In LoginFragment.java - add getUserIdByEmail method to UserDao.java first
+    public long getUserIdByEmail(String email) {
+        Cursor cursor = database.query(
+                DatabaseHelper.TB_USERS,
+                new String[] { DatabaseHelper.COLUMN_USER_ID },
+                DatabaseHelper.COLUMN_USER_EMAIL + " = ?",
+                new String[] { email },
+                null, null, null
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            long userId = cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_ID));
+            cursor.close();
+            return userId;
+        }
+        return -1; // Not found
+    }
 }

@@ -13,6 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.testpharmacy.Database.BillDao;
+import com.example.testpharmacy.Database.UserDao;
+import com.example.testpharmacy.Model.Bill;
+import com.example.testpharmacy.Model.User;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +54,20 @@ public class CartActivity extends AppCompatActivity {
     private String savedShippingNote = "";
 
 
+    private UserDao userDao;
+    private UserSessionManager sessionManager;
+    private BillDao billDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        // Initialize userDao and sessionManager
+        userDao = new UserDao(this);
+        sessionManager = UserSessionManager.getInstance(this);
+
+        billDao = new BillDao(this);
 
         toolbar = findViewById(R.id.cart_toolbar);
         setSupportActionBar(toolbar);
@@ -88,9 +103,26 @@ public class CartActivity extends AppCompatActivity {
         cartItemsRecyclerView.setAdapter(cartItemAdapter);
 
         updateCartSummary(); // Calculate and display cart summary
-        updateShippingInfoPreview(); // Update shipping info preview on create
 
+        //updateShippingInfoPreview(); // Update shipping info preview on create
 
+        // Load shipping info if user is logged in
+        if (sessionManager.isLoggedIn()) {
+            userDao.open();
+            User user = userDao.getUserById(sessionManager.getUserId());
+            userDao.close();
+
+            if (user != null) {
+                // Populate shipping info with user data
+                savedShippingName = user.getName() != null ? user.getName() : "";
+                savedShippingPhone = user.getPhoneNumber() != null ? user.getPhoneNumber() : "";
+                savedShippingAddress = user.getAddress() != null ? user.getAddress() : "";
+                // Note field stays empty
+                updateShippingInfoPreview();
+            }
+        }
+
+/*
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +136,35 @@ public class CartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+*/
+
+        // Modify checkoutButton click listener:
+        checkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!sessionManager.isLoggedIn()) {
+                    Toast.makeText(CartActivity.this, "Please login to checkout", Toast.LENGTH_SHORT).show();
+                    Intent loginIntent = new Intent(CartActivity.this, LoginSignupActivity.class);
+                    startActivity(loginIntent);
+                    return;
+                }
+
+                // Process the order and get order number
+                String orderNumber = processOrder();
+
+                // Navigate to Checkout Activity
+                Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
+                // Pass shipping information and order number
+                intent.putExtra("shippingName", savedShippingName);
+                intent.putExtra("shippingPhone", savedShippingPhone);
+                intent.putExtra("shippingAddress", savedShippingAddress);
+                intent.putExtra("shippingNote", savedShippingNote);
+                intent.putExtra("orderNumber", orderNumber);
+                startActivity(intent);
+            }
+        });
+
+
 
         // --- Set click listener for "More Shipping Info" button ---
         shippingInfoMoreButton.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +179,38 @@ public class CartActivity extends AppCompatActivity {
         for (Long productId : productIdsInCart) {
             Log.d("CartProductId", "Product ID: " + productId);
         }
+    }
+
+    private String processOrder() {
+        if (!sessionManager.isLoggedIn()) {
+            return "";
+        }
+
+        long userId = sessionManager.getUserId();
+
+        // Open connection to database
+        billDao.open();
+
+        // Generate order number
+        String orderNumber = billDao.generateOrderNumber();
+
+        // Save each cart item as a bill
+        for (CartItem cartItem : cartItemList) {
+            Bill bill = new Bill();
+            bill.setUserId(userId);
+            bill.setProductId(cartItem.getMedicine().getProductId());
+            bill.setQuantity(cartItem.getQuantity());
+
+            billDao.createBill(bill);
+        }
+
+        // Close database connection
+        billDao.close();
+
+        // Clear the cart after checkout
+        //CartManager.getInstance().clearCart();
+
+        return orderNumber;
     }
 
     @Override

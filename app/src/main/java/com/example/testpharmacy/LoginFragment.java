@@ -1,6 +1,7 @@
 package com.example.testpharmacy; // Replace with your actual package name
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +76,43 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
+
+
+    // Then modify performLogin method:
     private void performLogin() {
+        String emailPhone = emailPhoneEditText.getText().toString().trim();
+        String password = passwordEditText.getText().toString();
+
+        if (!emailPhone.isEmpty() && !password.isEmpty()) {
+            userDao.open();
+            Boolean checkUser = userDao.checkUserMailAndMk(emailPhone, password);
+
+            if(checkUser) {
+                // Set login status in the session manager
+                long userId = userDao.getUserIdByEmail(emailPhone);
+                UserSessionManager sessionManager = UserSessionManager.getInstance(getContext());
+                sessionManager.setLogin(true);
+                sessionManager.setUserId(userId);
+                sessionManager.setUserEmail(emailPhone);
+
+                // Navigate to Home Activity after successful login
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intent);
+                getActivity().finish(); // Close LoginSignupActivity after login
+            } else {
+                errorTextView.setText("The email or password is incorrect.");
+                errorTextView.setVisibility(View.VISIBLE);
+            }
+            userDao.close();
+        } else {
+            errorTextView.setText("Please enter email/phone and password.");
+            errorTextView.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+
+/*    private void performLogin() {
         String emailPhone = emailPhoneEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
 
@@ -100,5 +137,5 @@ public class LoginFragment extends Fragment {
             errorTextView.setText("Please enter email/phone and password.");
             errorTextView.setVisibility(View.VISIBLE);
         }
-    }
+    }*/
 }

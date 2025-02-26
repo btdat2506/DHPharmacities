@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.example.testpharmacy.Database.UserDao;
+import com.example.testpharmacy.Model.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -21,6 +24,10 @@ public class ProfileActivity extends AppCompatActivity {
     private TextInputEditText medicalNoticeEditText;
     private TextInputEditText emergencyContactEditText;
     private Button saveButton;
+
+    private UserDao userDao;
+    private UserSessionManager sessionManager;
+    private long currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +48,32 @@ public class ProfileActivity extends AppCompatActivity {
         emergencyContactEditText = findViewById(R.id.profile_emergency_contact_edit_text);
         saveButton = findViewById(R.id.profile_save_button);
 
-        // Populate EditTexts with placeholder user data (replace with actual user data)
-        populateProfileFields();
+        // Initialize UserDao and session manager
+        userDao = new UserDao(this);
+        sessionManager = UserSessionManager.getInstance(this);
 
+        // Check if user is logged in
+        if (sessionManager.isLoggedIn()) {
+            currentUserId = sessionManager.getUserId();
+            userDao.open();
+            User user = userDao.getUserById(currentUserId);
+            userDao.close();
+
+            if (user != null) {
+                // Populate form with user data
+                nameEditText.setText(user.getName());
+                emailEditText.setText(user.getEmail());
+                phoneEditText.setText(user.getPhoneNumber());
+                addressEditText.setText(user.getAddress());
+                medicalNoticeEditText.setText(user.getMedicalNotice());
+            }
+        } else {
+            // Not logged in, show message and disable editing
+            Toast.makeText(this, "You must log in to view your profile", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
+        // Setup save button click listener
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
         emergencyContactEditText.setText("Jane Doe, +1 987-654-3210");
     }
 
-    private void saveProfileChanges() {
+    /*private void saveProfileChanges() {
         // Get the updated values from EditTexts
         String name = nameEditText.getText().toString();
         String email = emailEditText.getText().toString();
@@ -83,5 +113,36 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Optionally, you could update the UI to reflect the saved changes if needed
         // For example, if you had TextViews to display the profile after editing.
+    }*/
+
+    private void saveProfileChanges() {
+        if (!sessionManager.isLoggedIn()) {
+            Toast.makeText(this, "Please log in to save changes", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String name = nameEditText.getText().toString();
+        String email = emailEditText.getText().toString();
+        String phone = phoneEditText.getText().toString();
+        String address = addressEditText.getText().toString();
+        String medicalNotice = medicalNoticeEditText.getText().toString();
+
+        User user = new User();
+        user.setUserId(currentUserId);
+        user.setName(name);
+        user.setEmail(email);
+        user.setPhoneNumber(phone);
+        user.setAddress(address);
+        user.setMedicalNotice(medicalNotice);
+
+        userDao.open();
+        boolean success = userDao.updateUser(user);
+        userDao.close();
+
+        if (success) {
+            Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+        }
     }
 }
