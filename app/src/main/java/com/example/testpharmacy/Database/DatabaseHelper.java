@@ -48,6 +48,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CART_QUANTITY = "quantity";
     public static final String COLUMN_CART_ADDED_AT = "added_at";
 
+    // Bills master table
+    public static final String TB_BILLS = "bills";
+    public static final String COLUMN_BILL_ORDER_NUMBER = "order_number"; // Primary key
+    public static final String COLUMN_BILL_USER_ID = "user_id";
+    public static final String COLUMN_BILL_SHIPPING_NAME = "shipping_name";
+    public static final String COLUMN_BILL_SHIPPING_PHONE = "shipping_phone";
+    public static final String COLUMN_BILL_SHIPPING_ADDRESS = "shipping_address";
+    public static final String COLUMN_BILL_SHIPPING_NOTE = "shipping_note";
+    public static final String COLUMN_BILL_DATE = "order_date";
+    public static final String COLUMN_BILL_TOTAL_AMOUNT = "total_amount";
+
+    // Bill items table
+    public static final String TB_BILL_ITEMS = "bill_items";
+    public static final String COLUMN_BILL_ITEM_ID = "bill_item_id";
+    public static final String COLUMN_BILL_ITEM_ORDER_NUMBER = "order_number"; // Foreign key to bills table
+    public static final String COLUMN_BILL_ITEM_PRODUCT_ID = "product_id";
+    public static final String COLUMN_BILL_ITEM_PRODUCT_NAME = "product_name";
+    public static final String COLUMN_BILL_ITEM_PRODUCT_IMAGE = "product_image";
+    public static final String COLUMN_BILL_ITEM_UNIT_PRICE = "unit_price";
+    public static final String COLUMN_BILL_ITEM_QUANTITY = "quantity";
+    public static final String COLUMN_BILL_ITEM_TOTAL_PRICE = "total_price";
+
     public static final String INSERT_ADMIN = "INSERT INTO " + TB_USERS + " (" +
             COLUMN_USER_NAME + ", " + COLUMN_USER_EMAIL + ", " + COLUMN_USER_PASSWORD +
             ") VALUES ('admin', 'admin@gmail.com', 'admin123')";
@@ -132,6 +154,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "FOREIGN KEY(" + COLUMN_CART_PRODUCT_ID + ") REFERENCES " + TB_MEDICINES + "(" + COLUMN_MEDICINE_ID + ")" + // Renamed TB_PRODUCTS to TB_MEDICINES
                 ")";
 
+        String createBillsTable = "CREATE TABLE " + TB_BILLS + "(" +
+                COLUMN_BILL_ORDER_NUMBER + " TEXT PRIMARY KEY," +
+                COLUMN_BILL_USER_ID + " INTEGER," +
+                COLUMN_BILL_SHIPPING_NAME + " TEXT," +
+                COLUMN_BILL_SHIPPING_PHONE + " TEXT," +
+                COLUMN_BILL_SHIPPING_ADDRESS + " TEXT," +
+                COLUMN_BILL_SHIPPING_NOTE + " TEXT," +
+                COLUMN_BILL_DATE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                COLUMN_BILL_TOTAL_AMOUNT + " REAL," +
+                "FOREIGN KEY(" + COLUMN_BILL_USER_ID + ") REFERENCES " + TB_USERS + "(" + COLUMN_USER_ID + ")" +
+                ")";
+
+        String createBillItemsTable = "CREATE TABLE " + TB_BILL_ITEMS + "(" +
+                COLUMN_BILL_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_BILL_ITEM_ORDER_NUMBER + " TEXT," +
+                COLUMN_BILL_ITEM_PRODUCT_ID + " INTEGER," +
+                COLUMN_BILL_ITEM_PRODUCT_NAME + " TEXT," +
+                COLUMN_BILL_ITEM_PRODUCT_IMAGE + " TEXT," +
+                COLUMN_BILL_ITEM_UNIT_PRICE + " REAL," +
+                COLUMN_BILL_ITEM_QUANTITY + " INTEGER," +
+                COLUMN_BILL_ITEM_TOTAL_PRICE + " REAL," +
+                "FOREIGN KEY(" + COLUMN_BILL_ITEM_ORDER_NUMBER + ") REFERENCES " + TB_BILLS + "(" + COLUMN_BILL_ORDER_NUMBER + ")," +
+                "FOREIGN KEY(" + COLUMN_BILL_ITEM_PRODUCT_ID + ") REFERENCES " + TB_MEDICINES + "(" + COLUMN_MEDICINE_ID + ")" +
+                ")";
+
         db.execSQL(tbUsers);
         db.execSQL(tbMedicines); // Renamed tbProducts to tbMedicines
         db.execSQL(tbCartItems);
@@ -143,6 +190,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(INSERT_MEDICINE_3);
         db.execSQL(INSERT_MEDICINE_4);
         db.execSQL(INSERT_MEDICINE_5);
+
+        db.execSQL(createBillsTable);
+        db.execSQL(createBillItemsTable);
     }
 
     @Override

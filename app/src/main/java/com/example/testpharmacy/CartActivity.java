@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.testpharmacy.Database.BillDao;
 import com.example.testpharmacy.Database.UserDao;
 import com.example.testpharmacy.Model.Bill;
+import com.example.testpharmacy.Model.BillItem;
 import com.example.testpharmacy.Model.User;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
@@ -172,26 +173,41 @@ public class CartActivity extends AppCompatActivity {
 
         long userId = sessionManager.getUserId();
 
+        // Create a new Bill object
+        Bill bill = new Bill();
+        bill.setUserId(userId);
+        bill.setShippingName(savedShippingName);
+        bill.setShippingPhone(savedShippingPhone);
+        bill.setShippingAddress(savedShippingAddress);
+        bill.setShippingNote(savedShippingNote);
+
+        // Create bill items from cart items
+        for (CartItem cartItem : cartItemList) {
+            BillItem billItem = new BillItem(cartItem);
+            bill.addBillItem(billItem);
+        }
+
+        // Calculate total
+        bill.calculateTotal();
+
         // Open connection to database
         billDao.open();
 
-        // Generate order number
+        // Generate order number and save bill
         String orderNumber = billDao.generateOrderNumber();
+        bill.setOrderNumber(orderNumber);
 
-        // Save each cart item as a bill
-        for (CartItem cartItem : cartItemList) {
-            Bill bill = new Bill();
-            bill.setUserId(userId);
-            bill.setProductId(cartItem.getMedicine().getProductId());
-            bill.setQuantity(cartItem.getQuantity());
-
-            billDao.createBill(bill);
-        }
+        // Create the bill with all its items
+        boolean success = billDao.createBill(bill);
 
         // Close database connection
         billDao.close();
 
-        return orderNumber;
+        if (success) {
+            return orderNumber;
+        } else {
+            return "";
+        }
     }
 
     @Override

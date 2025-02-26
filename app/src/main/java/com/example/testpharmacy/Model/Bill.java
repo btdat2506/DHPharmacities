@@ -1,29 +1,32 @@
 package com.example.testpharmacy.Model;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class Bill {
-    private long cartItemId;      // Maps to COLUMN_CART_ITEM_ID
-    private long userId;          // Maps to COLUMN_CART_USER_ID (Foreign Key)
-    private long productId;       // Maps to COLUMN_CART_PRODUCT_ID (Foreign Key)
-    private int quantity;         // Maps to COLUMN_CART_QUANTITY
+    private String orderNumber;
+    private long userId;
+    private String shippingName;
+    private String shippingPhone;
+    private String shippingAddress;
+    private String shippingNote;
+    private Date orderDate;
+    private double totalAmount;
+    private List<BillItem> billItems;
 
     public Bill() {
-        // Default constructor
+        billItems = new ArrayList<>();
+        orderDate = new Date(); // Set current date by default
     }
 
-    public Bill(long userId, long productId, int quantity) {
-        this.userId = userId;
-        this.productId = productId;
-        this.quantity = quantity;
+    // Getters and setters
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
-    // Getters and Setters
-
-    public long getCartItemId() {
-        return cartItemId;
-    }
-
-    public void setCartItemId(long cartItemId) {
-        this.cartItemId = cartItemId;
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public long getUserId() {
@@ -34,23 +37,77 @@ public class Bill {
         this.userId = userId;
     }
 
-    public long getProductId() {
-        return productId;
+    public String getShippingName() {
+        return shippingName;
     }
 
-    public void setProductId(long productId) {
-        this.productId = productId;
+    public void setShippingName(String shippingName) {
+        this.shippingName = shippingName;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getShippingPhone() {
+        return shippingPhone;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setShippingPhone(String shippingPhone) {
+        this.shippingPhone = shippingPhone;
     }
 
-    // Note: You might also want to add a method to fetch the associated Product object
-    // if you need product details within the CartItem (e.g., to display name, price, etc.)
-    // But for simplicity, in this basic model, CartItem just holds IDs and quantity.
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public String getShippingNote() {
+        return shippingNote;
+    }
+
+    public void setShippingNote(String shippingNote) {
+        this.shippingNote = shippingNote;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public List<BillItem> getBillItems() {
+        return billItems;
+    }
+
+    public void setBillItems(List<BillItem> billItems) {
+        this.billItems = billItems;
+    }
+
+    public void addBillItem(BillItem item) {
+        if (billItems == null) {
+            billItems = new ArrayList<>();
+        }
+        billItems.add(item);
+    }
+
+    // Calculate total based on all bill items
+    public void calculateTotal() {
+        double total = 0;
+        if (billItems != null) {
+            for (BillItem item : billItems) {
+                total += item.getTotalPrice();
+            }
+        }
+        this.totalAmount = total;
+    }
 }
