@@ -88,15 +88,15 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    private void populateProfileFields() {
-        // Set placeholder data for EditTexts (replace with actual user profile data retrieval)
-        nameEditText.setText("John Doe");
-        emailEditText.setText("john.doe@example.com");
-        phoneEditText.setText("+1 123-456-7890");
-        addressEditText.setText("123 Main Street, City, State, ZIP");
-        medicalNoticeEditText.setText("No known allergies or medical conditions");
-        emergencyContactEditText.setText("Jane Doe, +1 987-654-3210");
-    }
+//    private void populateProfileFields() {
+//        // Set placeholder data for EditTexts (replace with actual user profile data retrieval)
+//        nameEditText.setText("John Doe");
+//        emailEditText.setText("john.doe@example.com");
+//        phoneEditText.setText("+1 123-456-7890");
+//        addressEditText.setText("123 Main Street, City, State, ZIP");
+//        medicalNoticeEditText.setText("No known allergies or medical conditions");
+//        emergencyContactEditText.setText("Jane Doe, +1 987-654-3210");
+//    }
 
     /*private void saveProfileChanges() {
         // Get the updated values from EditTexts

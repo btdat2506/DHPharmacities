@@ -16,6 +16,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.testpharmacy.Database.DatabaseHelper;
+import com.example.testpharmacy.Database.UserDao;
+import com.example.testpharmacy.Model.User;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
@@ -39,18 +41,28 @@ public class HomeActivity extends AppCompatActivity {
     // --- Simulate User Login Status ---
     private boolean isLoggedIn = false; // Initially set to false (user not logged in)
     // In a real app, you would check actual authentication status here
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        DatabaseHelper databaseHelper = new DatabaseHelper(this.getBaseContext());
+        databaseHelper.open();
+
         // Initialize session manager and check login status
         sessionManager = UserSessionManager.getInstance(this);
         isLoggedIn = sessionManager.isLoggedIn();
 
-        DatabaseHelper databaseHelper = new DatabaseHelper(this.getBaseContext());
-        databaseHelper.open();
+        // Fix User Session
+        userDao = new UserDao(this);
+        userDao.open();
+        User isUser = null;
+        if(isLoggedIn) isUser = userDao.getUserById(sessionManager.getUserId());
+        userDao.close();
+        if(isUser == null || (isUser.getUserId() == 1)) isLoggedIn = false;
+
 
         toolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar); // Set Toolbar as ActionBar
