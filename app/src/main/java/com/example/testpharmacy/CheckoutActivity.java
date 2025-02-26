@@ -74,18 +74,7 @@ public class CheckoutActivity extends AppCompatActivity {
         String shippingAddress = intent.getStringExtra("shippingAddress");
         String shippingNote = intent.getStringExtra("shippingNote");
 
-        // Placeholder: Get cart items from CartActivity (or pass via Intent)
-        //cartItemList = getCartItemsFromSomewhere(); // Replace with actual cart data retrieval
-
-        // If no order number, generate one (fallback)
-        if (orderNumber == null || orderNumber.isEmpty()) {
-            BillDao billDao = new BillDao(this);
-            billDao.open();
-            orderNumber = billDao.generateOrderNumber();
-            billDao.close();
-        }
         cartItemList = CartManager.getInstance().getCartItems();
-
         cartItemCheckoutAdapter = new CartItemCheckoutAdapter(this, cartItemList);
         checkoutItemsRecyclerView.setAdapter(cartItemCheckoutAdapter);
 
@@ -94,6 +83,9 @@ public class CheckoutActivity extends AppCompatActivity {
         continueShoppingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Clear the cart after checkout
+                CartManager.getInstance().clearCart();
+
                 // Navigate to Home Activity
                 Intent intent = new Intent(CheckoutActivity.this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Clear activity stack
@@ -102,38 +94,18 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
-
-
         // --- Populate Shipping Info TextViews ---
         shippingNameTextView.setText("Name: " + shippingName);
         shippingPhoneTextView.setText("Phone: " + shippingPhone);
         shippingAddressTextView.setText("Address: " + shippingAddress);
         shippingNoteTextView.setText("Note: " + shippingNote);
-
-
-
-        orderNumberTextView.setText("Order Number: HD-" + generateOrderNumber()); // Set Order Number with placeholder XXX
+        orderNumberTextView.setText("Order Number: " + orderNumber); // Set Order Number with placeholder XXX
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed(); // Go back
         return true;
-    }
-
-    // Placeholder: Replace with actual cart data retrieval logic (e.g., from Intent, CartManager, etc.)
-    private List<CartItem> getCartItemsFromSomewhere() {
-        // For now, returning the same placeholder cart items as in CartActivity
-        return createPlaceholderCartItems(); // Reusing placeholder method from CartActivity for simplicity
-    }
-
-
-    // Reusing the same placeholder method from CartActivity for simplicity in Checkout
-    private List<CartItem> createPlaceholderCartItems() {
-        List<CartItem> cartItems = new ArrayList<>();
-        cartItems.add(new CartItem(new Medicine("Aspirin", 50.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 2));
-        cartItems.add(new CartItem(new Medicine("Paracetamol", 30.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 1));
-        return cartItems;
     }
 
     private void updateCheckoutSummary() {
@@ -149,10 +121,4 @@ public class CheckoutActivity extends AppCompatActivity {
         totalTextView.setText(String.format("%.3f", total) + "đ");
     }
 
-    // --- Method to generate placeholder Order Number ---
-    private String generateOrderNumber() {
-        // In a real app, generate a unique order number using backend or database logic
-        // For placeholder, using simple timestamp
-        return String.valueOf(System.currentTimeMillis()).substring(5); // Last few digits of timestamp
-    }
 }

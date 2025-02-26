@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class CartItemCheckoutAdapter extends RecyclerView.Adapter<CartItemCheckoutAdapter.CartItemCheckoutViewHolder> {
@@ -36,6 +39,9 @@ public class CartItemCheckoutAdapter extends RecyclerView.Adapter<CartItemChecko
         holder.itemNameTextView.setText(medicine.getName());
         holder.itemPriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
 //        holder.itemImageView.setImageResource(medicine.getImageResourceId());
+        Glide.with(context)
+                .load(medicine.getImageUrl())
+                .into(holder.itemImageView);
         holder.itemQuantityTextView.setText("x" + cartItem.getQuantity()); // Display quantity with "x"
     }
 

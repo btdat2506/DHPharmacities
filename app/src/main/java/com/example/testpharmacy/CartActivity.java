@@ -97,7 +97,7 @@ public class CartActivity extends AppCompatActivity {
         cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize placeholder cart items
-        cartItemList = createPlaceholderCartItems();
+        cartItemList = CartManager.getInstance().getCartItems();
 
         cartItemAdapter = new CartItemAdapter(this, cartItemList);
         cartItemsRecyclerView.setAdapter(cartItemAdapter);
@@ -121,22 +121,6 @@ public class CartActivity extends AppCompatActivity {
                 updateShippingInfoPreview();
             }
         }
-
-/*
-        checkoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Navigate to Checkout Activity
-                Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
-                // Pass shipping information to CheckoutActivity (optional for this example, but good practice)
-                intent.putExtra("shippingName", shippingNameEditText.getText().toString());
-                intent.putExtra("shippingPhone", shippingPhoneEditText.getText().toString());
-                intent.putExtra("shippingAddress", shippingAddressEditText.getText().toString());
-                intent.putExtra("shippingNote", shippingNoteEditText.getText().toString());
-                startActivity(intent);
-            }
-        });
-*/
 
         // Modify checkoutButton click listener:
         checkoutButton.setOnClickListener(new View.OnClickListener() {
@@ -207,9 +191,6 @@ public class CartActivity extends AppCompatActivity {
         // Close database connection
         billDao.close();
 
-        // Clear the cart after checkout
-        //CartManager.getInstance().clearCart();
-
         return orderNumber;
     }
 
@@ -217,16 +198,6 @@ public class CartActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         onBackPressed(); // Go back when back button in toolbar is pressed
         return true;
-    }
-
-    private List<CartItem> createPlaceholderCartItems() {
-        List<CartItem> cartItems = new ArrayList<>();
-        // Add placeholder CartItems (replace with actual cart data)
-//        cartItems.add(new CartItem(new Medicine("Aspirin", 50.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 2)); // 2 Aspirin
-//        cartItems.add(new CartItem(new Medicine("Paracetamol", 30.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100), 100)); // Updated constructor call, 1)); // 1 Paracetamol
-        cartItems = CartManager.getInstance().getCartItems();
-        // ... add more placeholder cart items
-        return cartItems;
     }
 
     protected void updateCartSummary() {
