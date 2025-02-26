@@ -31,9 +31,42 @@ public class CartManager {
         cartItems.add(new CartItem(medicine, quantity));
     }
 
+    // Update quantity of an item by product ID
+    public void updateQuantity(long productId, int quantity) {
+        if (quantity <= 0) {
+            // If quantity is 0 or negative, remove the item
+            removeFromCart(productId);
+            return;
+        }
+
+        for (CartItem item : cartItems) {
+            if (item.getMedicine().getProductId() == productId) {
+                item.setQuantity(quantity);
+                return;
+            }
+        }
+    }
+
+    // Remove an item by product ID
+    public void removeFromCart(long productId) {
+        for (int i = 0; i < cartItems.size(); i++) {
+            if (cartItems.get(i).getMedicine().getProductId() == productId) {
+                cartItems.remove(i);
+                return;
+            }
+        }
+    }
+
+    // Remove an item at a specific position
+    public void removeCartItemAt(int position) {
+        if (position >= 0 && position < cartItems.size()) {
+            cartItems.remove(position);
+        }
+    }
+
     public List<Long> getProductIdsInCart() {
         List<Long> productIds = new ArrayList<>();
-        for (CartItem cartItem : CartManager.getInstance().getCartItems()) {
+        for (CartItem cartItem : cartItems) {
             productIds.add(cartItem.getMedicine().getProductId());
         }
         return productIds;
@@ -45,5 +78,19 @@ public class CartManager {
 
     public void clearCart() {
         cartItems.clear();
+    }
+
+    // Get total number of items in cart
+    public int getItemCount() {
+        return cartItems.size();
+    }
+
+    // Calculate total price of all items in cart
+    public double getTotalPrice() {
+        double total = 0;
+        for (CartItem item : cartItems) {
+            total += item.getTotalPrice();
+        }
+        return total;
     }
 }

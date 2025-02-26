@@ -106,8 +106,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Initially set cart badge count to 0 (you'll update this dynamically)
-        updateCartBadgeCount(0);
+        updateCartBadgeCount(CartManager.getInstance().getCartItems().size());
 
         // Add a logout option in the toolbar if logged in
         if (isLoggedIn) {
@@ -122,6 +121,13 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Update the badge count when returning to this activity
+        updateCartBadgeCount(CartManager.getInstance().getCartItems().size());
     }
 
 

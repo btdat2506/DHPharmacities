@@ -159,7 +159,7 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        // For dubug
+        // For debug
         List<Long> productIdsInCart = CartManager.getInstance().getProductIdsInCart();
         for (Long productId : productIdsInCart) {
             Log.d("CartProductId", "Product ID: " + productId);
@@ -216,11 +216,10 @@ public class CartActivity extends AppCompatActivity {
         return true;
     }
 
+
+    // In CartActivity.java, update the updateCartSummary method
     protected void updateCartSummary() {
-        double subtotal = 0;
-        for (CartItem item : cartItemList) {
-            subtotal += item.getTotalPrice();
-        }
+        double subtotal = CartManager.getInstance().getTotalPrice();
         double shippingCost = 0; // For now, shipping is free
         double total = subtotal + shippingCost;
 
@@ -228,6 +227,7 @@ public class CartActivity extends AppCompatActivity {
         shippingTextView.setText(R.string.free); // "Free" from strings.xml
         totalTextView.setText(String.format("%.3f", total) + "đ");
     }
+
 
     // --- Method to toggle Shipping Info visibility ---
     private void toggleShippingInfoVisibility() {

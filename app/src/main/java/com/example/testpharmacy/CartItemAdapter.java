@@ -1,4 +1,4 @@
-package com.example.testpharmacy; // Replace with your actual package name
+package com.example.testpharmacy;
 
 import android.content.Context;
 import android.text.Editable;
@@ -20,12 +20,10 @@ import java.util.List;
 public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartItemViewHolder> {
 
     private Context context;
-    private List<CartItem> cartItemList;
     private CartActivity cartActivity; // Reference to CartActivity to update summary
 
     public CartItemAdapter(Context context, List<CartItem> cartItemList) {
         this.context = context;
-        this.cartItemList = cartItemList;
         if (context instanceof CartActivity) {
             this.cartActivity = (CartActivity) context; // Cast context to CartActivity
         }
@@ -41,7 +39,9 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
 
     @Override
     public void onBindViewHolder(@NonNull CartItemViewHolder holder, int position) {
-        CartItem cartItem = cartItemList.get(position);
+        // Get the current cart items from the manager each time
+        List<CartItem> cartItems = CartManager.getInstance().getCartItems();
+        CartItem cartItem = cartItems.get(position);
         Medicine medicine = cartItem.getMedicine();
 
         holder.itemNameTextView.setText(medicine.getName());
@@ -51,6 +51,9 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
                 .into(holder.itemImageView);
         holder.itemQuantityEditText.setText(String.valueOf(cartItem.getQuantity()));
         holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
+
+        // Save the position to use in listeners
+        final int itemPosition = position;
 
         holder.itemQuantityEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -78,10 +81,16 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
                     holder.itemQuantityEditText.setText(String.valueOf(quantity)); // Reset EditText to 1
                 }
 
-                cartItem.setQuantity(quantity); // Update CartItem quantity
-                holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ"); // Update item total
+                // Update quantity through CartManager
+                CartManager.getInstance().updateQuantity(medicine.getProductId(), quantity);
+
+                // Refresh total price display
+                holder.itemTotalPriceTextView.setText(String.format("%.3f",
+                        CartManager.getInstance().getCartItems().get(itemPosition).getTotalPrice()) + "đ");
+
+                // Update cart summary in CartActivity
                 if (cartActivity != null) {
-                    cartActivity.updateCartSummary(); // Update cart summary in CartActivity
+                    cartActivity.updateCartSummary();
                 }
             }
         });
@@ -89,12 +98,21 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         holder.increaseQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentQuantity = cartItem.getQuantity();
-                cartItem.setQuantity(currentQuantity + 1);
-                holder.itemQuantityEditText.setText(String.valueOf(cartItem.getQuantity()));
-                holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
+                // Get current quantity from CartManager
+                int currentQuantity = CartManager.getInstance().getCartItems().get(itemPosition).getQuantity();
+                int newQuantity = currentQuantity + 1;
+
+                // Update through CartManager
+                CartManager.getInstance().updateQuantity(medicine.getProductId(), newQuantity);
+
+                // Update UI
+                holder.itemQuantityEditText.setText(String.valueOf(newQuantity));
+                holder.itemTotalPriceTextView.setText(String.format("%.3f",
+                        CartManager.getInstance().getCartItems().get(itemPosition).getTotalPrice()) + "đ");
+
+                // Update cart summary in CartActivity
                 if (cartActivity != null) {
-                    cartActivity.updateCartSummary(); // Update cart summary in CartActivity
+                    cartActivity.updateCartSummary();
                 }
             }
         });
@@ -102,22 +120,34 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         holder.decreaseQuantityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentQuantity = cartItem.getQuantity();
+                // Get current quantity from CartManager
+                int currentQuantity = CartManager.getInstance().getCartItems().get(itemPosition).getQuantity();
+
                 if (currentQuantity > 1) {
-                    cartItem.setQuantity(currentQuantity - 1);
-                    holder.itemQuantityEditText.setText(String.valueOf(cartItem.getQuantity()));
-                    holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
+                    int newQuantity = currentQuantity - 1;
+
+                    // Update through CartManager
+                    CartManager.getInstance().updateQuantity(medicine.getProductId(), newQuantity);
+
+                    // Update UI
+                    holder.itemQuantityEditText.setText(String.valueOf(newQuantity));
+                    holder.itemTotalPriceTextView.setText(String.format("%.3f",
+                            CartManager.getInstance().getCartItems().get(itemPosition).getTotalPrice()) + "đ");
+
+                    // Update cart summary in CartActivity
                     if (cartActivity != null) {
-                        cartActivity.updateCartSummary(); // Update cart summary in CartActivity
+                        cartActivity.updateCartSummary();
                     }
                 } else {
-                    // Remove item from cart if quantity becomes 0 (or 1 and user decreases)
-                    cartItemList.remove(position);
-                    notifyItemRemoved(position);
+                    // Remove item if quantity would become 0
+                    CartManager.getInstance().removeCartItemAt(itemPosition);
+                    notifyItemRemoved(itemPosition);
+                    notifyItemRangeChanged(itemPosition, CartManager.getInstance().getCartItems().size());
+
+                    // Update cart summary in CartActivity
                     if (cartActivity != null) {
-                        cartActivity.updateCartSummary(); // Update cart summary in CartActivity
+                        cartActivity.updateCartSummary();
                     }
-                    notifyItemRangeChanged(position, cartItemList.size()); // Update positions after removal
                 }
             }
         });
@@ -125,19 +155,25 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         holder.removeItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cartItemList.remove(position);
-                notifyItemRemoved(position);
+                // Remove through CartManager
+                CartManager.getInstance().removeCartItemAt(itemPosition);
+
+                // Update UI
+                notifyItemRemoved(itemPosition);
+                notifyItemRangeChanged(itemPosition, CartManager.getInstance().getCartItems().size());
+
+                // Update cart summary in CartActivity
                 if (cartActivity != null) {
-                    cartActivity.updateCartSummary(); // Update cart summary in CartActivity
+                    cartActivity.updateCartSummary();
                 }
-                notifyItemRangeChanged(position, cartItemList.size()); // Update positions after removal
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return cartItemList.size();
+        // Always get the current count from CartManager
+        return CartManager.getInstance().getCartItems().size();
     }
 
     public static class CartItemViewHolder extends RecyclerView.ViewHolder {
