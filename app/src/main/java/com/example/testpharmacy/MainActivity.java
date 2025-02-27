@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
         // No need to setContentView if you are immediately redirecting
 
         // Start SplashScreenActivity immediately
-        Intent intent = new Intent(MainActivity.this, SplashScreenActivity.class);
+        Intent intent = new Intent(MainActivity.this, AdminDashboardActivity.class);
         startActivity(intent);
         finish(); // Close MainActivity so user can't go back to it
     }

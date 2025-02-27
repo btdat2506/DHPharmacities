@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/order_item_image_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="Product Image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_placeholder_medicine" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/order_item_name_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Product Name"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/order_item_price_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="30.000đ" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/order_item_quantity_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="x2" />
+
+    <TextView
+        android:id="@+id/order_item_total_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="60.000đ"
+        android:textStyle="bold" />
+
+</LinearLayout>

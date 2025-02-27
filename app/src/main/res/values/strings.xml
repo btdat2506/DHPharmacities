@@ -79,4 +79,84 @@
     <string name="shipping_information">Shipping Information</string> <!-- Title for Shipping Info in Checkout -->
     <string name="order_number">Order Number: %s</string> <!-- String format for order number -->
     <!-- ... other strings ... -->
+
+    <!-- Admin-related strings -->
+    <string name="admin_login">Login as Admin</string>
+    <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="customers">Customers</string>
+    <string name="orders">Orders</string>
+    <string name="products">Products</string>
+    <string name="statistics">Statistics</string>
+    <string name="hello_admin">Hello, Admin</string>
+    <string name="admin_welcome">Welcome to the Admin Portal</string>
+    <string name="search_customers">Search customers...</string>
+    <string name="search_orders">Search orders...</string>
+    <string name="search_products">Search products...</string>
+    <string name="add_product">Add Product</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="customer_details">Customer Details</string>
+    <string name="order_details">Order Details</string>
+    <string name="view_orders">View Orders</string>
+    <string name="customer_orders">Customer Orders</string>
+    <string name="update_status">Update Status</string>
+    <string name="all_categories">All Categories</string>
+    <string name="all_statuses">All Statuses</string>
+    <string name="summary_statistics">Summary Statistics</string>
+    <string name="total_orders">Total Orders</string>
+    <string name="total_revenue">Total Revenue</string>
+    <string name="avg_order_value">Avg. Order Value</string>
+    <string name="total_customers">Total Customers</string>
+    <string name="sales_by_category">Sales by Category</string>
+    <string name="monthly_sales">Monthly Sales</string>
+    <string name="close">Close</string>
+
+    <string-array name="customer_sort_options">
+        <item>Name (A-Z)</item>
+        <item>Name (Z-A)</item>
+        <item>Email (A-Z)</item>
+        <item>ID (Ascending)</item>
+        <item>ID (Descending)</item>
+    </string-array>
+
+    <string-array name="order_sort_options">
+        <item>Date (Newest First)</item>
+        <item>Date (Oldest First)</item>
+        <item>Total Amount (High to Low)</item>
+        <item>Total Amount (Low to High)</item>
+        <item>Order Number</item>
+    </string-array>
+
+    <string-array name="order_status_filter_options">
+        <item>All Statuses</item>
+        <item>Pending</item>
+        <item>Processing</item>
+        <item>Shipping</item>
+        <item>Delivered</item>
+        <item>Cancelled</item>
+    </string-array>
+
+    <string-array name="order_status_options">
+        <item>Pending</item>
+        <item>Processing</item>
+        <item>Shipping</item>
+        <item>Delivered</item>
+        <item>Cancelled</item>
+    </string-array>
+
+    <string-array name="product_sort_options">
+        <item>Name (A-Z)</item>
+        <item>Name (Z-A)</item>
+        <item>Price (Low to High)</item>
+        <item>Price (High to Low)</item>
+        <item>Stock (Low to High)</item>
+        <item>Stock (High to Low)</item>
+    </string-array>
+
+    <string-array name="product_categories">
+        <item>Pain Relievers</item>
+        <item>Antibiotics</item>
+        <item>Vitamins</item>
+        <item>Cold &amp; Flu</item>
+        <item>First Aid</item>
+    </string-array>
 </resources>

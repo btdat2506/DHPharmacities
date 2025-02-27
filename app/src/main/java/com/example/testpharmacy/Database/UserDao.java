@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.testpharmacy.Model.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDao {
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase database;
@@ -121,5 +124,48 @@ public class UserDao {
             return userId;
         }
         return -1; // Not found
+    }
+
+    // Add this to UserDao.java
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<>();
+
+        Cursor cursor = database.query(
+                DatabaseHelper.TB_USERS,
+                null,
+                null,
+                null,
+                null,
+                null,
+                DatabaseHelper.COLUMN_USER_ID + " ASC"
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                User user = cursorToUser(cursor);
+                users.add(user);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return users;
+    }
+
+    public int getCustomerCount() {
+        Cursor cursor = database.query(
+                DatabaseHelper.TB_USERS,
+                new String[] { "COUNT(*)" },
+                DatabaseHelper.COLUMN_USER_IS_ADMIN + " = ?",
+                new String[] { "0" }, // 0 = false (not admin)
+                null, null, null
+        );
+
+        int count = 0;
+        if (cursor != null && cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+            cursor.close();
+        }
+
+        return count;
     }
 }

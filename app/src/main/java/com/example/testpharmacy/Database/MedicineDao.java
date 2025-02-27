@@ -23,40 +23,47 @@ public class MedicineDao { // Renamed class to MedicineDao
         databaseHelper.close();
     }
 
-    public void insert(Medicine medicine) { // Changed parameter type to Medicine
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.COLUMN_MEDICINE_NAME, medicine.getName()); // **Use YOUR constants**
-        values.put(DatabaseHelper.COLUMN_MEDICINE_DESCRIPTION, medicine.getDescription()); // Use description from Medicine
-        values.put(DatabaseHelper.COLUMN_MEDICINE_CATEGORY, medicine.getCategory()); // Use category from Medicine
-        values.put(DatabaseHelper.COLUMN_MEDICINE_PRICE, medicine.getPrice());
-        values.put(DatabaseHelper.COLUMN_MEDICINE_IMAGE_URL, medicine.getImageUrl());
-        values.put(DatabaseHelper.COLUMN_MEDICINE_STOCK_QUANTITY, medicine.getStockQuantity());
-
-        db.insert(DatabaseHelper.TB_MEDICINES, null, values); // **Use YOUR table name**
-        db.close();
-    }
-
-    public void update(Medicine medicine) { // Changed parameter type to Medicine
+    public long insert(Medicine medicine) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.COLUMN_MEDICINE_NAME, medicine.getName());
-        values.put(DatabaseHelper.COLUMN_MEDICINE_DESCRIPTION, medicine.getDescription()); // Use description from Medicine
-        values.put(DatabaseHelper.COLUMN_MEDICINE_CATEGORY, medicine.getCategory()); // Use category from Medicine
+        values.put(DatabaseHelper.COLUMN_MEDICINE_DESCRIPTION, medicine.getDescription());
+        values.put(DatabaseHelper.COLUMN_MEDICINE_CATEGORY, medicine.getCategory());
         values.put(DatabaseHelper.COLUMN_MEDICINE_PRICE, medicine.getPrice());
         values.put(DatabaseHelper.COLUMN_MEDICINE_IMAGE_URL, medicine.getImageUrl());
         values.put(DatabaseHelper.COLUMN_MEDICINE_STOCK_QUANTITY, medicine.getStockQuantity());
+        values.put(DatabaseHelper.COLUMN_MEDICINE_UNIT, medicine.getUnit());
 
-        db.update(DatabaseHelper.TB_MEDICINES, values, DatabaseHelper.COLUMN_MEDICINE_ID + " = ?", // **Use YOUR constants**
-                new String[]{String.valueOf(medicine.getProductId())});
+        long result = db.insert(DatabaseHelper.TB_MEDICINES, null, values);
         db.close();
+        return result;
     }
 
-    public void delete(Medicine medicine) { // Changed parameter type to Medicine
+    public boolean update(Medicine medicine) {
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        db.delete(DatabaseHelper.TB_MEDICINES, DatabaseHelper.COLUMN_MEDICINE_ID + " = ?", // **Use YOUR constants**
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COLUMN_MEDICINE_NAME, medicine.getName());
+        values.put(DatabaseHelper.COLUMN_MEDICINE_DESCRIPTION, medicine.getDescription());
+        values.put(DatabaseHelper.COLUMN_MEDICINE_CATEGORY, medicine.getCategory());
+        values.put(DatabaseHelper.COLUMN_MEDICINE_PRICE, medicine.getPrice());
+        values.put(DatabaseHelper.COLUMN_MEDICINE_IMAGE_URL, medicine.getImageUrl());
+        values.put(DatabaseHelper.COLUMN_MEDICINE_STOCK_QUANTITY, medicine.getStockQuantity());
+        values.put(DatabaseHelper.COLUMN_MEDICINE_UNIT, medicine.getUnit());
+
+        int rowsAffected = db.update(DatabaseHelper.TB_MEDICINES, values,
+                DatabaseHelper.COLUMN_MEDICINE_ID + " = ?",
                 new String[]{String.valueOf(medicine.getProductId())});
         db.close();
+        return rowsAffected > 0;
+    }
+
+    public boolean delete(Medicine medicine) {
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        int rowsAffected = db.delete(DatabaseHelper.TB_MEDICINES,
+                DatabaseHelper.COLUMN_MEDICINE_ID + " = ?",
+                new String[]{String.valueOf(medicine.getProductId())});
+        db.close();
+        return rowsAffected > 0;
     }
 
     public void deleteAllMedicines() {

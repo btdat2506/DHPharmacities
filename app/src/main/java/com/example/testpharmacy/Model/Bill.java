@@ -15,6 +15,13 @@ public class Bill {
     private double totalAmount;
     private List<BillItem> billItems;
 
+    // Add this to Bill.java in the Model package
+    public static final String STATUS_PENDING = "pending";
+    public static final String STATUS_PROCESSING = "processing";
+    public static final String STATUS_SHIPPING = "shipping";
+    public static final String STATUS_DELIVERED = "delivered";
+    public static final String STATUS_CANCELLED = "cancelled";
+
     public Bill() {
         billItems = new ArrayList<>();
         orderDate = new Date(); // Set current date by default
@@ -109,5 +116,15 @@ public class Bill {
             }
         }
         this.totalAmount = total;
+    }
+
+    private String status = STATUS_PENDING; // Default status
+
+    public String getStatus() {
+        return status != null ? status : STATUS_PENDING;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -9,6 +9,10 @@ public class User {
     private String address;      // Maps to COLUMN_USER_ADDRESS
     private String medicalNotice; // Maps to COLUMN_USER_MEDICAL_NOTICE
 
+    // In User.java, add an isAdmin field
+    private boolean isAdmin;
+
+
     public User() {
         // Default constructor (required for some operations)
     }
@@ -79,5 +83,15 @@ public class User {
 
     public void setMedicalNotice(String medicalNotice) {
         this.medicalNotice = medicalNotice;
+    }
+
+
+    public boolean isAdmin() {
+        return true;
+        //return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

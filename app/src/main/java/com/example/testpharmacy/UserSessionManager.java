@@ -10,6 +10,8 @@ public class UserSessionManager {
     private static final String KEY_USER_ID = "userId";
     private static final String KEY_USER_EMAIL = "userEmail";
 
+    private static final String KEY_IS_ADMIN = "isAdmin";
+
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private Context context;
@@ -60,5 +62,14 @@ public class UserSessionManager {
     public void logout() {
         editor.clear();
         editor.commit();
+    }
+
+    public void setAdmin(boolean isAdmin) {
+        editor.putBoolean(KEY_IS_ADMIN, isAdmin);
+        editor.commit();
+    }
+
+    public boolean isAdmin() {
+        return pref.getBoolean(KEY_IS_ADMIN, false);
     }
 }

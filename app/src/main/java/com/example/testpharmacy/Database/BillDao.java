@@ -225,4 +225,62 @@ public class BillDao {
         String random = String.valueOf((int)(Math.random() * 1000));
         return "HD-" + timestamp + "-" + random;
     }
+
+    // Add this to BillDao.java
+    public boolean updateOrderStatus(String orderNumber, String newStatus) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.COLUMN_BILL_STATUS, newStatus);
+
+        int rowsAffected = database.update(
+                DatabaseHelper.TB_BILLS,
+                values,
+                DatabaseHelper.COLUMN_BILL_ORDER_NUMBER + " = ?",
+                new String[] { orderNumber }
+        );
+
+        return rowsAffected > 0;
+    }
+
+    // Also add this to BillDao.java
+    public List<Bill> getAllBills() {
+        List<Bill> bills = new ArrayList<>();
+
+        Cursor cursor = database.query(
+                DatabaseHelper.TB_BILLS,
+                null,
+                null,
+                null,
+                null,
+                null,
+                DatabaseHelper.COLUMN_BILL_DATE + " DESC" // Most recent first
+        );
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Bill bill = cursorToBill(cursor);
+
+                // Fetch bill items for this bill
+                Cursor itemsCursor = database.query(
+                        DatabaseHelper.TB_BILL_ITEMS,
+                        null,
+                        DatabaseHelper.COLUMN_BILL_ITEM_ORDER_NUMBER + " = ?",
+                        new String[] { bill.getOrderNumber() },
+                        null, null, null
+                );
+
+                if (itemsCursor != null && itemsCursor.moveToFirst()) {
+                    do {
+                        BillItem item = cursorToBillItem(itemsCursor);
+                        bill.addBillItem(item);
+                    } while (itemsCursor.moveToNext());
+                    itemsCursor.close();
+                }
+
+                bills.add(bill);
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
+
+        return bills;
+    }
 }

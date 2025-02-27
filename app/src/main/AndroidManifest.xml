@@ -50,16 +50,40 @@
 
     <activity
         android:name=".MainActivity"
-        android:exported="false">
+        android:exported="false"/>
 
+    <activity
+        android:name=".admin.CustomerDetailActivity"
+        android:exported="false"/>
 
+    <activity
+        android:name=".admin.OrderDetailActivity"
+        android:exported="false"/>
 
-    <!-- Remove the intent-filter from MainActivity if SplashScreenActivity is the launcher -->
-    <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-    </intent-filter>
-</activity>
+    <activity
+        android:name=".AdminDashboardActivity"
+        android:exported="false"/>
+
+    <activity
+        android:name=".admin.CustomersListActivity"
+        android:exported="false"/>
+
+    <activity
+        android:name=".admin.OrdersListActivity"
+        android:exported="false"/>
+
+    <activity
+        android:name=".admin.ProductEditActivity"
+        android:exported="false"/>
+
+    <activity
+        android:name=".admin.ProductManagementActivity"
+        android:exported="false"/>
+
+    <activity
+        android:name=".admin.StatisticsActivity"
+        android:exported="false"/>
+
 
     </application>
 

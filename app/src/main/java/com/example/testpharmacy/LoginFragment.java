@@ -16,12 +16,14 @@ import androidx.fragment.app.Fragment;
 
 import com.example.testpharmacy.Database.DatabaseHelper;
 import com.example.testpharmacy.Database.UserDao;
+import com.example.testpharmacy.Model.User;
 
 public class LoginFragment extends Fragment {
 
     private EditText emailPhoneEditText;
     private EditText passwordEditText;
     private Button loginButton;
+    private Button adminLoginButton;
     private TextView forgotPasswordTextView;
     private TextView errorTextView;
 
@@ -55,6 +57,7 @@ public class LoginFragment extends Fragment {
         emailPhoneEditText = view.findViewById(R.id.login_email_phone_edit_text);
         passwordEditText = view.findViewById(R.id.login_password_edit_text);
         loginButton = view.findViewById(R.id.login_button);
+        adminLoginButton = view.findViewById(R.id.admin_login_button);
         forgotPasswordTextView = view.findViewById(R.id.login_forgot_password_text);
         errorTextView = view.findViewById(R.id.login_error_text);
 
@@ -62,6 +65,18 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 performLogin();
+            }
+        });
+
+        adminLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emailPhoneEditText.setText("admin");
+                passwordEditText.setText("admin");
+
+                Intent intent;
+                intent = new Intent(getActivity(), AdminDashboardActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -76,9 +91,6 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-
-
-    // Then modify performLogin method:
     private void performLogin() {
         String emailPhone = emailPhoneEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
@@ -88,17 +100,25 @@ public class LoginFragment extends Fragment {
             Boolean checkUser = userDao.checkUserMailAndMk(emailPhone, password);
 
             if(checkUser) {
-                // Set login status in the session manager
                 long userId = userDao.getUserIdByEmail(emailPhone);
+                User user = userDao.getUserById(userId);
+
                 UserSessionManager sessionManager = UserSessionManager.getInstance(getContext());
                 sessionManager.setLogin(true);
                 sessionManager.setUserId(userId);
                 sessionManager.setUserEmail(emailPhone);
+                //sessionManager.setAdmin(user.isAdmin());
 
-                // Navigate to Home Activity after successful login
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                // Navigate based on user type
+                Intent intent;
+                intent = new Intent(getActivity(), AdminDashboardActivity.class);
+                /*if (user.isAdmin()) {
+                    intent = new Intent(getActivity(), AdminDashboardActivity.class);
+                } else {
+                    intent = new Intent(getActivity(), HomeActivity.class);
+                }*/
                 startActivity(intent);
-                getActivity().finish(); // Close LoginSignupActivity after login
+                getActivity().finish();
             } else {
                 errorTextView.setText("The email or password is incorrect.");
                 errorTextView.setVisibility(View.VISIBLE);
@@ -109,33 +129,4 @@ public class LoginFragment extends Fragment {
             errorTextView.setVisibility(View.VISIBLE);
         }
     }
-
-
-
-/*    private void performLogin() {
-        String emailPhone = emailPhoneEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString();
-
-        // TODO: Implement actual Login authentication logic here
-        // For now, let's simulate a successful login for demonstration
-
-        if (!emailPhone.isEmpty() && !password.isEmpty()) {
-            // Simulate successful login
-            userDao.open();
-            Boolean checkUser = userDao.checkUserMailAndMk(emailPhone, password);
-
-            if(checkUser) {
-                // Navigate to Home Activity after successful login
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(intent);
-                getActivity().finish(); // Optional: Close LoginSignupActivity after login
-            } else {
-                errorTextView.setText("The email or password is incorrect.");
-                errorTextView.setVisibility(View.VISIBLE);
-            }
-        } else {
-            errorTextView.setText("Please enter email/phone and password.");
-            errorTextView.setVisibility(View.VISIBLE);
-        }
-    }*/
 }
