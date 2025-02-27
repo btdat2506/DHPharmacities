@@ -50,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //    public static final String COLUMN_CART_QUANTITY = "quantity";
 //    public static final String COLUMN_CART_ADDED_AT = "added_at";
 
-    public static final String COLUMN_USER_IS_ADMIN = "user_is_admin";
+    //public static final String COLUMN_USER_IS_ADMIN = "user_is_admin";
 
 
     // Bills master table

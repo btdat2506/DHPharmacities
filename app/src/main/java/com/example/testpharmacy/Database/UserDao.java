@@ -147,8 +147,8 @@ public class UserDao {
         Cursor cursor = database.query(
                 DatabaseHelper.TB_USERS,
                 new String[] { "COUNT(*)" },
-                DatabaseHelper.COLUMN_USER_IS_ADMIN + " = ?",
-                new String[] { "0" }, // 0 = false (not admin)
+                null, // no selection condition
+                null,
                 null, null, null
         );
 

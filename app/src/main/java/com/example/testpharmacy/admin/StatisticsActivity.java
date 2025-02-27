@@ -58,12 +58,12 @@ public class StatisticsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_statistics);
 
         // Initialize session manager and check admin status
-        sessionManager = UserSessionManager.getInstance(this);
+        /*sessionManager = UserSessionManager.getInstance(this);
         if (!sessionManager.isAdmin()) {
             finish();
             return;
         }
-
+*/
         toolbar = findViewById(R.id.statistics_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
