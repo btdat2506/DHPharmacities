@@ -32,7 +32,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
     
     private UserDao userDao;
     private BillDao billDao;
-    private UserSessionManager sessionManager;
+//    private UserSessionManager sessionManager;
     private User customer;
     private long customerId;
 
@@ -42,11 +42,11 @@ public class CustomerDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_customer_detail);
 
         // Initialize session manager and check admin status
-        sessionManager = UserSessionManager.getInstance(this);
-        if (!sessionManager.isAdmin()) {
-            finish();
-            return;
-        }
+//        sessionManager = UserSessionManager.getInstance(this);
+//        if (!sessionManager.isAdmin()) {
+//            finish();
+//            return;
+//        }
 
         // Get customer ID from intent
         customerId = getIntent().getLongExtra("customer_id", -1);

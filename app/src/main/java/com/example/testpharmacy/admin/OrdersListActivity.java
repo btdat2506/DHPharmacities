@@ -38,7 +38,7 @@ public class OrdersListActivity extends AppCompatActivity {
     private Spinner statusFilterSpinner;
     
     private BillDao billDao;
-    private UserSessionManager sessionManager;
+//    private UserSessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +46,11 @@ public class OrdersListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_orders_list);
 
         // Initialize session manager and check admin status
-        sessionManager = UserSessionManager.getInstance(this);
-        if (!sessionManager.isAdmin()) {
-            finish();
-            return;
-        }
+//        sessionManager = UserSessionManager.getInstance(this);
+//        if (!sessionManager.isAdmin()) {
+//            finish();
+//            return;
+//        }
 
         toolbar = findViewById(R.id.orders_toolbar);
         setSupportActionBar(toolbar);

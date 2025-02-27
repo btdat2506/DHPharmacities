@@ -32,7 +32,7 @@ public class ProductEditActivity extends AppCompatActivity {
     private Button deleteButton;
     
     private MedicineDao medicineDao;
-    private UserSessionManager sessionManager;
+//    private UserSessionManager sessionManager;
     private Medicine product;
     private boolean isNewProduct;
     private long productId;
@@ -43,11 +43,11 @@ public class ProductEditActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_edit);
 
         // Initialize session manager and check admin status
-        sessionManager = UserSessionManager.getInstance(this);
-        if (!sessionManager.isAdmin()) {
-            finish();
-            return;
-        }
+//        sessionManager = UserSessionManager.getInstance(this);
+//        if (!sessionManager.isAdmin()) {
+//            finish();
+//            return;
+//        }
 
         // Determine if this is a new product or editing existing one
         isNewProduct = getIntent().getBooleanExtra("is_new_product", false);

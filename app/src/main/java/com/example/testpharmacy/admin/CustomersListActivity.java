@@ -37,7 +37,7 @@ public class CustomersListActivity extends AppCompatActivity {
     private Spinner sortSpinner;
     
     private UserDao userDao;
-    private UserSessionManager sessionManager;
+//    private UserSessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +45,11 @@ public class CustomersListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_customers_list);
 
         // Initialize session manager and check admin status
-        sessionManager = UserSessionManager.getInstance(this);
-        if (!sessionManager.isAdmin()) {
-            finish();
-            return;
-        }
+//        sessionManager = UserSessionManager.getInstance(this);
+//        if (!sessionManager.isAdmin()) {
+//            finish();
+//            return;
+//        }
 
         toolbar = findViewById(R.id.customers_toolbar);
         setSupportActionBar(toolbar);
@@ -101,17 +101,18 @@ public class CustomersListActivity extends AppCompatActivity {
     private void loadCustomers() {
         userDao.open();
         customerList = userDao.getAllUsers();
+        int numAdmin = userDao.getNumAdmin();
         userDao.close();
         
         // Remove admin users from the list
         List<User> nonAdminUsers = new ArrayList<>();
         for (User user : customerList) {
-            if (!user.isAdmin()) {
+            if (user.getUserId() > numAdmin) {
                 nonAdminUsers.add(user);
             }
         }
         customerList = nonAdminUsers;
-        
+
         // Initialize filtered list with all customers
         filteredCustomerList = new ArrayList<>(customerList);
     }

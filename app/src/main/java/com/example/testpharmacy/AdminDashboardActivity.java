@@ -33,14 +33,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         // Initialize session manager
         sessionManager = UserSessionManager.getInstance(this);
-        
-        // Check if user is admin
-        /*if (!sessionManager.isAdmin()) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
-            finish();
-            return;
-        }*/
 
         toolbar = findViewById(R.id.admin_toolbar);
         setSupportActionBar(toolbar);

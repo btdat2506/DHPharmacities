@@ -101,7 +101,6 @@ public class GenericCategoryFragment extends Fragment {
 
         if (categoryName.equals("All Items")) {
             // Combine medicines from all categories for "All Items"
-            medicines.addAll(createFirstAid()); // to test
             medicines.addAll(createAllMedicine());
             // ... add calls to methods for other categories if you create them
         } else if (categoryName.equals("Pain Relievers")) {
@@ -167,8 +166,7 @@ public class GenericCategoryFragment extends Fragment {
 
     private List<Medicine> createFirstAid() {
         List<Medicine> firstAid = new ArrayList<>();
-        firstAid.add(new Medicine("Bandages", 20.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
-        firstAid.add(new Medicine("Antiseptic Cream", 30.0, "box 50 pills", R.drawable.ic_placeholder_medicine, "","","", 100)); // Updated constructor call
+        firstAid = medicineDao.getMedicinesByCategory("First Aid");
         return firstAid;
     }
 }

@@ -60,8 +60,9 @@ public class HomeActivity extends AppCompatActivity {
         userDao.open();
         User isUser = null;
         if(isLoggedIn) isUser = userDao.getUserById(sessionManager.getUserId());
+        int numAdmin = userDao.getNumAdmin();
         userDao.close();
-        if(isUser == null || (isUser.getUserId() == 1)) isLoggedIn = false;
+        if(isUser == null || (isUser.getUserId() <= numAdmin)) isLoggedIn = false;
 
 
         toolbar = findViewById(R.id.home_toolbar);
@@ -112,7 +113,10 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     // If not logged in, go to LoginSignupActivity
-                    Intent intent = new Intent(HomeActivity.this, LoginSignupActivity.class);
+//                    Intent intent = new Intent(HomeActivity.this, LoginSignupActivity.class);
+                    // For test
+                    Intent intent = new Intent(HomeActivity.this, AdminDashboardActivity.class);
+
                     startActivity(intent);
                 }
             }

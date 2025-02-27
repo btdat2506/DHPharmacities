@@ -102,6 +102,7 @@ public class LoginFragment extends Fragment {
             if(checkUser) {
                 long userId = userDao.getUserIdByEmail(emailPhone);
                 User user = userDao.getUserById(userId);
+                int numAdmin = userDao.getNumAdmin();
 
                 UserSessionManager sessionManager = UserSessionManager.getInstance(getContext());
                 sessionManager.setLogin(true);
@@ -111,7 +112,7 @@ public class LoginFragment extends Fragment {
 
                 // Navigate based on user type
                 Intent intent;
-                if (userId == 1) {
+                if (userId <= numAdmin) {
                     intent = new Intent(getActivity(), AdminDashboardActivity.class);
                 } else {
                     intent = new Intent(getActivity(), HomeActivity.class);

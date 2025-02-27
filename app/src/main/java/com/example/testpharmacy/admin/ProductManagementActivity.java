@@ -41,7 +41,7 @@ public class ProductManagementActivity extends AppCompatActivity {
     private FloatingActionButton addProductFab;
     
     private MedicineDao medicineDao;
-    private UserSessionManager sessionManager;
+//    private UserSessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +49,11 @@ public class ProductManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_product_management);
 
         // Initialize session manager and check admin status
-        sessionManager = UserSessionManager.getInstance(this);
-        if (!sessionManager.isAdmin()) {
-            finish();
-            return;
-        }
+//        sessionManager = UserSessionManager.getInstance(this);
+//        if (!sessionManager.isAdmin()) {
+//            finish();
+//            return;
+//        }
 
         toolbar = findViewById(R.id.products_toolbar);
         setSupportActionBar(toolbar);

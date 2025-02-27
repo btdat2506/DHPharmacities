@@ -76,19 +76,6 @@ public class UserDao {
     }
     // ... (Implement other CRUD operations like updateUser, deleteUser, getUserByEmail, etc.)
 
-    // Helper method to convert Cursor to User object
-    private User cursorToUser(Cursor cursor) {
-        User user = new User();
-        user.setUserId(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_ID)));
-        user.setName(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_NAME)));
-        user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_EMAIL)));
-        user.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_PHONE)));
-        user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_PASSWORD)));
-        user.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_ADDRESS)));
-        user.setMedicalNotice(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_MEDICAL_NOTICE)));
-        return user;
-    }
-
     // Add to UserDao.java
     public boolean updateUser(User user) {
         ContentValues values = new ContentValues();
@@ -137,7 +124,7 @@ public class UserDao {
                 null,
                 null,
                 null,
-                DatabaseHelper.COLUMN_USER_ID + " ASC"
+                DatabaseHelper.COLUMN_USER_NAME + " ASC"
         );
 
         if (cursor != null && cursor.moveToFirst()) {
@@ -149,6 +136,11 @@ public class UserDao {
         }
 
         return users;
+    }
+
+    // Get a number of admin
+    public int getNumAdmin() {
+        return DatabaseHelper.NUM_ADMIN;
     }
 
     public int getCustomerCount() {
@@ -167,5 +159,18 @@ public class UserDao {
         }
 
         return count;
+    }
+
+    // Helper method to convert Cursor to User object
+    private User cursorToUser(Cursor cursor) {
+        User user = new User();
+        user.setUserId(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_ID)));
+        user.setName(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_NAME)));
+        user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_EMAIL)));
+        user.setPhoneNumber(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_PHONE)));
+        user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_PASSWORD)));
+        user.setAddress(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_ADDRESS)));
+        user.setMedicalNotice(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_USER_MEDICAL_NOTICE)));
+        return user;
     }
 }
