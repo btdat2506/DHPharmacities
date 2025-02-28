@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ProfileActivity"> <!-- Replace with your actual Activity name -->
+    tools:context=".UI.home.ProfileActivity"> <!-- Replace with your actual Activity name -->
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

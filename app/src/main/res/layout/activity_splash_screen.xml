@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".SplashScreenActivity">
+    tools:context=".UI.SplashScreenActivity">
 
 <LinearLayout
 android:layout_width="wrap_content"

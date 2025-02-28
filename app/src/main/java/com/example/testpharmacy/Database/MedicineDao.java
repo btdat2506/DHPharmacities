@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.testpharmacy.Medicine; // Changed import to Medicine
+import com.example.testpharmacy.Model.Medicine; // Changed import to Medicine
 
 import java.util.ArrayList;
 import java.util.List;

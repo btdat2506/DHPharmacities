@@ -1,6 +1,6 @@
 package com.example.testpharmacy.Model;
 
-import com.example.testpharmacy.CartItem;
+import com.example.testpharmacy.UI.cart.CartItem;
 
 public class BillItem {
 //    private long id;
