@@ -4,18 +4,18 @@ The database is managed through a `DatabaseHelper` class which extends `SQLiteOp
 
 ### Table
 
-1. users - Stores user account information
-2. medicines - Contains details about pharmaceutical products
-3. bills - Stores order/transaction information
-4. bill_items - Contains items within each order/bill
+1. users - Stores user account information.
+2. medicines - Contains details about pharmaceutical products.
+3. bills - Stores order/transaction information.
+4. bill_items - Contains items within each order/bill.
 
 ### Database Access Objects (DAOs)
 
 The app implements the DAO pattern with separate classes for each entity:
 
-- UserDao - Handles user data operations
-- MedicineDao - Manages medicine (product) operations
-- BillDao - Handles order/billing operations
+- UserDao - Handles user data operations.
+- MedicineDao - Manages medicine (product) operations.
+- BillDao - Handles order/billing operations.
 
 ## Table Schemas
 
