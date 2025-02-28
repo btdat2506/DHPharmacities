@@ -31,6 +31,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         this.dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
     }
 
+    public void setOrders(List<Bill> orders) {
+        this.orders = orders;
+    }
+
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,7 +51,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.customerNameTextView.setText(order.getShippingName());
         holder.orderDateTextView.setText(dateFormat.format(order.getOrderDate()));
         holder.orderTotalTextView.setText(String.format(Locale.getDefault(), 
-                "%.2f đ", order.getTotalAmount()));
+                "%.3f đ", order.getTotalAmount()));
 //        holder.orderStatusTextView.setText(getFormattedStatus(order.getStatus()));
         holder.orderStatusTextView.setText(order.getStatus());
         

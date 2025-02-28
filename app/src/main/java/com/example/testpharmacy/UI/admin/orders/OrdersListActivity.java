@@ -232,6 +232,8 @@ public class OrdersListActivity extends AppCompatActivity {
         super.onResume();
         // Refresh order list when returning to this activity
         loadOrders();
-        filterOrders(searchEditText.getText().toString());
+        orderAdapter.setOrders(filteredOrderList);
+        orderAdapter.notifyDataSetChanged();
+        //filterOrders(searchEditText.getText().toString());
     }
 }

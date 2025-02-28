@@ -37,9 +37,9 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
         BillItem billItem = billItems.get(position);
 
         holder.nameTextView.setText(billItem.getProductName());
-        holder.priceTextView.setText(String.format(Locale.getDefault(), "%.2f đ", billItem.getUnitPrice()));
+        holder.priceTextView.setText(String.format(Locale.getDefault(), "%.3f đ", billItem.getUnitPrice()));
         holder.quantityTextView.setText("x" + billItem.getQuantity());
-        holder.totalTextView.setText(String.format(Locale.getDefault(), "%.2f đ", billItem.getTotalPrice()));
+        holder.totalTextView.setText(String.format(Locale.getDefault(), "%.3f đ", billItem.getTotalPrice()));
 
         // Load image if available
         if (billItem.getProductImage() != null && !billItem.getProductImage().isEmpty()) {

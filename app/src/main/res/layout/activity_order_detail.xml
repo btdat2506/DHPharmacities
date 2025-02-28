@@ -130,18 +130,32 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/order_detail_shipping_name_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/profile_name_label" />
+
+                    <TextView
+                        android:id="@+id/order_detail_shipping_phone_text_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/profile_phone_label" />
+
+                    <TextView
                         android:id="@+id/order_detail_shipping_address_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Address: 123 Main St, City, State, ZIP" />
+                        android:text="@string/profile_address_label" />
 
                     <TextView
                         android:id="@+id/order_detail_shipping_note_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Note: Please deliver after 5pm" />
+                        android:text="Note: " />
 
                 </LinearLayout>
 

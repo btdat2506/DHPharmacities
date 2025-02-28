@@ -31,6 +31,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     private TextView customerNameTextView;
     private TextView customerEmailTextView;
     private TextView customerPhoneTextView;
+    private TextView shippingNameTextView;
+    private TextView shippingPhoneTextView;
     private TextView shippingAddressTextView;
     private TextView shippingNoteTextView;
     private RecyclerView orderItemsRecyclerView;
@@ -69,6 +71,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         customerNameTextView = findViewById(R.id.order_detail_customer_name_text_view);
         customerEmailTextView = findViewById(R.id.order_detail_customer_email_text_view);
         customerPhoneTextView = findViewById(R.id.order_detail_customer_phone_text_view);
+        shippingNameTextView = findViewById(R.id.order_detail_shipping_name_text_view);
+        shippingPhoneTextView = findViewById(R.id.order_detail_shipping_phone_text_view);
         shippingAddressTextView = findViewById(R.id.order_detail_shipping_address_text_view);
         shippingNoteTextView = findViewById(R.id.order_detail_shipping_note_text_view);
         orderItemsRecyclerView = findViewById(R.id.order_detail_items_recycler_view);
@@ -135,13 +139,15 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
         
         // Set shipping information
+        shippingNameTextView.setText(order.getShippingName());
+        shippingPhoneTextView.setText(order.getShippingPhone());
         shippingAddressTextView.setText(order.getShippingAddress());
         shippingNoteTextView.setText(order.getShippingNote());
         
         // Set financial information
-        subtotalTextView.setText(String.format(Locale.getDefault(), "%.2f đ", order.getTotalAmount()));
+        subtotalTextView.setText(String.format(Locale.getDefault(), "%.3f đ", order.getTotalAmount()));
         shippingTextView.setText("Free");
-        totalTextView.setText(String.format(Locale.getDefault(), "%.2f đ", order.getTotalAmount()));
+        totalTextView.setText(String.format(Locale.getDefault(), "%.3f đ", order.getTotalAmount()));
         
         // Set up order items
         orderItemAdapter = new OrderItemAdapter(order.getBillItems());

@@ -43,7 +43,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Medicine product = products.get(position);
 
         holder.nameTextView.setText(product.getName());
-        holder.priceTextView.setText(String.format(Locale.getDefault(), "%.2f đ", product.getPrice()));
+        holder.priceTextView.setText(String.format(Locale.getDefault(), "%.3f đ", product.getPrice()));
         holder.stockTextView.setText("Stock: " + product.getStockQuantity());
 
         // Load image using Glide

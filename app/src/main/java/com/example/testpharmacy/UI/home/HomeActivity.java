@@ -117,10 +117,9 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(intent);
                 } else {
                     // If not logged in, go to LoginSignupActivity
-//                    Intent intent = new Intent(HomeActivity.this, LoginSignupActivity.class);
+                    Intent intent = new Intent(HomeActivity.this, LoginSignupActivity.class);
                     // For test
-                    Intent intent = new Intent(HomeActivity.this, AdminDashboardActivity.class);
-
+                    // Intent intent = new Intent(HomeActivity.this, AdminDashboardActivity.class);
                     startActivity(intent);
                 }
             }

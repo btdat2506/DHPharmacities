@@ -109,8 +109,8 @@ public class StatisticsActivity extends AppCompatActivity {
         
         // Display summary statistics
         totalOrdersTextView.setText(String.valueOf(totalOrders));
-        totalRevenueTextView.setText(String.format(Locale.getDefault(), "%.2f đ", totalRevenue));
-        averageOrderValueTextView.setText(String.format(Locale.getDefault(), "%.2f đ", averageOrderValue));
+        totalRevenueTextView.setText(String.format(Locale.getDefault(), "%.3f đ", totalRevenue));
+        averageOrderValueTextView.setText(String.format(Locale.getDefault(), "%.3f đ", averageOrderValue));
         totalCustomersTextView.setText(String.valueOf(customerCount));
         
         // Create category sales chart

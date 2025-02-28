@@ -189,6 +189,7 @@ public class BillDao {
         bill.setShippingAddress(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BILL_SHIPPING_ADDRESS)));
         bill.setShippingNote(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BILL_SHIPPING_NOTE)));
         bill.setTotalAmount(cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BILL_TOTAL_AMOUNT)));
+        bill.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BILL_STATUS)));
 
         // Parse date if needed
         String dateStr = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BILL_DATE));

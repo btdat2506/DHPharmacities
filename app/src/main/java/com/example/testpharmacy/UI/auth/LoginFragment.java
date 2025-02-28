@@ -111,7 +111,6 @@ public class LoginFragment extends Fragment {
                 sessionManager.setLogin(true);
                 sessionManager.setUserId(userId);
                 sessionManager.setUserEmail(emailPhone);
-                //sessionManager.setAdmin(user.isAdmin());
 
                 // Navigate based on user type
                 Intent intent;
