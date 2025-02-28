@@ -204,10 +204,10 @@
             android:text="@string/order_confirmation_message" />
 
         <Button
-            android:id="@+id/continue_shopping_button"
+            android:id="@+id/finish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/continue_shopping" />
+            android:text="@string/finish" />
 
     </LinearLayout>
 

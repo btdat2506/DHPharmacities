@@ -39,19 +39,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_cart" />
 
-    <TextView
-        android:id="@+id/cart_shipping_info_more_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/edit_shipping_info"
-    android:textSize="16sp"
-    android:padding="8dp"
-    android:textColor="?attr/colorAccent"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"/>
-
     <LinearLayout
         android:id="@+id/cart_shipping_info_preview_layout"
         android:layout_width="match_parent"
@@ -66,35 +53,34 @@
             android:id="@+id/cart_shipping_name_preview_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:text="Name: "/>
+            android:text="Name: "
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/cart_shipping_phone_preview_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="14sp"
-            android:text="Phone: "/>
+            android:text="Phone: "
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/cart_shipping_address_preview_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="14sp"
-            android:text="Address: "/>
+            android:text="Address: "
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/cart_shipping_note_preview_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="14sp"
-            android:text="Note: "/>
+            android:text="Note: "
+            android:textSize="14sp" />
 
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/cart_shipping_info_layout"
@@ -164,6 +150,19 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/cart_shipping_info_more_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="8dp"
+        android:text="@string/edit_shipping_info"
+        android:textColor="?attr/colorAccent"
+        android:textSize="16sp" />
 
 
     <LinearLayout

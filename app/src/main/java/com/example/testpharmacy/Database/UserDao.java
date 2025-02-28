@@ -158,7 +158,7 @@ public class UserDao {
             cursor.close();
         }
 
-        return count;
+        return count - Dataset.NUM_ADMIN;
     }
 
     // Helper method to convert Cursor to User object

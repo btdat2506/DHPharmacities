@@ -60,8 +60,6 @@ public class CartActivity extends AppCompatActivity {
 
     private UserDao userDao;
     private UserSessionManager sessionManager;
-    private BillDao billDao;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +69,6 @@ public class CartActivity extends AppCompatActivity {
         userDao = new UserDao(this);
         sessionManager = UserSessionManager.getInstance(this);
 
-        billDao = new BillDao(this);
 
         toolbar = findViewById(R.id.cart_toolbar);
         setSupportActionBar(toolbar);
@@ -97,7 +94,6 @@ public class CartActivity extends AppCompatActivity {
         shippingAddressPreviewTextView = findViewById(R.id.cart_shipping_address_preview_text_view);
         shippingNotePreviewTextView = findViewById(R.id.cart_shipping_note_preview_text_view);
 
-
         cartItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize placeholder cart items
@@ -108,7 +104,7 @@ public class CartActivity extends AppCompatActivity {
 
         updateCartSummary(); // Calculate and display cart summary
 
-        //updateShippingInfoPreview(); // Update shipping info preview on create
+        // updateShippingInfoPreview(); // Update shipping info preview on create
 
         // Load shipping info if user is logged in
         if (sessionManager.isLoggedIn()) {
@@ -137,9 +133,6 @@ public class CartActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Process the order and get order number
-                String orderNumber = processOrder();
-
                 // Navigate to Checkout Activity
                 Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
                 // Pass shipping information and order number
@@ -147,11 +140,9 @@ public class CartActivity extends AppCompatActivity {
                 intent.putExtra("shippingPhone", savedShippingPhone);
                 intent.putExtra("shippingAddress", savedShippingAddress);
                 intent.putExtra("shippingNote", savedShippingNote);
-                intent.putExtra("orderNumber", orderNumber);
                 startActivity(intent);
             }
         });
-
 
 
         // --- Set click listener for "More Shipping Info" button ---
@@ -169,49 +160,7 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
-    private String processOrder() {
-        if (!sessionManager.isLoggedIn()) {
-            return "";
-        }
 
-        long userId = sessionManager.getUserId();
-
-        // Create a new Bill object
-        Bill bill = new Bill();
-        bill.setUserId(userId);
-        bill.setShippingName(savedShippingName);
-        bill.setShippingPhone(savedShippingPhone);
-        bill.setShippingAddress(savedShippingAddress);
-        bill.setShippingNote(savedShippingNote);
-
-        // Create bill items from cart items
-        for (CartItem cartItem : cartItemList) {
-            BillItem billItem = new BillItem(cartItem);
-            bill.addBillItem(billItem);
-        }
-
-        // Calculate total
-        bill.calculateTotal();
-
-        // Open connection to database
-        billDao.open();
-
-        // Generate order number and save bill
-        String orderNumber = billDao.generateOrderNumber();
-        bill.setOrderNumber(orderNumber);
-
-        // Create the bill with all its items
-        boolean success = billDao.createBill(bill);
-
-        // Close database connection
-        billDao.close();
-
-        if (success) {
-            return orderNumber;
-        } else {
-            return "";
-        }
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -245,7 +194,13 @@ public class CartActivity extends AppCompatActivity {
             shippingPhoneEditText.setText(shippingPhonePreviewTextView.getText().toString().substring(7)); // Remove "Phone: " prefix
             shippingAddressEditText.setText(shippingAddressPreviewTextView.getText().toString().substring(9)); // Remove "Address: " prefix
             shippingNoteEditText.setText(shippingNotePreviewTextView.getText().toString().substring(6)); // Remove "Note: " prefix
+
+            // When collapsing after editing, hide checkout button
+            checkoutButton.setVisibility(View.INVISIBLE);
         } else {
+            // After finishing editing, show checkout button
+            checkoutButton.setVisibility(View.VISIBLE);
+
             // When collapsing after editing ("Done Editing"), update preview TextViews and save info
             saveShippingInformation(); // Simulate saving
             updateShippingInfoPreview(); // Update preview TextViews

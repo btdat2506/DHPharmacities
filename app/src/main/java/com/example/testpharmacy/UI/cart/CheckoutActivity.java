@@ -11,6 +11,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testpharmacy.Database.BillDao;
+import com.example.testpharmacy.Manager.UserSessionManager;
+import com.example.testpharmacy.Model.Bill;
+import com.example.testpharmacy.Model.BillItem;
 import com.example.testpharmacy.R;
 import com.example.testpharmacy.UI.home.HomeActivity;
 
@@ -26,7 +30,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private TextView shippingTextView;
     private TextView totalTextView;
     private TextView confirmationTextView;
-    private Button continueShoppingButton;
+    private Button finishButton;
 
     // --- Shipping Info UI Elements (Preview Only - No Edit Texts) ---
     private LinearLayout shippingInfoLayout;
@@ -37,11 +41,20 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private TextView orderNumberTextView; // New Order Number TextView
 
+    private String orderNumber, shippingName, shippingPhone, shippingAddress, shippingNote;
+
+
+    private UserSessionManager sessionManager;
+    private BillDao billDao;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+
+        // Initialize userDao and sessionManager
+        sessionManager = UserSessionManager.getInstance(this);
 
         toolbar = findViewById(R.id.checkout_toolbar);
         setSupportActionBar(toolbar);
@@ -53,7 +66,7 @@ public class CheckoutActivity extends AppCompatActivity {
         shippingTextView = findViewById(R.id.checkout_shipping_text_view);
         totalTextView = findViewById(R.id.checkout_total_text_view);
         confirmationTextView = findViewById(R.id.checkout_confirmation_text_view);
-        continueShoppingButton = findViewById(R.id.continue_shopping_button);
+        finishButton = findViewById(R.id.finish);
 
         // --- Find Shipping Info UI Elements (TextViews for Preview) ---
         shippingInfoLayout = findViewById(R.id.checkout_shipping_info_layout);
@@ -68,11 +81,18 @@ public class CheckoutActivity extends AppCompatActivity {
 
         // --- Retrieve Shipping Information from Intent (passed from CartActivity) ---
         Intent intent = getIntent();
-        String orderNumber = intent.getStringExtra("orderNumber");
-        String shippingName = intent.getStringExtra("shippingName");
-        String shippingPhone = intent.getStringExtra("shippingPhone");
-        String shippingAddress = intent.getStringExtra("shippingAddress");
-        String shippingNote = intent.getStringExtra("shippingNote");
+        orderNumber = processOrder();
+        shippingName = intent.getStringExtra("shippingName");
+        shippingPhone = intent.getStringExtra("shippingPhone");
+        shippingAddress = intent.getStringExtra("shippingAddress");
+        shippingNote = intent.getStringExtra("shippingNote");
+
+        // --- Populate Shipping Info TextViews ---
+        shippingNameTextView.setText("Name: " + shippingName);
+        shippingPhoneTextView.setText("Phone: " + shippingPhone);
+        shippingAddressTextView.setText("Address: " + shippingAddress);
+        shippingNoteTextView.setText("Note: " + shippingNote);
+        orderNumberTextView.setText("Order Number: " + orderNumber); // Set Order Number with placeholder XXX
 
         cartItemList = CartManager.getInstance().getCartItems();
         cartItemCheckoutAdapter = new CartItemCheckoutAdapter(this, cartItemList);
@@ -80,7 +100,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         updateCheckoutSummary();
 
-        continueShoppingButton.setOnClickListener(new View.OnClickListener() {
+        finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Clear the cart after checkout
@@ -93,13 +113,6 @@ public class CheckoutActivity extends AppCompatActivity {
                 finish(); // Close CheckoutActivity
             }
         });
-
-        // --- Populate Shipping Info TextViews ---
-        shippingNameTextView.setText("Name: " + shippingName);
-        shippingPhoneTextView.setText("Phone: " + shippingPhone);
-        shippingAddressTextView.setText("Address: " + shippingAddress);
-        shippingNoteTextView.setText("Note: " + shippingNote);
-        orderNumberTextView.setText("Order Number: " + orderNumber); // Set Order Number with placeholder XXX
     }
 
     @Override
@@ -121,4 +134,49 @@ public class CheckoutActivity extends AppCompatActivity {
         totalTextView.setText(String.format("%.3f", total) + "đ");
     }
 
+    private String processOrder() {
+        if (!sessionManager.isLoggedIn()) {
+            return "";
+        }
+
+        long userId = sessionManager.getUserId();
+
+        // Create a new Bill object
+        Bill bill = new Bill();
+        bill.setUserId(userId);
+        bill.setShippingName(shippingName);
+        bill.setShippingPhone(shippingPhone);
+        bill.setShippingAddress(shippingAddress);
+        bill.setShippingNote(shippingNote);
+
+        // Create bill items from cart items
+        for (CartItem cartItem : cartItemList) {
+            BillItem billItem = new BillItem(cartItem);
+            bill.addBillItem(billItem);
+        }
+
+        // Calculate total
+        bill.calculateTotal();
+
+        billDao = new BillDao(this);
+
+        // Open connection to database
+        billDao.open();
+
+        // Generate order number and save bill
+        String orderNumber = billDao.generateOrderNumber();
+        bill.setOrderNumber(orderNumber);
+
+        // Create the bill with all its items
+        boolean success = billDao.createBill(bill);
+
+        // Close database connection
+        billDao.close();
+
+        if (success) {
+            return orderNumber;
+        } else {
+            return "";
+        }
+    }
 }

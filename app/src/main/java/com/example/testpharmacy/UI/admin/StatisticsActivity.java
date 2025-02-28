@@ -45,7 +45,7 @@ public class StatisticsActivity extends AppCompatActivity {
     private TextView averageOrderValueTextView;
     private TextView totalCustomersTextView;
     private PieChart categorySalesChart;
-    private BarChart monthlySalesChart;
+    private BarChart dailySalesChart;
     
     private BillDao billDao;
     private UserDao userDao;
@@ -74,7 +74,7 @@ public class StatisticsActivity extends AppCompatActivity {
         averageOrderValueTextView = findViewById(R.id.statistics_average_order_value_text_view);
         totalCustomersTextView = findViewById(R.id.statistics_total_customers_text_view);
         categorySalesChart = findViewById(R.id.statistics_category_sales_chart);
-        monthlySalesChart = findViewById(R.id.statistics_monthly_sales_chart);
+        dailySalesChart = findViewById(R.id.statistics_monthly_sales_chart);
 
         // Initialize DAOs
         billDao = new BillDao(this);
@@ -116,8 +116,8 @@ public class StatisticsActivity extends AppCompatActivity {
         // Create category sales chart
         createCategorySalesChart(allOrders);
         
-        // Create monthly sales chart
-        createMonthlySalesChart(allOrders);
+        // Create daily sales chart
+        createDailySalesChart(allOrders);
     }
 
     private void createCategorySalesChart(List<Bill> orders) {
@@ -165,71 +165,71 @@ public class StatisticsActivity extends AppCompatActivity {
         categorySalesChart.invalidate();
     }
 
-    private void createMonthlySalesChart(List<Bill> orders) {
-        // Calculate sales by month for the past 6 months
-        Map<String, Double> monthlySales = new HashMap<>();
-        
-        // Get the last 6 months
+    private void createDailySalesChart(List<Bill> orders) {
+        // Calculate sales by day for the past 7 days
+        Map<String, Double> dailySales = new HashMap<>();
+
+        // Get the last 7 days
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat monthFormat = new SimpleDateFormat("MMM", Locale.getDefault());
-        
-        // Initialize with 0 values
-        for (int i = 5; i >= 0; i--) {
-            calendar.add(Calendar.MONTH, -1);
-            String monthName = monthFormat.format(calendar.getTime());
-            monthlySales.put(monthName, 0.0);
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd MMM", Locale.getDefault());
+
+        // Initialize with 0 values for the last 7 days
+        for (int i = 6; i >= 0; i--) {
+            calendar.add(Calendar.DAY_OF_YEAR, -1);
+            String dayName = dayFormat.format(calendar.getTime());
+            dailySales.put(dayName, 0.0);
         }
-        
+
         // Reset calendar to current
         calendar = Calendar.getInstance();
-        
-        // Calculate actual sales for each month
+
+        // Calculate actual sales for each day
         for (Bill order : orders) {
             Date orderDate = order.getOrderDate();
             Calendar orderCalendar = Calendar.getInstance();
             orderCalendar.setTime(orderDate);
-            
-            // Only consider orders from the past 6 months
-            Calendar sixMonthsAgo = Calendar.getInstance();
-            sixMonthsAgo.add(Calendar.MONTH, -6);
-            
-            if (orderDate.after(sixMonthsAgo.getTime())) {
-                String monthName = monthFormat.format(orderDate);
-                double currentSales = monthlySales.getOrDefault(monthName, 0.0);
-                monthlySales.put(monthName, currentSales + order.getTotalAmount());
+
+            // Only consider orders from the past 7 days
+            Calendar sevenDaysAgo = Calendar.getInstance();
+            sevenDaysAgo.add(Calendar.DAY_OF_YEAR, -7);
+
+            if (orderDate.after(sevenDaysAgo.getTime())) {
+                String dayName = dayFormat.format(orderDate);
+                double currentSales = dailySales.getOrDefault(dayName, 0.0);
+                dailySales.put(dayName, currentSales + order.getTotalAmount());
             }
         }
-        
+
         // Create bar chart entries
         List<BarEntry> entries = new ArrayList<>();
-        List<String> months = new ArrayList<>();
-        
+        List<String> days = new ArrayList<>();
+
         int index = 0;
         calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -5);
-        
-        for (int i = 0; i < 6; i++) {
-            String monthName = monthFormat.format(calendar.getTime());
-            double sales = monthlySales.getOrDefault(monthName, 0.0);
+        calendar.add(Calendar.DAY_OF_YEAR, -6);
+
+        for (int i = 0; i < 7; i++) {
+            String dayName = dayFormat.format(calendar.getTime());
+            double sales = dailySales.getOrDefault(dayName, 0.0);
             entries.add(new BarEntry(index++, (float) sales));
-            months.add(monthName);
-            calendar.add(Calendar.MONTH, 1);
+            days.add(dayName);
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
-        
-        BarDataSet dataSet = new BarDataSet(entries, "Monthly Sales");
+
+        BarDataSet dataSet = new BarDataSet(entries, "Daily Sales");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         dataSet.setValueTextSize(10f);
-        
+
         BarData data = new BarData(dataSet);
-        
-        monthlySalesChart.setData(data);
-        monthlySalesChart.getDescription().setEnabled(false);
-        monthlySalesChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(months));
-        monthlySalesChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        monthlySalesChart.getXAxis().setGranularity(1f);
-        monthlySalesChart.getXAxis().setLabelCount(months.size());
-        monthlySalesChart.animateY(1000);
-        monthlySalesChart.invalidate();
+
+        dailySalesChart.setData(data);
+        dailySalesChart.getDescription().setEnabled(false);
+        dailySalesChart.getXAxis().setValueFormatter(new IndexAxisValueFormatter(days));
+        dailySalesChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        dailySalesChart.getXAxis().setGranularity(1f);
+        dailySalesChart.getXAxis().setLabelCount(days.size());
+        dailySalesChart.animateY(1000);
+        dailySalesChart.invalidate();
     }
 
     @Override

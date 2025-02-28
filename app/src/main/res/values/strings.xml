@@ -24,7 +24,7 @@
     <string name="checkout_title">Checkout</string>
     <string name="order_summary">Order Summary</string>
     <string name="order_confirmation_message">Thank you for your order!</string>
-    <string name="continue_shopping">Continue Shopping</string>
+    <string name="finish">Finish</string>
 
     <!-- Category Names (Placeholder - Replace with your actual categories) -->
     <string name="category_all_items">All Items</string>
@@ -109,6 +109,8 @@
     <string name="sales_by_category">Sales by Category</string>
     <string name="monthly_sales">Monthly Sales</string>
     <string name="close">Close</string>
+
+    <string name="product_management">Product Management</string>
 
     <string-array name="customer_sort_options">
         <item>Name (A-Z)</item>
