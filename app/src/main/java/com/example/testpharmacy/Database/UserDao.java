@@ -140,7 +140,7 @@ public class UserDao {
 
     // Get a number of admin
     public int getNumAdmin() {
-        return DatabaseHelper.NUM_ADMIN;
+        return Dataset.NUM_ADMIN;
     }
 
     public int getCustomerCount() {
