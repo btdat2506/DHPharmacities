@@ -37,21 +37,13 @@ public class ProductManagementActivity extends AppCompatActivity {
     private Spinner sortSpinner;
     private Spinner categoryFilterSpinner;
     private FloatingActionButton addProductFab;
-    
+
     private MedicineDao medicineDao;
-//    private UserSessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_management);
-
-        // Initialize session manager and check admin status
-//        sessionManager = UserSessionManager.getInstance(this);
-//        if (!sessionManager.isAdmin()) {
-//            finish();
-//            return;
-//        }
 
         toolbar = findViewById(R.id.products_toolbar);
         setSupportActionBar(toolbar);
@@ -66,13 +58,13 @@ public class ProductManagementActivity extends AppCompatActivity {
 
         // Set up RecyclerView
         productsRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        
+
         // Initialize MedicineDao
         medicineDao = new MedicineDao(this);
-        
+
         // Load products from database
         loadProducts();
-        
+
         // Set up adapter
         productAdapter = new ProductAdapter(filteredProductList, new ProductAdapter.OnProductClickListener() {
             @Override
@@ -83,7 +75,7 @@ public class ProductManagementActivity extends AppCompatActivity {
             }
         });
         productsRecyclerView.setAdapter(productAdapter);
-        
+
         // Set up search functionality
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,11 +89,11 @@ public class ProductManagementActivity extends AppCompatActivity {
                 filterProducts(s.toString());
             }
         });
-        
+
         // Set up sorting and filtering functionality
         setupSortSpinner();
         setupCategoryFilterSpinner();
-        
+
         // Set up add product button
         addProductFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +109,7 @@ public class ProductManagementActivity extends AppCompatActivity {
         medicineDao.open();
         productList = medicineDao.getAllMedicines();
         medicineDao.close();
-        
+
         // Initialize filtered list with all products
         filteredProductList = new ArrayList<>(productList);
     }
@@ -125,9 +117,9 @@ public class ProductManagementActivity extends AppCompatActivity {
     private void filterProducts(String query) {
         // First apply category filter
         String categoryFilter = categoryFilterSpinner.getSelectedItem().toString();
-        
+
         List<Medicine> categoryFilteredList = new ArrayList<>();
-        
+
         if (categoryFilter.equals("All Categories")) {
             categoryFilteredList.addAll(productList);
         } else {
@@ -137,22 +129,22 @@ public class ProductManagementActivity extends AppCompatActivity {
                 }
             }
         }
-        
+
         // Then apply search query
         filteredProductList.clear();
-        
+
         if (query.isEmpty()) {
             filteredProductList.addAll(categoryFilteredList);
         } else {
             query = query.toLowerCase();
             for (Medicine product : categoryFilteredList) {
-                if (product.getName().toLowerCase().contains(query) || 
+                if (product.getName().toLowerCase().contains(query) ||
                     product.getDescription().toLowerCase().contains(query)) {
                     filteredProductList.add(product);
                 }
             }
         }
-        
+
         productAdapter.notifyDataSetChanged();
     }
 
@@ -161,7 +153,7 @@ public class ProductManagementActivity extends AppCompatActivity {
                 R.array.product_sort_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(adapter);
-        
+
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -177,18 +169,18 @@ public class ProductManagementActivity extends AppCompatActivity {
         // Get unique categories from products
         List<String> categories = new ArrayList<>();
         categories.add("All Categories");
-        
+
         for (Medicine product : productList) {
             if (!categories.contains(product.getCategory())) {
                 categories.add(product.getCategory());
             }
         }
-        
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categoryFilterSpinner.setAdapter(adapter);
-        
+
         categoryFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -252,7 +244,7 @@ public class ProductManagementActivity extends AppCompatActivity {
                 });
                 break;
         }
-        
+
         productAdapter.notifyDataSetChanged();
     }
 
@@ -270,6 +262,8 @@ public class ProductManagementActivity extends AppCompatActivity {
         super.onResume();
         // Refresh product list when returning to this activity
         loadProducts();
-        filterProducts(searchEditText.getText().toString());
+        productAdapter.getProducts(filteredProductList);
+        productAdapter.notifyDataSetChanged();
     }
 }
+
