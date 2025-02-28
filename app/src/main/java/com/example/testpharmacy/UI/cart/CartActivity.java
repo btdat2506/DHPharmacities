@@ -22,6 +22,7 @@ import com.example.testpharmacy.Model.User;
 import com.example.testpharmacy.R;
 import com.example.testpharmacy.Manager.UserSessionManager;
 import com.example.testpharmacy.UI.auth.LoginSignupActivity;
+import com.example.testpharmacy.Utils;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
@@ -175,9 +176,9 @@ public class CartActivity extends AppCompatActivity {
         double shippingCost = 0; // For now, shipping is free
         double total = subtotal + shippingCost;
 
-        subtotalTextView.setText(String.format("%.3f", subtotal) + "đ");
+        subtotalTextView.setText(Utils.formatVND(subtotal));
         shippingTextView.setText(R.string.free); // "Free" from strings.xml
-        totalTextView.setText(String.format("%.3f", total) + "đ");
+        totalTextView.setText(Utils.formatVND(total));
     }
 
 

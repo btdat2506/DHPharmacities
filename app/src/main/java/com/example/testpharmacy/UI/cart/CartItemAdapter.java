@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.testpharmacy.Model.Medicine;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.Utils;
 
 import java.util.List;
 
@@ -47,12 +48,12 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
         Medicine medicine = cartItem.getMedicine();
 
         holder.itemNameTextView.setText(medicine.getName());
-        holder.itemPriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
+        holder.itemPriceTextView.setText(Utils.formatVND(medicine.getPrice()));
         Glide.with(context)
                 .load(medicine.getImageUrl())
                 .into(holder.itemImageView);
         holder.itemQuantityEditText.setText(String.valueOf(cartItem.getQuantity()));
-        holder.itemTotalPriceTextView.setText(String.format("%.3f", cartItem.getTotalPrice()) + "đ");
+        holder.itemTotalPriceTextView.setText(Utils.formatVND(cartItem.getTotalPrice()));
 
         // Save the position to use in listeners
         final int itemPosition = position;
@@ -87,8 +88,7 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
                 CartManager.getInstance().updateQuantity(medicine.getProductId(), quantity);
 
                 // Refresh total price display
-                holder.itemTotalPriceTextView.setText(String.format("%.3f",
-                        CartManager.getInstance().getCartItems().get(itemPosition).getTotalPrice()) + "đ");
+                holder.itemTotalPriceTextView.setText(Utils.formatVND(CartManager.getInstance().getCartItems().get(itemPosition).getTotalPrice()));
 
                 // Update cart summary in CartActivity
                 if (cartActivity != null) {
@@ -109,8 +109,8 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
 
                 // Update UI
                 holder.itemQuantityEditText.setText(String.valueOf(newQuantity));
-                holder.itemTotalPriceTextView.setText(String.format("%.3f",
-                        CartManager.getInstance().getCartItems().get(itemPosition).getTotalPrice()) + "đ");
+                holder.itemTotalPriceTextView.setText(Utils.formatVND(
+                        CartManager.getInstance().getCartItems().get(itemPosition).getTotalPrice()));
 
                 // Update cart summary in CartActivity
                 if (cartActivity != null) {
@@ -133,8 +133,8 @@ public class CartItemAdapter extends RecyclerView.Adapter<CartItemAdapter.CartIt
 
                     // Update UI
                     holder.itemQuantityEditText.setText(String.valueOf(newQuantity));
-                    holder.itemTotalPriceTextView.setText(String.format("%.3f",
-                            CartManager.getInstance().getCartItems().get(itemPosition).getTotalPrice()) + "đ");
+                    holder.itemTotalPriceTextView.setText(Utils.formatVND(
+                            CartManager.getInstance().getCartItems().get(itemPosition).getTotalPrice()));
 
                     // Update cart summary in CartActivity
                     if (cartActivity != null) {

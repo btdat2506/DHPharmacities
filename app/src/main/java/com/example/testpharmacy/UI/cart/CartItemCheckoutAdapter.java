@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.testpharmacy.Model.Medicine;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.Utils;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class CartItemCheckoutAdapter extends RecyclerView.Adapter<CartItemChecko
         Medicine medicine = cartItem.getMedicine();
 
         holder.itemNameTextView.setText(medicine.getName());
-        holder.itemPriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
+        holder.itemPriceTextView.setText(Utils.formatVND(medicine.getPrice()));
         Glide.with(context)
                 .load(medicine.getImageUrl())
                 .into(holder.itemImageView);

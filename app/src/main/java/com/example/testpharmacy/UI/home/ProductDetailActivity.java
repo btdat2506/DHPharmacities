@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.testpharmacy.UI.cart.CartManager;
 import com.example.testpharmacy.Model.Medicine;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.Utils;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -152,7 +153,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void populateUI(Medicine medicine) {
         medicineNameTextView.setText(medicine.getName());
-        medicinePriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ");
+        medicinePriceTextView.setText(Utils.formatVND(medicine.getPrice()));
         medicineUnitTextView.setText(medicine.getUnit());
         Glide.with(this)
                 .load(medicine.getImageUrl())
@@ -168,6 +169,6 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     private void updateTotalPrice() {
         double totalPrice = medicine.getPrice() * currentQuantity;
-        totalPriceTextView.setText(String.format("%.3f", totalPrice) + "đ");
+        totalPriceTextView.setText(Utils.formatVND(totalPrice));
     }
 }

@@ -19,6 +19,7 @@ import com.example.testpharmacy.Database.UserDao;
 import com.example.testpharmacy.Model.Bill;
 import com.example.testpharmacy.Model.User;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -145,9 +146,9 @@ public class OrderDetailActivity extends AppCompatActivity {
         shippingNoteTextView.setText(order.getShippingNote());
         
         // Set financial information
-        subtotalTextView.setText(String.format(Locale.getDefault(), "%.3f đ", order.getTotalAmount()));
+        subtotalTextView.setText(Utils.formatVND(order.getTotalAmount()));
         shippingTextView.setText("Free");
-        totalTextView.setText(String.format(Locale.getDefault(), "%.3f đ", order.getTotalAmount()));
+        totalTextView.setText(Utils.formatVND(order.getTotalAmount()));
         
         // Set up order items
         orderItemAdapter = new OrderItemAdapter(order.getBillItems());

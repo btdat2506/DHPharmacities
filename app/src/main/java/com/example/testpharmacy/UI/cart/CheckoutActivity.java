@@ -17,6 +17,7 @@ import com.example.testpharmacy.Model.Bill;
 import com.example.testpharmacy.Model.BillItem;
 import com.example.testpharmacy.R;
 import com.example.testpharmacy.UI.home.HomeActivity;
+import com.example.testpharmacy.Utils;
 
 import java.util.List;
 
@@ -129,9 +130,9 @@ public class CheckoutActivity extends AppCompatActivity {
         double shippingCost = 0; // Free shipping
         double total = subtotal + shippingCost;
 
-        subtotalTextView.setText(String.format("%.3f", subtotal) + "đ");
+        subtotalTextView.setText(Utils.formatVND(subtotal));
         shippingTextView.setText(R.string.free);
-        totalTextView.setText(String.format("%.3f", total) + "đ");
+        totalTextView.setText(Utils.formatVND(total));
     }
 
     private String processOrder() {

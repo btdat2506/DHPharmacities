@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testpharmacy.Model.Bill;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -50,8 +51,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.orderNumberTextView.setText(order.getOrderNumber());
         holder.customerNameTextView.setText(order.getShippingName());
         holder.orderDateTextView.setText(dateFormat.format(order.getOrderDate()));
-        holder.orderTotalTextView.setText(String.format(Locale.getDefault(), 
-                "%.3f đ", order.getTotalAmount()));
+        holder.orderTotalTextView.setText(Utils.formatVND(order.getTotalAmount()));
 //        holder.orderStatusTextView.setText(getFormattedStatus(order.getStatus()));
         holder.orderStatusTextView.setText(order.getStatus());
         

@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.testpharmacy.UI.cart.CartManager;
 import com.example.testpharmacy.Model.Medicine;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.Utils;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
     public void onBindViewHolder(@NonNull MedicineViewHolder holder, int position) {
         Medicine medicine = medicineList.get(position);
         holder.medicineNameTextView.setText(medicine.getName());
-        holder.medicinePriceTextView.setText(String.format("%.3f", medicine.getPrice()) + "đ"); // Format price
+        holder.medicinePriceTextView.setText(Utils.formatVND(medicine.getPrice())); // Format price
         Glide.with(context)
                 .load(medicine.getImageUrl())
                 .into(holder.medicineImageView);

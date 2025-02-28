@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.testpharmacy.Model.BillItem;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.Utils;
 
 import java.util.List;
 import java.util.Locale;
@@ -37,9 +38,9 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Orde
         BillItem billItem = billItems.get(position);
 
         holder.nameTextView.setText(billItem.getProductName());
-        holder.priceTextView.setText(String.format(Locale.getDefault(), "%.3f đ", billItem.getUnitPrice()));
+        holder.priceTextView.setText(Utils.formatVND(billItem.getUnitPrice()));
         holder.quantityTextView.setText("x" + billItem.getQuantity());
-        holder.totalTextView.setText(String.format(Locale.getDefault(), "%.3f đ", billItem.getTotalPrice()));
+        holder.totalTextView.setText(Utils.formatVND(billItem.getTotalPrice()));
 
         // Load image if available
         if (billItem.getProductImage() != null && !billItem.getProductImage().isEmpty()) {

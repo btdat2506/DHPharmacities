@@ -16,6 +16,7 @@ import com.example.testpharmacy.Model.Bill;
 import com.example.testpharmacy.Model.BillItem;
 import com.example.testpharmacy.R;
 import com.example.testpharmacy.Manager.UserSessionManager;
+import com.example.testpharmacy.Utils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -109,8 +110,8 @@ public class StatisticsActivity extends AppCompatActivity {
         
         // Display summary statistics
         totalOrdersTextView.setText(String.valueOf(totalOrders));
-        totalRevenueTextView.setText(String.format(Locale.getDefault(), "%.3f đ", totalRevenue));
-        averageOrderValueTextView.setText(String.format(Locale.getDefault(), "%.3f đ", averageOrderValue));
+        totalRevenueTextView.setText(Utils.formatVND(totalRevenue));
+        averageOrderValueTextView.setText(Utils.formatVND(averageOrderValue));
         totalCustomersTextView.setText(String.valueOf(customerCount));
         
         // Create category sales chart

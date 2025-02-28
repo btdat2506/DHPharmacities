@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.testpharmacy.Model.Medicine;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.Utils;
 
 import java.util.List;
 import java.util.Locale;
@@ -47,7 +48,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Medicine product = products.get(position);
 
         holder.nameTextView.setText(product.getName());
-        holder.priceTextView.setText(String.format(Locale.getDefault(), "%.3f đ", product.getPrice()));
+        holder.priceTextView.setText(Utils.formatVND(product.getPrice()));
         holder.stockTextView.setText("Stock: " + product.getStockQuantity());
 
         // Load image using Glide
