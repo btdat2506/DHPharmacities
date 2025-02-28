@@ -23,7 +23,7 @@ public class Medicine implements Parcelable {
         this.unit = unit;
     }
 
-    public Medicine(String name, double price, String unit, int imageResourceId, String description, String category, String imageUrl, int stockQuantity) { // New Constructor with all fields
+    public Medicine(String name, double price, int imageResourceId, String description, String category, String imageUrl, int stockQuantity) { // New Constructor with all fields
         this.name = name;
         this.description = description;
         this.category = category;

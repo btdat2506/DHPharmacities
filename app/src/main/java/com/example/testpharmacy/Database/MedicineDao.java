@@ -135,6 +135,7 @@ public class MedicineDao { // Renamed class to MedicineDao
         medicine.setPrice(cursor.getDouble(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_MEDICINE_PRICE)));
         medicine.setImageUrl(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_MEDICINE_IMAGE_URL)));
         medicine.setStockQuantity(cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_MEDICINE_STOCK_QUANTITY)));
+        medicine.setUnit(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_MEDICINE_UNIT)));
         return medicine;
     }
 }

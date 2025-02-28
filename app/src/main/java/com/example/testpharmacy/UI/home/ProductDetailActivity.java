@@ -55,7 +55,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         medicineImageView = findViewById(R.id.detail_medicine_image_view);
         medicineNameTextView = findViewById(R.id.detail_medicine_name_text_view);
         medicinePriceTextView = findViewById(R.id.detail_medicine_price_text_view);
-        medicineUnitTextView = findViewById(R.id.detail_medicine_price_per_unit);
+        medicineUnitTextView = findViewById(R.id.detail_medicine_unit);
         medicineDescriptionTextView = findViewById(R.id.detail_medicine_description_text_view);
         medicineDosageTextView = findViewById(R.id.detail_medicine_dosage_text_view);
         medicineSideEffectsTextView = findViewById(R.id.detail_medicine_side_effects_text_view);

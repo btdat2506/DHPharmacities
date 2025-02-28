@@ -82,7 +82,7 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/detail_medicine_price_per_unit"
+                    android:id="@+id/detail_medicine_unit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
