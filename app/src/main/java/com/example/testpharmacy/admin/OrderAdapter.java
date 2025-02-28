@@ -48,7 +48,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.orderDateTextView.setText(dateFormat.format(order.getOrderDate()));
         holder.orderTotalTextView.setText(String.format(Locale.getDefault(), 
                 "%.2f đ", order.getTotalAmount()));
-        holder.orderStatusTextView.setText(getFormattedStatus(order.getStatus()));
+//        holder.orderStatusTextView.setText(getFormattedStatus(order.getStatus()));
+        holder.orderStatusTextView.setText(order.getStatus());
         
         // Set status text color
         int statusColor = getStatusColor(order.getStatus());
@@ -70,7 +71,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     private String getFormattedStatus(String status) {
-        if (status == null) return "Pending";
+        if (status == null) return "Dog";
         
         switch (status.toLowerCase()) {
             case "pending":

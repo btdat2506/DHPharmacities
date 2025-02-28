@@ -15,12 +15,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     public static final String TB_USERS = "users";
     public static final String TB_MEDICINES = "medicines"; // Renamed table name
-//    public static final String TB_CART_ITEMS = "cart_items";
     public static final String TB_BILLS = "bills";
     public static final String TB_BILL_ITEMS = "bill_items";
 
     // Common Column Names
-    public static final String COLUMN_ID = "_id"; // Standard convention for primary key
+//    public static final String COLUMN_ID = "_id"; // Standard convention for primary key
 
     // Users Table - Column Names
     public static final String COLUMN_USER_ID = "user_id"; // Alias for _id if needed for clarity
@@ -43,18 +42,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_MEDICINE_STOCK_QUANTITY = "stock_quantity";
     public static final String COLUMN_MEDICINE_UNIT = "unit"; // Added unit column
 
-    // Cart Items Table - Column Names
-//    public static final String COLUMN_CART_ITEM_ID = "cart_item_id"; // Alias for _id
-//    public static final String COLUMN_CART_USER_ID = "user_id"; // Foreign Key to Users table
-//    public static final String COLUMN_CART_PRODUCT_ID = "product_id"; // Foreign Key to Medicines table (Renamed from Products)
-//    public static final String COLUMN_CART_QUANTITY = "quantity";
-//    public static final String COLUMN_CART_ADDED_AT = "added_at";
-
     //public static final String COLUMN_USER_IS_ADMIN = "user_is_admin";
 
 
     // Bills master table
-    public static final String COLUMN_BILL_ORDER_NUMBER = "order_number"; // Primary key
+    public static final String COLUMN_BILL_ORDER_NUMBER = "order_number";
     public static final String COLUMN_BILL_USER_ID = "user_id";
     public static final String COLUMN_BILL_SHIPPING_NAME = "shipping_name";
     public static final String COLUMN_BILL_SHIPPING_PHONE = "shipping_phone";
@@ -62,10 +54,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_BILL_SHIPPING_NOTE = "shipping_note";
     public static final String COLUMN_BILL_DATE = "order_date";
     public static final String COLUMN_BILL_TOTAL_AMOUNT = "total_amount";
+    public static final String COLUMN_BILL_STATUS = "status";
 
     // Bill items table
     public static final String COLUMN_BILL_ITEM_ID = "bill_item_id";
-    public static final String COLUMN_BILL_ITEM_ORDER_NUMBER = "order_number"; // Foreign key to bills table
+    public static final String COLUMN_BILL_ITEM_ORDER_NUMBER = "order_number";
     public static final String COLUMN_BILL_ITEM_PRODUCT_ID = "product_id";
     public static final String COLUMN_BILL_ITEM_PRODUCT_NAME = "product_name";
     public static final String COLUMN_BILL_ITEM_PRODUCT_IMAGE = "product_image";
@@ -74,7 +67,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_BILL_ITEM_TOTAL_PRICE = "total_price";
 
     // Add this constant to DatabaseHelper.java
-    public static final String COLUMN_BILL_STATUS = "status";
 
     public static final int NUM_ADMIN = 2;
     public static final String INSERT_ADMIN_1 = "INSERT INTO " + TB_USERS + " (" +
@@ -160,17 +152,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_CREATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                 COLUMN_UPDATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP" +
                 ")";
-//        String tbCartItems = "CREATE TABLE " + TB_CART_ITEMS + "(" +
-//                COLUMN_CART_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-//                COLUMN_CART_USER_ID + " INTEGER," + // Foreign Key to Users
-//                COLUMN_CART_PRODUCT_ID + " INTEGER," + // Foreign Key to Medicines (Renamed from Products)
-//                COLUMN_CART_QUANTITY + " INTEGER," +
-//                COLUMN_CART_ADDED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-//                "FOREIGN KEY(" + COLUMN_CART_USER_ID + ") REFERENCES " + TB_USERS + "(" + COLUMN_USER_ID + ")," +
-//                "FOREIGN KEY(" + COLUMN_CART_PRODUCT_ID + ") REFERENCES " + TB_MEDICINES + "(" + COLUMN_MEDICINE_ID + ")" + // Renamed TB_PRODUCTS to TB_MEDICINES
-//                ")";
-
-        // Modify the TB_BILLS table creation in onCreate method:
         String createBillsTable = "CREATE TABLE " + TB_BILLS + "(" +
                 COLUMN_BILL_ORDER_NUMBER + " TEXT PRIMARY KEY," +
                 COLUMN_BILL_USER_ID + " INTEGER," +
@@ -183,7 +164,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_BILL_STATUS + " TEXT DEFAULT 'pending'," +
                 "FOREIGN KEY(" + COLUMN_BILL_USER_ID + ") REFERENCES " + TB_USERS + "(" + COLUMN_USER_ID + ")" +
                 ")";
-
         String createBillItemsTable = "CREATE TABLE " + TB_BILL_ITEMS + "(" +
                 COLUMN_BILL_ITEM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_BILL_ITEM_ORDER_NUMBER + " TEXT," +
@@ -199,7 +179,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(tbUsers);
         db.execSQL(tbMedicines);
-//        db.execSQL(tbCartItems);
         db.execSQL(createBillsTable);
         db.execSQL(createBillItemsTable);
         // Add default admin
@@ -219,8 +198,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TB_USERS);
-        db.execSQL("DROP TABLE IF EXISTS " + TB_MEDICINES); // Renamed TB_PRODUCTS to TB_MEDICINES
-//        db.execSQL("DROP TABLE IF EXISTS " + TB_CART_ITEMS);
+        db.execSQL("DROP TABLE IF EXISTS " + TB_MEDICINES);
         db.execSQL("DROP TABLE IF EXISTS " + TB_BILLS);
         db.execSQL("DROP TABLE IF EXISTS " + TB_BILL_ITEMS);
         onCreate(db);

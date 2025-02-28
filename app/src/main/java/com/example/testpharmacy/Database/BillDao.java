@@ -207,7 +207,7 @@ public class BillDao {
     // Helper method to convert cursor to BillItem object
     private BillItem cursorToBillItem(Cursor cursor) {
         BillItem item = new BillItem();
-        item.setId(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BILL_ITEM_ID)));
+//        item.setId(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BILL_ITEM_ID)));
         item.setOrderNumber(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BILL_ITEM_ORDER_NUMBER)));
         item.setProductId(cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BILL_ITEM_PRODUCT_ID)));
         item.setProductName(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COLUMN_BILL_ITEM_PRODUCT_NAME)));

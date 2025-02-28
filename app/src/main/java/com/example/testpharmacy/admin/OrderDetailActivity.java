@@ -45,7 +45,6 @@ public class OrderDetailActivity extends AppCompatActivity {
     
     private BillDao billDao;
     private UserDao userDao;
-//    private UserSessionManager sessionManager;
     private Bill order;
     private String orderNumber;
     private OrderItemAdapter orderItemAdapter;
@@ -54,13 +53,6 @@ public class OrderDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
-
-        // Initialize session manager and check admin status
-//        sessionManager = UserSessionManager.getInstance(this);
-//        if (!sessionManager.isAdmin()) {
-//            finish();
-//            return;
-//        }
 
         // Get order number from intent
         orderNumber = getIntent().getStringExtra("order_number");
