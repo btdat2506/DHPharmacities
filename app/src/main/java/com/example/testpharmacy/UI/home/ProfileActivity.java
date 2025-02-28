@@ -1,6 +1,9 @@
 package com.example.testpharmacy.UI.home; // Replace with your actual package name
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +15,7 @@ import com.example.testpharmacy.Database.UserDao;
 import com.example.testpharmacy.Manager.UserSessionManager;
 import com.example.testpharmacy.Model.User;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.UI.auth.LoginSignupActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -74,6 +78,18 @@ public class ProfileActivity extends AppCompatActivity {
             finish();
         }
 
+        // Add a logout option in the toolbar if logged in
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.action_logout) {
+                    logout();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         // Setup save button click listener
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,32 +105,13 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-//    private void populateProfileFields() {
-//        // Set placeholder data for EditTexts (replace with actual user profile data retrieval)
-//        nameEditText.setText("John Doe");
-//        emailEditText.setText("john.doe@example.com");
-//        phoneEditText.setText("+1 123-456-7890");
-//        addressEditText.setText("123 Main Street, City, State, ZIP");
-//        medicalNoticeEditText.setText("No known allergies or medical conditions");
-//        emergencyContactEditText.setText("Jane Doe, +1 987-654-3210");
-//    }
-
-    /*private void saveProfileChanges() {
-        // Get the updated values from EditTexts
-        String name = nameEditText.getText().toString();
-        String email = emailEditText.getText().toString();
-        String phone = phoneEditText.getText().toString();
-        String address = addressEditText.getText().toString();
-        String medicalNotice = medicalNoticeEditText.getText().toString();
-        String emergencyContact = emergencyContactEditText.getText().toString();
-
-        // TODO: Implement logic to save profile changes (e.g., to database, shared preferences, etc.)
-        // For now, just show a Toast message confirming save
-        Toast.makeText(this, "Profile changes saved!", Toast.LENGTH_SHORT).show();
-
-        // Optionally, you could update the UI to reflect the saved changes if needed
-        // For example, if you had TextViews to display the profile after editing.
-    }*/
+    // Add logout method
+    private void logout() {
+        sessionManager.logout();
+        Intent intent = new Intent(ProfileActivity.this, LoginSignupActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     private void saveProfileChanges() {
         if (!sessionManager.isLoggedIn()) {
@@ -145,5 +142,11 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
     }
 }

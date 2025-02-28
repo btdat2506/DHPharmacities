@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -221,10 +223,47 @@ public class BillDao {
 
     // Generate a unique order number
     public String generateOrderNumber() {
-        // Generate a unique order number combining HD- prefix with timestamp and random
-        String timestamp = String.valueOf(System.currentTimeMillis() % 100000);
-        String random = String.valueOf((int)(Math.random() * 1000));
-        return "HD-" + timestamp + "-" + random;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        String datePart = dateFormat.format(new Date());
+
+        // Query the last order to get a sequential number
+        long nextOrderNumber = getLastOrderCount(datePart) + 1;
+
+        return String.format("HD-%s-%05d", datePart, nextOrderNumber);
+    }
+
+    private long getLastOrderCount(String datePrefix) {
+        // Construct the LIKE pattern to match orders from today
+        String likePattern = "HD-" + datePrefix + "-%";
+
+        Cursor cursor = null;
+        long lastOrderCount = 0;
+
+        try {
+            // Query to find the maximum order number for today
+            cursor = database.rawQuery(
+                    "SELECT MAX(CAST(SUBSTR(" + DatabaseHelper.COLUMN_BILL_ORDER_NUMBER + ", -5) AS INTEGER)) AS max_order_number " +
+                            "FROM " + DatabaseHelper.TB_BILLS + " " +
+                            "WHERE " + DatabaseHelper.COLUMN_BILL_ORDER_NUMBER + " LIKE ?",
+                    new String[]{likePattern}
+            );
+
+            if (cursor != null && cursor.moveToFirst()) {
+                // Get the max order number, defaulting to 0 if no orders exist
+                int columnIndex = cursor.getColumnIndex("max_order_number");
+                if (columnIndex != -1) {
+                    lastOrderCount = cursor.getLong(columnIndex);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("BillDao", "Error getting last order count", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return lastOrderCount;
     }
 
     // Add this to BillDao.java

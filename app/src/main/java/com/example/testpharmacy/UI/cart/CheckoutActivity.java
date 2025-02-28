@@ -80,6 +80,10 @@ public class CheckoutActivity extends AppCompatActivity {
 
         checkoutItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        cartItemList = CartManager.getInstance().getCartItems();
+        cartItemCheckoutAdapter = new CartItemCheckoutAdapter(this, cartItemList);
+        checkoutItemsRecyclerView.setAdapter(cartItemCheckoutAdapter);
+
         // --- Retrieve Shipping Information from Intent (passed from CartActivity) ---
         Intent intent = getIntent();
         orderNumber = processOrder();
@@ -95,9 +99,7 @@ public class CheckoutActivity extends AppCompatActivity {
         shippingNoteTextView.setText("Note: " + shippingNote);
         orderNumberTextView.setText("Order Number: " + orderNumber); // Set Order Number with placeholder XXX
 
-        cartItemList = CartManager.getInstance().getCartItems();
-        cartItemCheckoutAdapter = new CartItemCheckoutAdapter(this, cartItemList);
-        checkoutItemsRecyclerView.setAdapter(cartItemCheckoutAdapter);
+
 
         updateCheckoutSummary();
 

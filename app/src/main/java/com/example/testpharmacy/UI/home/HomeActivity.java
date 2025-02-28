@@ -62,11 +62,8 @@ public class HomeActivity extends AppCompatActivity {
         // Fix User Session
         userDao = new UserDao(this);
         userDao.open();
-        User isUser = null;
-        if(isLoggedIn) isUser = userDao.getUserById(sessionManager.getUserId());
-        int numAdmin = userDao.getNumAdmin();
+        if(userDao.getUserById(sessionManager.getUserId()) == null) isLoggedIn = false;
         userDao.close();
-        if(isUser == null || (isUser.getUserId() <= numAdmin)) isLoggedIn = false;
 
 
         toolbar = findViewById(R.id.home_toolbar);
@@ -112,8 +109,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isLoggedIn) { // Check login status
-                    // If logged in, go to ProfileActivity
-                    Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                    // If Admin, go to AdminDashboardActivity, else go to ProfileActivity
+                    Intent intent;
+                    if(sessionManager.getUserId() <= userDao.getNumAdmin()) {
+                        intent = new Intent(HomeActivity.this, AdminDashboardActivity.class);
+                    } else {
+                        intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                    }
                     startActivity(intent);
                 } else {
                     // If not logged in, go to LoginSignupActivity
@@ -126,20 +128,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         updateCartBadgeCount(CartManager.getInstance().getCartItems().size());
-
-        // Add a logout option in the toolbar if logged in
-        if (isLoggedIn) {
-            toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    if (item.getItemId() == R.id.action_logout) {
-                        logout();
-                        return true;
-                    }
-                    return false;
-                }
-            });
-        }
     }
 
     @Override
@@ -148,7 +136,6 @@ public class HomeActivity extends AppCompatActivity {
         // Update the badge count when returning to this activity
         updateCartBadgeCount(CartManager.getInstance().getCartItems().size());
     }
-
 
     // Method to update the cart badge count
     public void updateCartBadgeCount(int count) {
@@ -160,10 +147,8 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-
     // PagerAdapter for Category Fragments
     private class CategoryPagerAdapter extends FragmentStateAdapter {
-
         public CategoryPagerAdapter(AppCompatActivity activity) {
             super(activity);
         }
@@ -179,22 +164,5 @@ public class HomeActivity extends AppCompatActivity {
         public int getItemCount() {
             return categoryNames.size(); // Number of categories
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (isLoggedIn) {
-            getMenuInflater().inflate(R.menu.home_menu, menu);
-        }
-        return true;
-    }
-
-    // Add logout method
-    private void logout() {
-        sessionManager.logout();
-        isLoggedIn = false;
-        Intent intent = new Intent(HomeActivity.this, LoginSignupActivity.class);
-        startActivity(intent);
-        finish();
     }
 }

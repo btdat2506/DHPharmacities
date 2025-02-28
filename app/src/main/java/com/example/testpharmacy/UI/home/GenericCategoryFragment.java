@@ -28,18 +28,6 @@ public class GenericCategoryFragment extends Fragment {
 
     private MedicineDao medicineDao;
 
-    /*@Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        medicineDao = new MedicineDao(getContext());
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        medicineDao.close();
-    }*/
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,14 +119,14 @@ public class GenericCategoryFragment extends Fragment {
     }*/
 
     private List<Medicine> createAllMedicine() {
-        List<Medicine> allMedicien = new ArrayList<>();
+        List<Medicine> allMedicines = new ArrayList<>();
         try {
-            allMedicien = medicineDao.getAllMedicines();
+            allMedicines = medicineDao.getAllMedicines();
         } catch (Exception e) {
             // Handle database error gracefully
             Log.e("GenericCategoryFragment", "Database error: " + e.getMessage());
         }
-        return allMedicien;
+        return allMedicines;
     }
 
     private List<Medicine> createPainRelievers() {
