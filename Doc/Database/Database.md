@@ -1,3 +1,5 @@
+# Database in the Pharmacy Application
+
 ## Database Structure Overview
 
 The database is managed through a `DatabaseHelper` class which extends `SQLiteOpenHelper` to handle database creation, upgrades, and basic operations. The database is named "HDPharmacities.db" and has four main tables:
@@ -116,7 +118,7 @@ The application uses corresponding model classes to represent each entity:
 - Five sample medicines across different categories.
 
 3. Order status follows a predefined workflow:\
-   pending → processing → shipping → delivered/cancelled
+`pending → processing → shipping → delivered/cancelled`
 
 4. The database implementation includes proper transaction handling, especially in the `BillDao` class when creating bills with multiple items.
 
