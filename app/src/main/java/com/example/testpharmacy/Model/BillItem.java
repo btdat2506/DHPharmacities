@@ -3,7 +3,7 @@ package com.example.testpharmacy.Model;
 import com.example.testpharmacy.UI.cart.CartItem;
 
 public class BillItem {
-//    private long id;
+    private long id;
     private String orderNumber; // To link to parent bill
     private long productId;
     private String productName;
@@ -26,13 +26,13 @@ public class BillItem {
     }
 
     // Getters and setters
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
-//        this.id = id;
-//    }
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getOrderNumber() {
         return orderNumber;

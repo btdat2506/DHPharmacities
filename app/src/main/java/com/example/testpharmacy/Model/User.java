@@ -88,7 +88,6 @@ public class User {
 
     public boolean isAdmin() {
         return true;
-        //return isAdmin;
     }
 
     public void setAdmin(boolean admin) {
