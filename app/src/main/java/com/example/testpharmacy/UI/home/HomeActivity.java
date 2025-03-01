@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -46,6 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     private boolean isLoggedIn = false; // Initially set to false (user not logged in)
     // In a real app, you would check actual authentication status here
     private UserDao userDao;
+    private boolean isAdmin = false; // Initially set to false (user is not an admin)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         // Initialize session manager and check login status
         sessionManager = UserSessionManager.getInstance(this);
         isLoggedIn = sessionManager.isLoggedIn();
-
-        // Fix User Session
-        userDao = new UserDao(this);
-        userDao.open();
-        if(userDao.getUserById(sessionManager.getUserId()) == null) isLoggedIn = false;
-        userDao.close();
-
+        isAdmin = sessionManager.isAdmin();
 
         toolbar = findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar); // Set Toolbar as ActionBar
@@ -77,12 +73,12 @@ public class HomeActivity extends AppCompatActivity {
         profileIconContainer = findViewById(R.id.profile_icon_container);
 
         // Initialize category names (replace with actual categories)
-        categoryNames.add("All Items"); // Add "All Items" as the first category
-        categoryNames.add("Pain Relievers");
-        categoryNames.add("Antibiotics");
-        categoryNames.add("Vitamins");
-        categoryNames.add("Cold & Flu");
-        categoryNames.add("First Aid");
+        categoryNames.add(getString(R.string.category_all_items)); // Add "All Items" as the first category
+        categoryNames.add(getString(R.string.category_pain_relievers));
+        categoryNames.add(getString(R.string.category_antibiotics));
+        categoryNames.add(getString(R.string.category_vitamins));
+        categoryNames.add(getString(R.string.category_cold_flu));
+        categoryNames.add(getString(R.string.category_first_aid));
         // ... add more categories
 
         // Set up ViewPager with Category Fragments
@@ -111,7 +107,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (isLoggedIn) { // Check login status
                     // If Admin, go to AdminDashboardActivity, else go to ProfileActivity
                     Intent intent;
-                    if(sessionManager.getUserId() <= userDao.getNumAdmin()) {
+                    if (isAdmin) {
                         intent = new Intent(HomeActivity.this, AdminDashboardActivity.class);
                     } else {
                         intent = new Intent(HomeActivity.this, ProfileActivity.class);
@@ -120,13 +116,10 @@ public class HomeActivity extends AppCompatActivity {
                 } else {
                     // If not logged in, go to LoginSignupActivity
                     Intent intent = new Intent(HomeActivity.this, LoginSignupActivity.class);
-                    // For test
-                    // Intent intent = new Intent(HomeActivity.this, AdminDashboardActivity.class);
                     startActivity(intent);
                 }
             }
         });
-
         updateCartBadgeCount(CartManager.getInstance().getCartItems().size());
     }
 
@@ -163,6 +156,49 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public int getItemCount() {
             return categoryNames.size(); // Number of categories
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu, menu);
+
+        // Find the search item and configure SearchView
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        // Configure search functionality
+        searchView.setQueryHint("Search medicines...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Perform search when user submits query
+                performSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Optional: Perform search as user types
+                performSearch(newText);
+                return true;
+            }
+        });
+
+        return true;
+    }
+
+    private void performSearch(String query) {
+        // Get the current ViewPager fragment
+        int currentPosition = viewPager.getCurrentItem();
+        Fragment currentFragment = getSupportFragmentManager()
+                .findFragmentByTag("f" + currentPosition);
+
+        if (currentFragment instanceof GenericCategoryFragment) {
+            GenericCategoryFragment categoryFragment = (GenericCategoryFragment) currentFragment;
+
+            // Call a new method in GenericCategoryFragment to filter medicines
+            categoryFragment.filterMedicines(query);
         }
     }
 }

@@ -111,6 +111,8 @@
     <string name="close">Close</string>
 
     <string name="product_management">Product Management</string>
+    <string name="search_title">Search</string>
+    <string name="database_error_message">Database error (getAllMedicines())</string>
 
     <string-array name="customer_sort_options">
         <item>Name (A-Z)</item>

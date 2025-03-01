@@ -109,6 +109,7 @@ public class LoginFragment extends Fragment {
 
                 // Navigate based on user type
                 Intent intent;
+                if (userId <= numAdmin) sessionManager.setAdmin(true);
                 if (isAdmin && userId <= numAdmin) {
                     intent = new Intent(getActivity(), AdminDashboardActivity.class);
                 } else {

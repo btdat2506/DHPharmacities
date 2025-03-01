@@ -4,6 +4,9 @@ package com.example.testpharmacy.Manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.testpharmacy.Database.Dataset;
+import com.example.testpharmacy.Database.UserDao;
+
 public class UserSessionManager {
     private static final String PREF_NAME = "UserSession";
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
