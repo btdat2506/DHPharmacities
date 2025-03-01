@@ -52,6 +52,7 @@ These classes handle database operations for their respective entities, providin
 - `updateOrderStatus(String orderNumber, String newStatus)`: Updates the status of an order.
 - `getAllBills()`: Retrieves all bills.
 - `generateOrderNumber()`: Generates a unique order number.
+- `getLastOrderCount(String datePrefix)`: Gets the latest order count for generating sequential numbers
 - `cursorToBill(Cursor cursor)`: Helper method to convert cursor to `Bill` object.
 - `cursorToBillItem(Cursor cursor)`: Helper method to convert cursor to `BillItem` object.
 
@@ -90,7 +91,7 @@ These classes represent the entities in the database and contain business logic 
 
 ### 3. Bill
 #### Attributes:
-- `orderNumber`: Unique identifier for the bill (format: "HD-timestamp-random").
+- `orderNumber`: Unique identifier for the bill using "Timestamp-based with Sequential Incrementation" algorithm (format: "HD-timestamp-XXXXX", XXXXX is incremental).
 - `userId`: ID of the user who placed the order.
 - `shippingName`: Name for shipping.
 - `shippingPhone`: Phone number for shipping.
