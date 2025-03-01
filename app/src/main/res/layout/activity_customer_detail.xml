@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Name">
+                android:hint="@string/profile_name_label">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/customer_detail_name_edit_text"
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Email">
+                android:hint="@string/profile_email_label">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/customer_detail_email_edit_text"
@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Phone">
+                android:hint="@string/profile_phone_label">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/customer_detail_phone_edit_text"
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Address">
+                android:hint="@string/profile_address_label">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/customer_detail_address_edit_text"
@@ -93,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Medical Notice">
+                android:hint="@string/profile_medical_notice_label">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/customer_detail_medical_notice_edit_text"
@@ -119,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="View Orders" />
+            android:text="@string/view_orders" />
 
         <Button
             android:id="@+id/customer_detail_save_button"
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:text="Save" />
+            android:text="@string/save_product" />
 
     </LinearLayout>
 

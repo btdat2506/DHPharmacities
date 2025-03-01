@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testpharmacy.Constants.CategoryConstants;
 import com.example.testpharmacy.Database.MedicineDao;
 import com.example.testpharmacy.Model.Medicine;
 import com.example.testpharmacy.R;
@@ -38,7 +39,7 @@ public class GenericCategoryFragment extends Fragment {
         super.onCreate(savedInstanceState);
         medicineDao = new MedicineDao(getContext());
         medicineDao.open(); // Open the database connection when fragment is created
-        
+
         if (getArguments() != null) {
             categoryName = getArguments().getString(ARG_CATEGORY_NAME);
         }
@@ -86,7 +87,7 @@ public class GenericCategoryFragment extends Fragment {
         medicineRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // 2 columns grid
 
         // Load all medicines for this category
-        allMedicineList = createPlaceholderMedicinesForCategory(categoryName);
+        allMedicineList = loadMedicinesForCategory(categoryName);
         filteredMedicineList = new ArrayList<>(allMedicineList);
 
         medicineAdapter = new MedicineAdapter(getContext(), filteredMedicineList);
@@ -98,8 +99,13 @@ public class GenericCategoryFragment extends Fragment {
 
         // If query is empty, show all medicines
         if (query.isEmpty()) {
-            medicineAdapter = new MedicineAdapter(getContext(), allMedicineList);
+            filteredMedicineList = new ArrayList<>(allMedicineList);
+            medicineAdapter = new MedicineAdapter(getContext(), filteredMedicineList);
             medicineRecyclerView.setAdapter(medicineAdapter);
+
+            // Update visibility
+            noResultsTextView.setVisibility(View.GONE);
+            medicineRecyclerView.setVisibility(View.VISIBLE);
             return;
         }
 
@@ -117,72 +123,39 @@ public class GenericCategoryFragment extends Fragment {
         }
 
         // Update adapter with filtered list
-        MedicineAdapter filteredAdapter = new MedicineAdapter(getContext(), filteredList);
-        medicineRecyclerView.setAdapter(filteredAdapter);
-        if (noResultsTextView != null) {
-            if (filteredList.isEmpty()) {
-                noResultsTextView.setVisibility(View.VISIBLE);
-                medicineRecyclerView.setVisibility(View.GONE);
-            } else {
-                noResultsTextView.setVisibility(View.GONE);
-                medicineRecyclerView.setVisibility(View.VISIBLE);
-            }
+        filteredMedicineList = filteredList;
+        medicineAdapter = new MedicineAdapter(getContext(), filteredMedicineList);
+        medicineRecyclerView.setAdapter(medicineAdapter);
+
+        // Update visibility based on results
+        if (filteredList.isEmpty()) {
+            noResultsTextView.setVisibility(View.VISIBLE);
+            medicineRecyclerView.setVisibility(View.GONE);
+        } else {
+            noResultsTextView.setVisibility(View.GONE);
+            medicineRecyclerView.setVisibility(View.VISIBLE);
         }
     }
 
-    // Placeholder method to create medicine data for a specific category
-    private List<Medicine> createPlaceholderMedicinesForCategory(String categoryName) {
-        List<Medicine> medicines = new ArrayList<>();
+    private List<Medicine> loadMedicinesForCategory(String categoryName) {
+        // Get the string resource ID for "All Items" category
+        String allItemsCategory = getString(R.string.category_all_items);
 
-        if (categoryName.equals(getString(R.string.category_all_items))) {
-            // Combine medicines from all categories for "All Items"
-            medicines.addAll(createAllMedicine());
-            // ... add calls to methods for other categories if you create them
-        } else if (categoryName.equals(getString(R.string.category_pain_relievers))) {
-            medicines.addAll(createPainRelievers()); // Use helper methods to create category-specific lists
-        } else if (categoryName.equals(getString(R.string.category_antibiotics))) {
-            medicines.addAll(createAntibiotics());
-        } else if (categoryName.equals(getString(R.string.category_vitamins))) {
-            medicines.addAll(createVitamins());
-        } else if (categoryName.equals(getString(R.string.category_cold_flu))) {
-            medicines.addAll(createColdAndFlu());
-        } else if (categoryName.equals(getString(R.string.category_first_aid))) {
-            medicines.addAll(createFirstAid());
-        }
-        // ... Add more categories and their medicines in else-if blocks
-
-        // Default case (if category name is not recognized) - return empty list or some default medicines
-        return medicines;
-    }
-
-    private List<Medicine> createAllMedicine() {
-        List<Medicine> allMedicine = new ArrayList<>();
         try {
-            allMedicine = medicineDao.getAllMedicines();
+            if (categoryName.equals(allItemsCategory)) {
+                // For "All Items" category, get all medicines
+                return medicineDao.getAllMedicines();
+            } else {
+                // Convert UI category name to database category name
+                String databaseCategory = CategoryConstants.getDatabaseCategory(getContext(), categoryName);
+
+                // Get medicines for the specific category
+                return medicineDao.getMedicinesByCategory(databaseCategory);
+            }
         } catch (Exception e) {
             // Handle database error gracefully
             Log.e(TAG, String.format(getString(R.string.database_error_message), e.getMessage()));
+            return new ArrayList<>(); // Return empty list on error
         }
-        return allMedicine;
-    }
-
-    private List<Medicine> createPainRelievers() {
-        return medicineDao.getMedicinesByCategory(getString(R.string.category_pain_relievers));
-    }
-
-    private List<Medicine> createAntibiotics() {
-        return medicineDao.getMedicinesByCategory(getString(R.string.category_antibiotics));
-    }
-
-    private List<Medicine> createVitamins() {
-        return medicineDao.getMedicinesByCategory(getString(R.string.category_vitamins));
-    }
-
-    private List<Medicine> createColdAndFlu() {
-        return medicineDao.getMedicinesByCategory(getString(R.string.category_cold_flu));
-    }
-
-    private List<Medicine> createFirstAid() {
-        return medicineDao.getMedicinesByCategory(getString(R.string.category_first_aid));
     }
 }

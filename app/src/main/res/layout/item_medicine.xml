@@ -18,7 +18,7 @@
             android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_placeholder_medicine"
-        android:contentDescription="@string/medicine_image" />
+            android:contentDescription="@string/medicine_image" />
 
         <TextView
             android:id="@+id/medicine_name_text_view"
@@ -27,7 +27,7 @@
             android:layout_marginTop="8dp"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:text="Medicine Name" />
+            android:text="@string/product_name_hint" />
 
         <TextView
             android:id="@+id/medicine_price_text_view"

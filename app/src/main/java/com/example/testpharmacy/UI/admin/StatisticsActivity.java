@@ -17,6 +17,7 @@ import com.example.testpharmacy.Model.BillItem;
 import com.example.testpharmacy.R;
 import com.example.testpharmacy.Manager.UserSessionManager;
 import com.example.testpharmacy.Utils;
+import com.example.testpharmacy.Constants.CategoryConstants;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -47,7 +48,7 @@ public class StatisticsActivity extends AppCompatActivity {
     private TextView totalCustomersTextView;
     private PieChart categorySalesChart;
     private BarChart dailySalesChart;
-    
+
     private BillDao billDao;
     private UserDao userDao;
     private MedicineDao medicineDao;
@@ -58,17 +59,13 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-        // Initialize session manager and check admin status
-        /*sessionManager = UserSessionManager.getInstance(this);
-        if (!sessionManager.isAdmin()) {
-            finish();
-            return;
-        }
-*/
+        // Initialize session manager
+        sessionManager = UserSessionManager.getInstance(this);
+
         toolbar = findViewById(R.id.statistics_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.sales_statistics_title);
+        getSupportActionBar().setTitle(getString(R.string.sales_statistics_title));
 
         totalOrdersTextView = findViewById(R.id.statistics_total_orders_text_view);
         totalRevenueTextView = findViewById(R.id.statistics_total_revenue_text_view);
@@ -81,9 +78,39 @@ public class StatisticsActivity extends AppCompatActivity {
         billDao = new BillDao(this);
         userDao = new UserDao(this);
         medicineDao = new MedicineDao(this);
-        
+
         // Load and display statistics
         loadStatistics();
+
+        // Set chart theme based on current theme
+        setupChartThemes();
+    }
+
+    private void setupChartThemes() {
+        // Get the current theme's text color
+        int textColor = getResources().getColor(
+                isUsingDarkTheme() ? android.R.color.white : android.R.color.black
+        );
+
+        // Configure PieChart
+        categorySalesChart.setEntryLabelColor(textColor);
+        categorySalesChart.setCenterTextColor(textColor);
+        categorySalesChart.getLegend().setTextColor(textColor);
+        categorySalesChart.getDescription().setTextColor(textColor);
+
+        // Configure BarChart
+        dailySalesChart.getXAxis().setTextColor(textColor);
+        dailySalesChart.getAxisLeft().setTextColor(textColor);
+        dailySalesChart.getAxisRight().setTextColor(textColor);
+        dailySalesChart.getLegend().setTextColor(textColor);
+        dailySalesChart.getDescription().setTextColor(textColor);
+    }
+
+    private boolean isUsingDarkTheme() {
+        // Check if night mode is active
+        return (getResources().getConfiguration().uiMode &
+                android.content.res.Configuration.UI_MODE_NIGHT_MASK) ==
+                android.content.res.Configuration.UI_MODE_NIGHT_YES;
     }
 
     private void loadStatistics() {
@@ -91,32 +118,32 @@ public class StatisticsActivity extends AppCompatActivity {
         billDao.open();
         List<Bill> allOrders = billDao.getAllBills();
         billDao.close();
-        
+
         // Get all customers
         userDao.open();
         int customerCount = userDao.getCustomerCount();
         userDao.close();
-        
+
         // Calculate total orders and revenue
         int totalOrders = allOrders.size();
         double totalRevenue = 0;
-        
+
         for (Bill order : allOrders) {
             totalRevenue += order.getTotalAmount();
         }
-        
+
         // Calculate average order value
         double averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-        
+
         // Display summary statistics
         totalOrdersTextView.setText(String.valueOf(totalOrders));
         totalRevenueTextView.setText(Utils.formatVND(totalRevenue));
         averageOrderValueTextView.setText(Utils.formatVND(averageOrderValue));
         totalCustomersTextView.setText(String.valueOf(customerCount));
-        
+
         // Create category sales chart
         createCategorySalesChart(allOrders);
-        
+
         // Create daily sales chart
         createDailySalesChart(allOrders);
     }
@@ -124,17 +151,17 @@ public class StatisticsActivity extends AppCompatActivity {
     private void createCategorySalesChart(List<Bill> orders) {
         // Calculate sales by category
         Map<String, Double> categorySales = new HashMap<>();
-        
+
         medicineDao.open();
         List<Medicine> allProducts = medicineDao.getAllMedicines();
         medicineDao.close();
-        
+
         // Create product ID to category map for quick lookup
         Map<Long, String> productCategories = new HashMap<>();
         for (Medicine product : allProducts) {
             productCategories.put(product.getProductId(), product.getCategory());
         }
-        
+
         // Calculate sales by category
         for (Bill order : orders) {
             for (BillItem item : order.getBillItems()) {
@@ -145,23 +172,25 @@ public class StatisticsActivity extends AppCompatActivity {
                 }
             }
         }
-        
-        // Create pie chart entries
+
+        // Create pie chart entries with localized category names
         List<PieEntry> entries = new ArrayList<>();
         for (Map.Entry<String, Double> entry : categorySales.entrySet()) {
-            entries.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
+            // Convert database category to localized category
+            String localizedCategory = CategoryConstants.getLocalizedCategory(this, entry.getKey());
+            entries.add(new PieEntry(entry.getValue().floatValue(), localizedCategory));
         }
-        
-        PieDataSet dataSet = new PieDataSet(entries, "Sales by Category");
+
+        PieDataSet dataSet = new PieDataSet(entries, getString(R.string.sales_by_category));
         dataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        dataSet.setValueTextColor(Color.BLACK);
+        dataSet.setValueTextColor(isUsingDarkTheme() ? Color.WHITE : Color.BLACK);
         dataSet.setValueTextSize(12f);
-        
+
         PieData data = new PieData(dataSet);
-        
+
         categorySalesChart.setData(data);
         categorySalesChart.getDescription().setEnabled(false);
-        categorySalesChart.setCenterText("Sales by Category");
+        categorySalesChart.setCenterText(getString(R.string.sales_by_category));
         categorySalesChart.animateY(1000);
         categorySalesChart.invalidate();
     }
@@ -217,9 +246,10 @@ public class StatisticsActivity extends AppCompatActivity {
             calendar.add(Calendar.DAY_OF_YEAR, 1);
         }
 
-        BarDataSet dataSet = new BarDataSet(entries, "Daily Sales");
+        BarDataSet dataSet = new BarDataSet(entries, getString(R.string.daily_sales));
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
         dataSet.setValueTextSize(10f);
+        dataSet.setValueTextColor(isUsingDarkTheme() ? Color.WHITE : Color.BLACK);
 
         BarData data = new BarData(dataSet);
 

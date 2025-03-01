@@ -23,7 +23,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Order #HD-12345"
+                android:text="@string/order_number"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/holo_green_light"
                 android:padding="4dp"
-                android:text="Delivered"
+                android:text="@string/status_pending"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
 
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Customer: John Doe"
+            android:text="@string/customer_info"
             android:textSize="14sp" />
 
         <LinearLayout

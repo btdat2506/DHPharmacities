@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testpharmacy.Constants.OrderStatusConstants;
 import com.example.testpharmacy.Database.BillDao;
 import com.example.testpharmacy.Database.UserDao;
 import com.example.testpharmacy.Model.Bill;
@@ -42,7 +43,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private TextView totalTextView;
     private Spinner statusSpinner;
     private Button updateStatusButton;
-    
+
     private BillDao billDao;
     private UserDao userDao;
     private Bill order;
@@ -85,17 +86,17 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         // Set up RecyclerView
         orderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        
+
         // Initialize DAOs
         billDao = new BillDao(this);
         userDao = new UserDao(this);
-        
+
         // Load order details
         loadOrderDetails();
-        
+
         // Set up status spinner
         setupStatusSpinner();
-        
+
         // Set up update button
         updateStatusButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,9 +110,9 @@ public class OrderDetailActivity extends AppCompatActivity {
         billDao.open();
         order = billDao.getBillByOrderNumber(orderNumber);
         billDao.close();
-        
+
         if (order == null) {
-            Toast.makeText(this, "Error: Order not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_order_not_found), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -120,36 +121,36 @@ public class OrderDetailActivity extends AppCompatActivity {
         userDao.open();
         User customer = userDao.getUserById(order.getUserId());
         userDao.close();
-        
+
         // Format date
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
-        
+
         // Set order details
-        orderNumberTextView.setText("Order #" + order.getOrderNumber());
+        orderNumberTextView.setText(getString(R.string.order_number, order.getOrderNumber()));
         orderDateTextView.setText(dateFormat.format(order.getOrderDate()));
-        
+
         // Set customer details
         if (customer != null) {
-            customerNameTextView.setText(customer.getName());
-            customerEmailTextView.setText(customer.getEmail());
-            customerPhoneTextView.setText(customer.getPhoneNumber());
+            customerNameTextView.setText(getString(R.string.customer_info) + ": " + customer.getName());
+            customerEmailTextView.setText(getString(R.string.profile_email_label) + " " + customer.getEmail());
+            customerPhoneTextView.setText(getString(R.string.profile_phone_label) + " " + customer.getPhoneNumber());
         } else {
-            customerNameTextView.setText(order.getShippingName());
-            customerEmailTextView.setText("N/A");
-            customerPhoneTextView.setText(order.getShippingPhone());
+            customerNameTextView.setText(getString(R.string.customer_info) + ": " + order.getShippingName());
+            customerEmailTextView.setText(getString(R.string.profile_email_label) + " N/A");
+            customerPhoneTextView.setText(getString(R.string.profile_phone_label) + " " + order.getShippingPhone());
         }
-        
+
         // Set shipping information
-        shippingNameTextView.setText(order.getShippingName());
-        shippingPhoneTextView.setText(order.getShippingPhone());
-        shippingAddressTextView.setText(order.getShippingAddress());
-        shippingNoteTextView.setText(order.getShippingNote());
-        
+        shippingNameTextView.setText(getString(R.string.profile_name_label) + " " + order.getShippingName());
+        shippingPhoneTextView.setText(getString(R.string.profile_phone_label) + " " + order.getShippingPhone());
+        shippingAddressTextView.setText(getString(R.string.profile_address_label) + " " + order.getShippingAddress());
+        shippingNoteTextView.setText(getString(R.string.shipping_note_display) + " " + order.getShippingNote());
+
         // Set financial information
         subtotalTextView.setText(Utils.formatVND(order.getTotalAmount()));
-        shippingTextView.setText("Free");
+        shippingTextView.setText(getString(R.string.free));
         totalTextView.setText(Utils.formatVND(order.getTotalAmount()));
-        
+
         // Set up order items
         orderItemAdapter = new OrderItemAdapter(order.getBillItems());
         orderItemsRecyclerView.setAdapter(orderItemAdapter);
@@ -160,39 +161,22 @@ public class OrderDetailActivity extends AppCompatActivity {
                 R.array.order_status_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusSpinner.setAdapter(adapter);
-        
-        // Set current status
-        String currentStatus = order.getStatus();
-        if (currentStatus != null) {
-            int position = 0;
-            switch (currentStatus.toLowerCase()) {
-                case "pending":
-                    position = 0;
-                    break;
-                case "processing":
-                    position = 1;
-                    break;
-                case "shipping":
-                    position = 2;
-                    break;
-                case "delivered":
-                    position = 3;
-                    break;
-                case "cancelled":
-                    position = 4;
-                    break;
-            }
+
+        // Set current status using our constants utility
+        if (order != null && order.getStatus() != null) {
+            int position = OrderStatusConstants.getPositionForStatus(order.getStatus());
             statusSpinner.setSelection(position);
         }
     }
 
     private void updateOrderStatus() {
-        String newStatus = statusSpinner.getSelectedItem().toString().toLowerCase();
-        
+        int selectedPosition = statusSpinner.getSelectedItemPosition();
+        String newStatus = OrderStatusConstants.getStatusFromPosition(selectedPosition);
+
         billDao.open();
         boolean success = billDao.updateOrderStatus(order.getOrderNumber(), newStatus);
         billDao.close();
-        
+
         if (success) {
             Toast.makeText(this, getString(R.string.order_status_updated), Toast.LENGTH_SHORT).show();
             order.setStatus(newStatus);

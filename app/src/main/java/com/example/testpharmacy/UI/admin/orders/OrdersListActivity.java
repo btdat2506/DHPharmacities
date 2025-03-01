@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testpharmacy.Constants.OrderStatusConstants;
 import com.example.testpharmacy.Database.BillDao;
 import com.example.testpharmacy.Model.Bill;
 import com.example.testpharmacy.R;
@@ -35,7 +36,7 @@ public class OrdersListActivity extends AppCompatActivity {
     private EditText searchEditText;
     private Spinner sortSpinner;
     private Spinner statusFilterSpinner;
-    
+
     private BillDao billDao;
 
     @Override
@@ -55,13 +56,13 @@ public class OrdersListActivity extends AppCompatActivity {
 
         // Set up RecyclerView
         ordersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        
+
         // Initialize BillDao
         billDao = new BillDao(this);
-        
+
         // Load orders from database
         loadOrders();
-        
+
         // Set up adapter
         orderAdapter = new OrderAdapter(filteredOrderList, new OrderAdapter.OnOrderClickListener() {
             @Override
@@ -72,7 +73,7 @@ public class OrdersListActivity extends AppCompatActivity {
             }
         });
         ordersRecyclerView.setAdapter(orderAdapter);
-        
+
         // Set up search functionality
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -86,7 +87,7 @@ public class OrdersListActivity extends AppCompatActivity {
                 filterOrders(s.toString());
             }
         });
-        
+
         // Set up sorting and filtering functionality
         setupSortSpinner();
         setupStatusFilterSpinner();
@@ -96,7 +97,7 @@ public class OrdersListActivity extends AppCompatActivity {
         billDao.open();
         orderList = billDao.getAllBills();
         billDao.close();
-        
+
         // Initialize filtered list with all orders
         filteredOrderList = new ArrayList<>(orderList);
     }
@@ -104,36 +105,47 @@ public class OrdersListActivity extends AppCompatActivity {
     private void filterOrders(String query) {
         // First apply status filter
         String statusFilter = statusFilterSpinner.getSelectedItem().toString();
-        
+        String statusFilterValue = getStatusFilterValue(statusFilterSpinner.getSelectedItemPosition());
+
         List<Bill> statusFilteredList = new ArrayList<>();
-        
-        if (statusFilter.equals("All Statuses")) {
+
+        if (statusFilterSpinner.getSelectedItemPosition() == 0) {
+            // "All Statuses" option is selected
             statusFilteredList.addAll(orderList);
         } else {
             for (Bill order : orderList) {
-                if (order.getStatus().equalsIgnoreCase(statusFilter)) {
+                if (order.getStatus().equalsIgnoreCase(statusFilterValue)) {
                     statusFilteredList.add(order);
                 }
             }
         }
-        
+
         // Then apply search query
         filteredOrderList.clear();
-        
+
         if (query.isEmpty()) {
             filteredOrderList.addAll(statusFilteredList);
         } else {
             query = query.toLowerCase();
             for (Bill order : statusFilteredList) {
-                if (order.getOrderNumber().toLowerCase().contains(query) || 
-                    order.getShippingName().toLowerCase().contains(query) ||
-                    order.getShippingPhone().contains(query)) {
+                if (order.getOrderNumber().toLowerCase().contains(query) ||
+                        order.getShippingName().toLowerCase().contains(query) ||
+                        order.getShippingPhone().contains(query)) {
                     filteredOrderList.add(order);
                 }
             }
         }
-        
+
+        orderAdapter.setOrders(filteredOrderList);
         orderAdapter.notifyDataSetChanged();
+    }
+
+    private String getStatusFilterValue(int position) {
+        // Convert the spinner position (0 = All Statuses) to a status value
+        if (position == 0) return null; // All statuses
+
+        // Positions 1-5 correspond to positions 0-4 in the order_status_options array
+        return OrderStatusConstants.getStatusFromPosition(position - 1);
     }
 
     private void setupSortSpinner() {
@@ -141,7 +153,7 @@ public class OrdersListActivity extends AppCompatActivity {
                 R.array.order_sort_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortSpinner.setAdapter(adapter);
-        
+
         sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -158,7 +170,7 @@ public class OrdersListActivity extends AppCompatActivity {
                 R.array.order_status_filter_options, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusFilterSpinner.setAdapter(adapter);
-        
+
         statusFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -214,7 +226,7 @@ public class OrdersListActivity extends AppCompatActivity {
                 });
                 break;
         }
-        
+
         orderAdapter.notifyDataSetChanged();
     }
 
@@ -234,6 +246,5 @@ public class OrdersListActivity extends AppCompatActivity {
         loadOrders();
         orderAdapter.setOrders(filteredOrderList);
         orderAdapter.notifyDataSetChanged();
-        //filterOrders(searchEditText.getText().toString());
     }
 }

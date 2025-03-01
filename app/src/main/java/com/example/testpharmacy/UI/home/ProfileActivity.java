@@ -42,9 +42,8 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Show back button
-        getSupportActionBar().setTitle(R.string.profile_title); // Set title from string resource
+        getSupportActionBar().setTitle(getString(R.string.profile_title)); // Set title from string resource
 
-        profileImageView = findViewById(R.id.profile_image_view);
         nameEditText = findViewById(R.id.profile_name_edit_text);
         emailEditText = findViewById(R.id.profile_email_edit_text);
         phoneEditText = findViewById(R.id.profile_phone_edit_text);
@@ -74,7 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         } else {
             // Not logged in, show message and disable editing
-            Toast.makeText(this, R.string.login_required_message, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.login_required_message), Toast.LENGTH_LONG).show();
             finish();
         }
 
@@ -115,7 +114,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void saveProfileChanges() {
         if (!sessionManager.isLoggedIn()) {
-            Toast.makeText(this, R.string.please_login_to_save, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.please_login_to_save), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -138,9 +137,9 @@ public class ProfileActivity extends AppCompatActivity {
         userDao.close();
 
         if (success) {
-            Toast.makeText(this, R.string.profile_updated, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.profile_updated), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, R.string.profile_update_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.profile_update_failed), Toast.LENGTH_SHORT).show();
         }
     }
 

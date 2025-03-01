@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="?android:attr/colorBackground"
     tools:context=".UI.admin.StatisticsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -17,7 +18,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -35,7 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="Summary Statistics"
+                android:text="@string/summary_statistics"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -51,6 +53,7 @@
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="2dp">
 
@@ -66,6 +69,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="123"
+                            android:textColor="?android:attr/textColorPrimary"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -73,7 +77,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Total Orders"
+                            android:text="@string/total_orders"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -85,6 +90,7 @@
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="2dp">
 
@@ -100,6 +106,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1,234.56đ"
+                            android:textColor="?android:attr/textColorPrimary"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -107,7 +114,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Total Revenue"
+                            android:text="@string/total_revenue"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -119,6 +127,7 @@
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="2dp">
 
@@ -134,6 +143,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="123.45đ"
+                            android:textColor="?android:attr/textColorPrimary"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -141,7 +151,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Avg. Order Value"
+                            android:text="@string/avg_order_value"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -153,6 +164,7 @@
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    app:cardBackgroundColor="?attr/colorSurface"
                     app:cardCornerRadius="8dp"
                     app:cardElevation="2dp">
 
@@ -168,6 +180,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="45"
+                            android:textColor="?android:attr/textColorPrimary"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -175,7 +188,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Total Customers"
+                            android:text="@string/total_customers"
+                            android:textColor="?android:attr/textColorSecondary"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -188,29 +202,51 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
-                android:text="Sales by Category"
+                android:text="@string/sales_by_category"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/statistics_category_sales_chart"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/statistics_category_sales_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:padding="16dp" />
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
-                android:text="Daily Sales"
+                android:text="@string/daily_sales"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/statistics_monthly_sales_chart"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginBottom="16dp" />
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp">
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/statistics_monthly_sales_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="16dp"
+                    android:padding="16dp" />
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>

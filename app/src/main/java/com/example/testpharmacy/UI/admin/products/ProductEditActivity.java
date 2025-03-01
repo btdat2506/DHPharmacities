@@ -12,10 +12,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.testpharmacy.Constants.CategoryConstants;
 import com.example.testpharmacy.Database.MedicineDao;
 import com.example.testpharmacy.Model.Medicine;
 import com.example.testpharmacy.R;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductEditActivity extends AppCompatActivity {
 
@@ -29,7 +33,7 @@ public class ProductEditActivity extends AppCompatActivity {
     private TextInputEditText unitEditText;
     private Button saveButton;
     private Button deleteButton;
-    
+
     private MedicineDao medicineDao;
     private Medicine product;
     private boolean isNewProduct;
@@ -68,10 +72,10 @@ public class ProductEditActivity extends AppCompatActivity {
 
         // Initialize MedicineDao
         medicineDao = new MedicineDao(this);
-        
+
         // Set up category spinner
         setupCategorySpinner();
-        
+
         // Load product data if editing existing product
         if (!isNewProduct) {
             loadProductData();
@@ -79,7 +83,7 @@ public class ProductEditActivity extends AppCompatActivity {
             // Hide delete button for new products
             deleteButton.setVisibility(View.GONE);
         }
-        
+
         // Set up buttons
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +91,7 @@ public class ProductEditActivity extends AppCompatActivity {
                 saveProductData();
             }
         });
-        
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,9 +101,15 @@ public class ProductEditActivity extends AppCompatActivity {
     }
 
     private void setupCategorySpinner() {
-        // Populate spinner with predefined categories
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.product_categories, android.R.layout.simple_spinner_item);
+        // Get localized categories for the UI
+        List<String> localizedCategories = new ArrayList<>();
+        for (String dbCategory : CategoryConstants.getAllDatabaseCategories()) {
+            localizedCategories.add(CategoryConstants.getLocalizedCategory(this, dbCategory));
+        }
+
+        // Create adapter with localized categories
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, localizedCategories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
     }
@@ -108,21 +118,21 @@ public class ProductEditActivity extends AppCompatActivity {
         medicineDao.open();
         product = medicineDao.getMedicineById((int) productId);
         medicineDao.close();
-        
+
         if (product != null) {
             nameEditText.setText(product.getName());
             descriptionEditText.setText(product.getDescription());
-            
-            // Set category spinner position
-            String category = product.getCategory();
-            ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) categorySpinner.getAdapter();
+
+            // Set category spinner position by converting the database category to its localized version
+            String localizedCategory = CategoryConstants.getLocalizedCategory(this, product.getCategory());
+            ArrayAdapter<String> adapter = (ArrayAdapter<String>) categorySpinner.getAdapter();
             for (int i = 0; i < adapter.getCount(); i++) {
-                if (adapter.getItem(i).toString().equalsIgnoreCase(category)) {
+                if (adapter.getItem(i).equals(localizedCategory)) {
                     categorySpinner.setSelection(i);
                     break;
                 }
             }
-            
+
             priceEditText.setText(String.valueOf(product.getPrice()));
             imageUrlEditText.setText(product.getImageUrl());
             stockQuantityEditText.setText(String.valueOf(product.getStockQuantity()));
@@ -134,20 +144,20 @@ public class ProductEditActivity extends AppCompatActivity {
         // Validate input
         String name = nameEditText.getText().toString().trim();
         String description = descriptionEditText.getText().toString().trim();
-        String category = categorySpinner.getSelectedItem().toString();
+        String localizedCategory = categorySpinner.getSelectedItem().toString();
         String priceStr = priceEditText.getText().toString().trim();
         String imageUrl = imageUrlEditText.getText().toString().trim();
         String stockQuantityStr = stockQuantityEditText.getText().toString().trim();
         String unit = unitEditText.getText().toString().trim();
-        
+
         if (name.isEmpty() || priceStr.isEmpty() || stockQuantityStr.isEmpty() || unit.isEmpty()) {
             Toast.makeText(this, getString(R.string.product_fields_required), Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         double price;
         int stockQuantity;
-        
+
         try {
             price = Double.parseDouble(priceStr);
             stockQuantity = Integer.parseInt(stockQuantityStr);
@@ -155,41 +165,44 @@ public class ProductEditActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.product_price_invalid), Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         if (price <= 0) {
             Toast.makeText(this, getString(R.string.product_price_positive), Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
         if (stockQuantity < 0) {
             Toast.makeText(this, getString(R.string.product_stock_negative), Toast.LENGTH_SHORT).show();
             return;
         }
-        
+
+        // Convert localized category to database category
+        String databaseCategory = CategoryConstants.getDatabaseCategory(this, localizedCategory);
+
         // Create or update product
         if (isNewProduct) {
             product = new Medicine();
         }
-        
+
         product.setName(name);
         product.setDescription(description);
-        product.setCategory(category);
+        product.setCategory(databaseCategory);
         product.setPrice(price);
         product.setImageUrl(imageUrl);
         product.setStockQuantity(stockQuantity);
         product.setUnit(unit);
-        
+
         medicineDao.open();
         boolean success;
-        
+
         if (isNewProduct) {
             success = medicineDao.insert(product) != -1;
         } else {
             success = medicineDao.update(product);
         }
-        
+
         medicineDao.close();
-        
+
         if (success) {
             Toast.makeText(this,
                     isNewProduct ? getString(R.string.product_added) : getString(R.string.product_updated),
@@ -211,11 +224,11 @@ public class ProductEditActivity extends AppCompatActivity {
 
     private void deleteProduct() {
         if (product == null) return;
-        
+
         medicineDao.open();
         boolean success = medicineDao.delete(product);
         medicineDao.close();
-        
+
         if (success) {
             Toast.makeText(this, getString(R.string.product_deleted), Toast.LENGTH_SHORT).show();
             finish();

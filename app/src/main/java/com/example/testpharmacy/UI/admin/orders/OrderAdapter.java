@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testpharmacy.Constants.OrderStatusConstants;
 import com.example.testpharmacy.Model.Bill;
 import com.example.testpharmacy.R;
 import com.example.testpharmacy.Utils;
@@ -47,18 +48,20 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Bill order = orders.get(position);
-        
+
         holder.orderNumberTextView.setText(order.getOrderNumber());
         holder.customerNameTextView.setText(order.getShippingName());
         holder.orderDateTextView.setText(dateFormat.format(order.getOrderDate()));
         holder.orderTotalTextView.setText(Utils.formatVND(order.getTotalAmount()));
-//        holder.orderStatusTextView.setText(getFormattedStatus(order.getStatus()));
-        holder.orderStatusTextView.setText(order.getStatus());
-        
-        // Set status text color
-        int statusColor = getStatusColor(order.getStatus());
+
+        // Use the OrderStatusConstants to get the localized status
+        holder.orderStatusTextView.setText(OrderStatusConstants.getLocalizedStatus(
+                holder.itemView.getContext(), order.getStatus()));
+
+        // Set status text color using OrderStatusConstants
+        int statusColor = OrderStatusConstants.getStatusColor(order.getStatus());
         holder.orderStatusTextView.setTextColor(statusColor);
-        
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,44 +75,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public int getItemCount() {
         return orders.size();
-    }
-
-    private String getFormattedStatus(String status) {
-        if (status == null) return "Dog";
-        
-        switch (status.toLowerCase()) {
-            case "pending":
-                return "Pending";
-            case "processing":
-                return "Processing";
-            case "shipping":
-                return "Shipping";
-            case "delivered":
-                return "Delivered";
-            case "cancelled":
-                return "Cancelled";
-            default:
-                return "Pending";
-        }
-    }
-
-    private int getStatusColor(String status) {
-        if (status == null) return 0xFF808080; // Gray for unknown
-        
-        switch (status.toLowerCase()) {
-            case "pending":
-                return 0xFF808080; // Gray
-            case "processing":
-                return 0xFF2196F3; // Blue
-            case "shipping":
-                return 0xFFFF9800; // Orange
-            case "delivered":
-                return 0xFF4CAF50; // Green
-            case "cancelled":
-                return 0xFFF44336; // Red
-            default:
-                return 0xFF808080; // Gray
-        }
     }
 
     static class OrderViewHolder extends RecyclerView.ViewHolder {

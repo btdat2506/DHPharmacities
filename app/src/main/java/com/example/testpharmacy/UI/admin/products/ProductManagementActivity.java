@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.testpharmacy.Constants.CategoryConstants;
 import com.example.testpharmacy.Database.MedicineDao;
 import com.example.testpharmacy.Model.Medicine;
 import com.example.testpharmacy.R;
@@ -117,14 +118,20 @@ public class ProductManagementActivity extends AppCompatActivity {
     private void filterProducts(String query) {
         // First apply category filter
         String categoryFilter = categoryFilterSpinner.getSelectedItem().toString();
+        String databaseCategory = null;
+
+        if (!categoryFilter.equals(getString(R.string.all_categories))) {
+            // Convert UI category to database category
+            databaseCategory = CategoryConstants.getDatabaseCategory(this, categoryFilter);
+        }
 
         List<Medicine> categoryFilteredList = new ArrayList<>();
 
-        if (categoryFilter.equals("All Categories")) {
+        if (databaseCategory == null) {
             categoryFilteredList.addAll(productList);
         } else {
             for (Medicine product : productList) {
-                if (product.getCategory().equalsIgnoreCase(categoryFilter)) {
+                if (product.getCategory().equalsIgnoreCase(databaseCategory)) {
                     categoryFilteredList.add(product);
                 }
             }
@@ -139,12 +146,13 @@ public class ProductManagementActivity extends AppCompatActivity {
             query = query.toLowerCase();
             for (Medicine product : categoryFilteredList) {
                 if (product.getName().toLowerCase().contains(query) ||
-                    product.getDescription().toLowerCase().contains(query)) {
+                        product.getDescription().toLowerCase().contains(query)) {
                     filteredProductList.add(product);
                 }
             }
         }
 
+        productAdapter.getProducts(filteredProductList);
         productAdapter.notifyDataSetChanged();
     }
 
@@ -166,16 +174,20 @@ public class ProductManagementActivity extends AppCompatActivity {
     }
 
     private void setupCategoryFilterSpinner() {
-        // Get unique categories from products
+        // Create a list of categories for the spinner, starting with "All Categories"
         List<String> categories = new ArrayList<>();
-        categories.add("All Categories");
+        categories.add(getString(R.string.all_categories));
 
-        for (Medicine product : productList) {
-            if (!categories.contains(product.getCategory())) {
-                categories.add(product.getCategory());
-            }
+        // Get database categories
+        String[] databaseCategories = CategoryConstants.getAllDatabaseCategories();
+
+        // Convert database categories to localized categories and add to spinner
+        for (String dbCategory : databaseCategories) {
+            String localizedCategory = CategoryConstants.getLocalizedCategory(this, dbCategory);
+            categories.add(localizedCategory);
         }
 
+        // Create custom adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, categories);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -266,4 +278,3 @@ public class ProductManagementActivity extends AppCompatActivity {
         productAdapter.notifyDataSetChanged();
     }
 }
-

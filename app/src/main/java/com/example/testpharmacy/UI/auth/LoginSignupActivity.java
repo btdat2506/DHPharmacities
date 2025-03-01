@@ -31,9 +31,9 @@ public class LoginSignupActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {
                     if (position == 0) {
-                        tab.setText(R.string.login_tab_text); // "Login"
+                        tab.setText(getString(R.string.login_tab_text)); // "Login"
                     } else {
-                        tab.setText(R.string.signup_tab_text); // "Sign Up"
+                        tab.setText(getString(R.string.signup_tab_text)); // "Sign Up"
                     }
                 }).attach();
     }

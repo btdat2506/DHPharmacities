@@ -128,7 +128,7 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!sessionManager.isLoggedIn()) {
-                    Toast.makeText(CartActivity.this, R.string.please_login_to_checkout, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CartActivity.this, getString(R.string.please_login_to_checkout), Toast.LENGTH_SHORT).show();
                     Intent loginIntent = new Intent(CartActivity.this, LoginSignupActivity.class);
                     startActivity(loginIntent);
                     return;
@@ -161,8 +161,6 @@ public class CartActivity extends AppCompatActivity {
         }
     }
 
-
-
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed(); // Go back when back button in toolbar is pressed
@@ -177,7 +175,7 @@ public class CartActivity extends AppCompatActivity {
         double total = subtotal + shippingCost;
 
         subtotalTextView.setText(Utils.formatVND(subtotal));
-        shippingTextView.setText(R.string.free); // "Free" from strings.xml
+        shippingTextView.setText(getString(R.string.free)); // "Free" from strings.xml
         totalTextView.setText(Utils.formatVND(total));
     }
 
@@ -187,14 +185,13 @@ public class CartActivity extends AppCompatActivity {
         isShippingInfoExpanded = !isShippingInfoExpanded; // Toggle boolean state
         shippingInfoLayout.setVisibility(isShippingInfoExpanded ? View.VISIBLE : View.GONE); // Show/Hide Edit layout
         shippingInfoPreviewLayout.setVisibility(isShippingInfoExpanded ? View.GONE : View.VISIBLE); // Show/Hide Preview layout
-        shippingInfoMoreButton.setText(isShippingInfoExpanded ? R.string.done_editing_shipping_info : R.string.edit_shipping_info); // Change button text
+        shippingInfoMoreButton.setText(isShippingInfoExpanded ? getString(R.string.done_editing_shipping_info) : getString(R.string.edit_shipping_info)); // Change button text
 
         if (isShippingInfoExpanded) {
-            // When expanding to edit, populate EditTexts with preview values (or saved values)
-            shippingNameEditText.setText(shippingNamePreviewTextView.getText().toString().substring(6)); // Remove "Name: " prefix
-            shippingPhoneEditText.setText(shippingPhonePreviewTextView.getText().toString().substring(7)); // Remove "Phone: " prefix
-            shippingAddressEditText.setText(shippingAddressPreviewTextView.getText().toString().substring(9)); // Remove "Address: " prefix
-            shippingNoteEditText.setText(shippingNotePreviewTextView.getText().toString().substring(6)); // Remove "Note: " prefix
+            shippingNameEditText.setText(savedShippingName);
+            shippingPhoneEditText.setText(savedShippingPhone);
+            shippingAddressEditText.setText(savedShippingAddress);
+            shippingNoteEditText.setText(savedShippingNote);
 
             // When collapsing after editing, hide checkout button
             checkoutButton.setVisibility(View.INVISIBLE);
@@ -214,15 +211,15 @@ public class CartActivity extends AppCompatActivity {
         savedShippingPhone = shippingPhoneEditText.getText().toString();
         savedShippingAddress = shippingAddressEditText.getText().toString();
         savedShippingNote = shippingNoteEditText.getText().toString();
-        Toast.makeText(this, R.string.shipping_info_saved, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.shipping_info_saved), Toast.LENGTH_SHORT).show();
     }
 
     private void updateShippingInfoPreview() {
         // Update preview TextViews with saved shipping information
-        shippingNamePreviewTextView.setText(R.string.profile_name_label + savedShippingName);
-        shippingPhonePreviewTextView.setText(R.string.profile_phone_label + savedShippingPhone);
-        shippingAddressPreviewTextView.setText(R.string.profile_address_label + savedShippingAddress);
-        shippingNotePreviewTextView.setText(R.string.shipping_note_display + savedShippingNote);
+        shippingNamePreviewTextView.setText(getString(R.string.profile_name_label) + savedShippingName);
+        shippingPhonePreviewTextView.setText(getString(R.string.profile_phone_label) + savedShippingPhone);
+        shippingAddressPreviewTextView.setText(getString(R.string.profile_address_label) + savedShippingAddress);
+        shippingNotePreviewTextView.setText(getString(R.string.shipping_note_display) + savedShippingNote);
 
         // Conditionally show/hide preview layout based on whether any shipping info is entered
         boolean hasShippingInfo = !savedShippingName.isEmpty() || !savedShippingPhone.isEmpty() || !savedShippingAddress.isEmpty() || !savedShippingNote.isEmpty();

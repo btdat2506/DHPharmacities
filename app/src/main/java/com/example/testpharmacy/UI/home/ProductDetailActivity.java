@@ -75,7 +75,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (medicine != null) {
             populateUI(medicine);
         } else {
-            Toast.makeText(this, R.string.error_medicine_not_found, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_medicine_not_found), Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -85,7 +85,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if (medicine != null) {
                     // TODO: Implement Add to Cart functionality
                     CartManager.getInstance().addToCart(medicine, currentQuantity);
-                    Toast.makeText(ProductDetailActivity.this,  R.string.added_to_cart_message + medicine.getName(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProductDetailActivity.this,  getString(R.string.added_to_cart_message) + medicine.getName(), Toast.LENGTH_SHORT).show();
 
                     // TODO: Update the number of carts
                     // You'll need to manage the cart data (e.g., using a CartManager class or similar)

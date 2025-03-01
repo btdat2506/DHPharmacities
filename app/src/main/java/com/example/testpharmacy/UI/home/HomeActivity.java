@@ -1,4 +1,4 @@
-package com.example.testpharmacy.UI.home; // Replace with your actual package name
+package com.example.testpharmacy.UI.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.testpharmacy.Constants.CategoryConstants;
 import com.example.testpharmacy.UI.admin.AdminDashboardActivity;
 import com.example.testpharmacy.UI.cart.CartActivity;
 import com.example.testpharmacy.UI.cart.CartManager;
@@ -40,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
     // At the class level:
     private UserSessionManager sessionManager;
 
-    // Placeholder for medicine categories
+    // Placeholder for medicine categories - we'll populate this from string resources now
     private List<String> categoryNames = new ArrayList<>();
 
     // --- Simulate User Login Status ---
@@ -72,14 +73,8 @@ public class HomeActivity extends AppCompatActivity {
         cartIconContainer = findViewById(R.id.cart_icon_container);
         profileIconContainer = findViewById(R.id.profile_icon_container);
 
-        // Initialize category names (replace with actual categories)
-        categoryNames.add(getString(R.string.category_all_items)); // Add "All Items" as the first category
-        categoryNames.add(getString(R.string.category_pain_relievers));
-        categoryNames.add(getString(R.string.category_antibiotics));
-        categoryNames.add(getString(R.string.category_vitamins));
-        categoryNames.add(getString(R.string.category_cold_flu));
-        categoryNames.add(getString(R.string.category_first_aid));
-        // ... add more categories
+        // Initialize category names from string resources
+        initializeCategoryNames();
 
         // Set up ViewPager with Category Fragments
         CategoryPagerAdapter pagerAdapter = new CategoryPagerAdapter(this);
@@ -121,6 +116,22 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         updateCartBadgeCount(CartManager.getInstance().getCartItems().size());
+    }
+
+    /**
+     * Initialize category names from string resources
+     * This ensures we're using localized category names in the UI
+     */
+    private void initializeCategoryNames() {
+        // Add "All Items" as the first category
+        categoryNames.add(getString(R.string.category_all_items));
+
+        // Add other categories
+        categoryNames.add(getString(R.string.category_pain_relievers));
+        categoryNames.add(getString(R.string.category_antibiotics));
+        categoryNames.add(getString(R.string.category_vitamins));
+        categoryNames.add(getString(R.string.category_cold_flu));
+        categoryNames.add(getString(R.string.category_first_aid));
     }
 
     @Override
@@ -189,15 +200,19 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void performSearch(String query) {
-        // Get the current ViewPager fragment
-        int currentPosition = viewPager.getCurrentItem();
+        // Get the current fragment from ViewPager2
         Fragment currentFragment = getSupportFragmentManager()
-                .findFragmentByTag("f" + currentPosition);
+                .findFragmentByTag("f" + viewPager.getCurrentItem());
 
+        // If the current fragment can't be found this way, try to find it by tag
+        if (currentFragment == null) {
+            currentFragment = getSupportFragmentManager()
+                    .findFragmentByTag("f" + viewPager.getCurrentItem());
+        }
+
+        // If we found the fragment and it's a GenericCategoryFragment, filter the medicines
         if (currentFragment instanceof GenericCategoryFragment) {
             GenericCategoryFragment categoryFragment = (GenericCategoryFragment) currentFragment;
-
-            // Call a new method in GenericCategoryFragment to filter medicines
             categoryFragment.filterMedicines(query);
         }
     }

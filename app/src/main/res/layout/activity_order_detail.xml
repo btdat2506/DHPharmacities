@@ -49,7 +49,7 @@
                         android:id="@+id/order_detail_number_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Order #HD-12345"
+                        android:text="@string/order_number"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -80,7 +80,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Customer Information"
+                        android:text="@string/customer_info"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -89,21 +89,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Name: John Doe" />
+                        android:text="@string/profile_name_label" />
 
                     <TextView
                         android:id="@+id/order_detail_customer_email_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Email: john.doe@example.com" />
+                        android:text="@string/profile_email_label" />
 
                     <TextView
                         android:id="@+id/order_detail_customer_phone_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Phone: +1 234-567-8900" />
+                        android:text="@string/profile_phone_label" />
 
                 </LinearLayout>
 
@@ -125,7 +125,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Shipping Information"
+                        android:text="@string/shipping_information"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -155,7 +155,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="Note: " />
+                        android:text="@string/shipping_note_display" />
 
                 </LinearLayout>
 
@@ -178,7 +178,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
-                        android:text="Order Items"
+                        android:text="@string/order_items"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -207,7 +207,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Subtotal:" />
+                            android:text="@string/subtotal" />
 
                         <TextView
                             android:id="@+id/order_detail_subtotal_text_view"
@@ -227,13 +227,13 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Shipping:" />
+                            android:text="@string/shipping" />
 
                         <TextView
                             android:id="@+id/order_detail_shipping_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Free" />
+                            android:text="@string/free" />
 
                     </LinearLayout>
 
@@ -247,7 +247,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Total:"
+                            android:text="@string/total"
                             android:textStyle="bold" />
 
                         <TextView
@@ -279,7 +279,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Order Status"
+                        android:text="@string/order_status"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -301,6 +301,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Update Status" />
+        android:text="@string/update_status" />
 
 </LinearLayout>

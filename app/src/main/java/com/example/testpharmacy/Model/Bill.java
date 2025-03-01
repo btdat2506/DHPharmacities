@@ -1,5 +1,7 @@
 package com.example.testpharmacy.Model;
 
+import com.example.testpharmacy.Constants.OrderStatusConstants;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,12 +17,8 @@ public class Bill {
     private double totalAmount;
     private List<BillItem> billItems;
 
-    // Add this to Bill.java in the Model package
-    public static final String STATUS_PENDING = "pending";
-    public static final String STATUS_PROCESSING = "processing";
-    public static final String STATUS_SHIPPING = "shipping";
-    public static final String STATUS_DELIVERED = "delivered";
-    public static final String STATUS_CANCELLED = "cancelled";
+    // Use the constant from OrderStatusConstants for default status
+    private String status = OrderStatusConstants.STATUS_PENDING;
 
     public Bill() {
         billItems = new ArrayList<>();
@@ -118,10 +116,8 @@ public class Bill {
         this.totalAmount = total;
     }
 
-    private String status = STATUS_PENDING; // Default status
-
     public String getStatus() {
-        return status != null ? status : STATUS_PENDING;
+        return status != null ? status : OrderStatusConstants.STATUS_PENDING;
     }
 
     public void setStatus(String status) {

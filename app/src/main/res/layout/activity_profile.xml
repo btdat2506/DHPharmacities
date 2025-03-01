@@ -32,96 +32,95 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <ImageView
-                android:id="@+id/profile_image_view"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="24dp"
-                android:contentDescription="@string/profile_image"
-                android:src="@drawable/ic_placeholder_profile" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:text="@string/profile_name_label"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/profile_name_hint">
+                android:hint="@string/profile_name_hint"
+                android:paddingTop="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:text="User Name (Placeholder)"/>
+                    android:text="User Name (Placeholder)" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/profile_email_label"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"/>
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/profile_email_hint">
+                android:hint="@string/profile_email_hint"
+                android:paddingTop="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_email_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:text="user@example.com (Placeholder)"/>
+                    android:text="user@example.com (Placeholder)" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/profile_phone_label"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"/>
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/profile_phone_hint">
+                android:hint="@string/profile_phone_hint"
+                android:paddingTop="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_phone_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="phone"
-                    android:text="+1 123-456-7890 (Placeholder)"/>
+                    android:text="+1 123-456-7890 (Placeholder)" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/profile_address_label"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"/>
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/profile_address_hint">
+                android:hint="@string/profile_address_hint"
+                android:paddingTop="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_address_edit_text"
@@ -130,23 +129,25 @@
                     android:inputType="textPostalAddress"
                     android:lines="2"
                     android:maxLines="3"
-                    android:text="123 Main Street, City, State, ZIP (Placeholder)"/>
+                    android:text="123 Main Street, City, State, ZIP (Placeholder)" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/profile_medical_notice_label"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"/>
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/profile_medical_notice_hint">
+                android:hint="@string/profile_medical_notice_hint"
+                android:paddingTop="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_medical_notice_edit_text"
@@ -155,23 +156,25 @@
                     android:inputType="textMultiLine"
                     android:lines="2"
                     android:maxLines="4"
-                    android:text="No known allergies or medical conditions (Placeholder)"/>
+                    android:text="No known allergies or medical conditions (Placeholder)" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="@string/profile_emergency_contact_label"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"/>
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/profile_emergency_contact_hint">
+                android:hint="@string/profile_emergency_contact_hint"
+                android:paddingTop="5dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/profile_emergency_contact_edit_text"
@@ -180,20 +183,19 @@
                     android:inputType="textMultiLine"
                     android:lines="2"
                     android:maxLines="3"
-                    android:text="Emergency Contact Name, +1 987-654-3210 (Placeholder)"/>
+                    android:text="Emergency Contact Name, +1 987-654-3210 (Placeholder)" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/profile_save_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/profile_save_button_text" />
 
             <!-- Add more profile information fields here as needed -->
 
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:id="@+id/profile_save_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:text="@string/profile_save_button_text" />
 
 </LinearLayout>

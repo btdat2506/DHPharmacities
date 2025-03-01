@@ -16,7 +16,7 @@
             android:id="@+id/admin_product_image_view"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:contentDescription="Product Image"
+            android:contentDescription="@string/product_image"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_placeholder_medicine" />
 
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="Product Name"
+                android:text="@string/product_name_hint"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Stock: 100"
+                android:text="@string/stock_label"
                 android:textSize="12sp" />
 
         </LinearLayout>

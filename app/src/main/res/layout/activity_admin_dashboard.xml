@@ -28,7 +28,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Hello, Admin"
+        android:text="@string/hello_admin"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -39,7 +39,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Welcome to the Admin Portal"
+        android:text="@string/admin_welcome"
         android:textSize="16sp" />
 
     <GridLayout
@@ -73,13 +73,14 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_placeholder_profile"
+                    android:contentDescription="@string/customers"
                     app:tint="@color/light_primary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Customers"
+                    android:text="@string/customers"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -110,13 +111,14 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_shopping_cart"
+                    android:contentDescription="@string/orders"
                     app:tint="@color/light_primary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Orders"
+                    android:text="@string/orders"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -147,13 +149,14 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_placeholder_medicine"
+                    android:contentDescription="@string/products"
                     app:tint="@color/light_primary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Products"
+                    android:text="@string/products"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -184,13 +187,14 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@android:drawable/ic_menu_report_image"
+                    android:contentDescription="@string/statistics"
                     app:tint="@color/light_primary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Statistics"
+                    android:text="@string/statistics"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 

@@ -133,7 +133,7 @@ public class CheckoutActivity extends AppCompatActivity {
         double total = subtotal + shippingCost;
 
         subtotalTextView.setText(Utils.formatVND(subtotal));
-        shippingTextView.setText(R.string.free);
+        shippingTextView.setText(getString(R.string.free));
         totalTextView.setText(Utils.formatVND(total));
     }
 

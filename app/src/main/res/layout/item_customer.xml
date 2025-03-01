@@ -17,7 +17,7 @@
             android:id="@+id/customer_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Customer Name"
+            android:text="@string/profile_name_hint"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="customer@email.com"
+            android:text="@string/profile_email_hint"
             android:textSize="14sp" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="+1 234-567-8900"
+            android:text="@string/profile_phone_hint"
             android:textSize="14sp" />
 
     </LinearLayout>
