@@ -79,7 +79,7 @@ public class SignupFragment extends Fragment {
             Boolean checkUserMail = userDao.checkUserMail(emailPhone);
 
             if(checkUserMail) {
-                errorTextView.setText("Tài khoản đã có người sử dụng");
+                errorTextView.setText(getString(R.string.signup_error_account_exists));
                 errorTextView.setVisibility(View.VISIBLE);
             } else {
                 if (password.equals(confirmPassword)) {
@@ -90,9 +90,9 @@ public class SignupFragment extends Fragment {
                     long userId = userDao.createUser(newUser);
 
                     if(userId != -1) {
-                        Toast.makeText(getContext(), "Signup Successful!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.signup_success), Toast.LENGTH_SHORT).show();
                     } else {
-                        errorTextView.setText("Signup failed. Please try again.");
+                        errorTextView.setText(getString(R.string.signup_failed));
                         errorTextView.setVisibility(View.VISIBLE);
                     }
 
@@ -101,12 +101,12 @@ public class SignupFragment extends Fragment {
                     startActivity(intent);
                     getActivity().finish(); // Optional: Close LoginSignupActivity after signup
                 } else {
-                    errorTextView.setText("Passwords do not match.");
+                    errorTextView.setText(getString(R.string.signup_error_password_mismatch));
                     errorTextView.setVisibility(View.VISIBLE);
                 }
             }
         } else {
-            errorTextView.setText("Please fill in all fields.");
+            errorTextView.setText(getString(R.string.signup_error_fill_fields));
             errorTextView.setVisibility(View.VISIBLE);
         }
     }

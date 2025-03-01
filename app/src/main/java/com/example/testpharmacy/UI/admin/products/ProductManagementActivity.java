@@ -48,7 +48,7 @@ public class ProductManagementActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.products_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Product Management");
+        getSupportActionBar().setTitle(getString(R.string.product_management));
 
         productsRecyclerView = findViewById(R.id.products_recycler_view);
         searchEditText = findViewById(R.id.products_search_edit_text);

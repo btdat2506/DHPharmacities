@@ -49,7 +49,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         holder.nameTextView.setText(product.getName());
         holder.priceTextView.setText(Utils.formatVND(product.getPrice()));
-        holder.stockTextView.setText("Stock: " + product.getStockQuantity());
+        holder.stockTextView.setText(holder.itemView.getContext().getString(R.string.stock_label) + product.getStockQuantity());
 
         // Load image using Glide
         if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {

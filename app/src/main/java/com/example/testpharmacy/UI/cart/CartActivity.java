@@ -128,7 +128,7 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!sessionManager.isLoggedIn()) {
-                    Toast.makeText(CartActivity.this, "Please login to checkout", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CartActivity.this, R.string.please_login_to_checkout, Toast.LENGTH_SHORT).show();
                     Intent loginIntent = new Intent(CartActivity.this, LoginSignupActivity.class);
                     startActivity(loginIntent);
                     return;
@@ -214,15 +214,15 @@ public class CartActivity extends AppCompatActivity {
         savedShippingPhone = shippingPhoneEditText.getText().toString();
         savedShippingAddress = shippingAddressEditText.getText().toString();
         savedShippingNote = shippingNoteEditText.getText().toString();
-        Toast.makeText(this, "Shipping info saved (simulated)", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, R.string.shipping_info_saved, Toast.LENGTH_SHORT).show();
     }
 
     private void updateShippingInfoPreview() {
         // Update preview TextViews with saved shipping information
-        shippingNamePreviewTextView.setText("Name: " + savedShippingName);
-        shippingPhonePreviewTextView.setText("Phone: " + savedShippingPhone);
-        shippingAddressPreviewTextView.setText("Address: " + savedShippingAddress);
-        shippingNotePreviewTextView.setText("Note: " + savedShippingNote);
+        shippingNamePreviewTextView.setText(R.string.profile_name_label + savedShippingName);
+        shippingPhonePreviewTextView.setText(R.string.profile_phone_label + savedShippingPhone);
+        shippingAddressPreviewTextView.setText(R.string.profile_address_label + savedShippingAddress);
+        shippingNotePreviewTextView.setText(R.string.shipping_note_display + savedShippingNote);
 
         // Conditionally show/hide preview layout based on whether any shipping info is entered
         boolean hasShippingInfo = !savedShippingName.isEmpty() || !savedShippingPhone.isEmpty() || !savedShippingAddress.isEmpty() || !savedShippingNote.isEmpty();

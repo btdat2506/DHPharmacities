@@ -118,12 +118,12 @@ public class LoginFragment extends Fragment {
                 startActivity(intent);
                 getActivity().finish();
             } else {
-                errorTextView.setText("The email or password is incorrect.");
+                errorTextView.setText(getString(R.string.login_error_incorrect));
                 errorTextView.setVisibility(View.VISIBLE);
             }
             userDao.close();
         } else {
-            errorTextView.setText("Please enter email/phone and password.");
+            errorTextView.setText(getString(R.string.login_error_fill_fields));
             errorTextView.setVisibility(View.VISIBLE);
         }
     }

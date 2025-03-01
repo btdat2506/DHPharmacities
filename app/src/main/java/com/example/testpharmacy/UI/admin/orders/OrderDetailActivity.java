@@ -57,7 +57,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         // Get order number from intent
         orderNumber = getIntent().getStringExtra("order_number");
         if (orderNumber == null) {
-            Toast.makeText(this, "Error: Order not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_order_not_found), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -65,7 +65,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.order_detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Order Details");
+        getSupportActionBar().setTitle(getString(R.string.order_details));
 
         orderNumberTextView = findViewById(R.id.order_detail_number_text_view);
         orderDateTextView = findViewById(R.id.order_detail_date_text_view);
@@ -194,10 +194,10 @@ public class OrderDetailActivity extends AppCompatActivity {
         billDao.close();
         
         if (success) {
-            Toast.makeText(this, "Order status updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.order_status_updated), Toast.LENGTH_SHORT).show();
             order.setStatus(newStatus);
         } else {
-            Toast.makeText(this, "Failed to update order status", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.order_status_update_failed), Toast.LENGTH_SHORT).show();
         }
     }
 

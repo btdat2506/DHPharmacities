@@ -168,7 +168,7 @@ public class HomeActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         // Configure search functionality
-        searchView.setQueryHint("Search medicines...");
+        searchView.setQueryHint(getString(R.string.search_medicine_hint));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

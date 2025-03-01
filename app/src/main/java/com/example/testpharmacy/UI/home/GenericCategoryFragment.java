@@ -119,7 +119,6 @@ public class GenericCategoryFragment extends Fragment {
         // Update adapter with filtered list
         MedicineAdapter filteredAdapter = new MedicineAdapter(getContext(), filteredList);
         medicineRecyclerView.setAdapter(filteredAdapter);
-        //updateNoResultsView();
         if (noResultsTextView != null) {
             if (filteredList.isEmpty()) {
                 noResultsTextView.setVisibility(View.VISIBLE);
@@ -162,7 +161,7 @@ public class GenericCategoryFragment extends Fragment {
             allMedicine = medicineDao.getAllMedicines();
         } catch (Exception e) {
             // Handle database error gracefully
-            Log.e(TAG, getString(R.string.database_error_message) + e.getMessage());
+            Log.e(TAG, String.format(getString(R.string.database_error_message), e.getMessage()));
         }
         return allMedicine;
     }

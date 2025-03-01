@@ -46,7 +46,7 @@ public class OrdersListActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.orders_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Orders");
+        getSupportActionBar().setTitle(getString(R.string.orders));
 
         ordersRecyclerView = findViewById(R.id.orders_recycler_view);
         searchEditText = findViewById(R.id.orders_search_edit_text);

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App name and general strings -->
+    <string name="app_name">HDPharmacities</string>
+    <string name="app_logo">Logo HDPharmacities</string>
+
+    <!-- Authentication strings -->
+    <string name="login_signup_title">Đăng nhập hoặc Đăng ký</string>
+    <string name="login_tab_text">Đăng nhập</string>
+    <string name="signup_tab_text">Đăng ký</string>
+    <string name="email_phone_hint">Email hoặc Số điện thoại</string>
+    <string name="password_hint">Mật khẩu</string>
+    <string name="confirm_password_hint">Xác nhận mật khẩu</string>
+    <string name="forgot_password_text">Quên mật khẩu?</string>
+    <string name="login_button_text">Đăng nhập</string>
+    <string name="signup_button_text">Đăng ký</string>
+    <string name="login_error_incorrect">Email hoặc mật khẩu không chính xác.</string>
+    <string name="login_error_fill_fields">Vui lòng nhập email/số điện thoại và mật khẩu.</string>
+    <string name="signup_error_account_exists">Tài khoản này đã được sử dụng</string>
+    <string name="signup_error_password_mismatch">Mật khẩu không khớp.</string>
+    <string name="signup_error_fill_fields">Vui lòng điền vào tất cả các trường.</string>
+    <string name="signup_success">Đăng ký thành công!</string>
+    <string name="signup_failed">Đăng ký thất bại. Vui lòng thử lại.</string>
+    <string name="login_required">Bạn phải đăng nhập để tiếp tục</string>
+    <string name="login_required_message">Bạn phải đăng nhập để xem hồ sơ</string>
+
+    <!-- Home screen strings -->
+    <string name="profile_icon">Hồ sơ</string>
+    <string name="cart_icon">Giỏ hàng</string>
+    <string name="search_hint">Tìm kiếm thuốc...</string>
+    <string name="search_medicine_hint">Tìm kiếm thuốc...</string>
+    <string name="search_title">Tìm kiếm</string>
+    <string name="database_error_message">Lỗi cơ sở dữ liệu: %s</string>
+
+    <!-- Category Names -->
+    <string name="category_all_items">Tất cả sản phẩm</string>
+    <string name="category_pain_relievers">Thuốc giảm đau</string>
+    <string name="category_antibiotics">Kháng sinh</string>
+    <string name="category_vitamins">Vitamin</string>
+    <string name="category_cold_flu">Cảm và cúm</string>
+    <string name="category_first_aid">Sơ cứu</string>
+    <string name="no_medicines_found">Không tìm thấy thuốc</string>
+
+    <!-- Cart and checkout strings -->
+    <string name="cart_title">Giỏ hàng của tôi</string>
+    <string name="subtotal">Tổng phụ:</string>
+    <string name="shipping">Vận chuyển:</string>
+    <string name="free">Miễn phí</string>
+    <string name="total">Tổng cộng:</string>
+    <string name="checkout">Thanh toán</string>
+    <string name="medicine_image">Hình ảnh thuốc</string>
+    <string name="add_to_cart">Thêm vào giỏ</string>
+    <string name="remove">Xóa</string>
+    <string name="add_to_cart_success">Đã thêm %1$s vào giỏ hàng!</string>
+    <string name="please_login_to_checkout">Vui lòng đăng nhập để thanh toán</string>
+    <string name="shipping_info_saved">Đã lưu thông tin vận chuyển</string>
+
+    <!-- Checkout screen strings -->
+    <string name="checkout_title">Thanh toán</string>
+    <string name="order_summary">Tóm tắt đơn hàng</string>
+    <string name="order_confirmation_message">Cảm ơn bạn đã đặt hàng!</string>
+    <string name="finish">Hoàn thành</string>
+    <string name="order_number">Mã đơn hàng: %s</string>
+
+    <!-- Product detail strings -->
+    <string name="product_detail_title">Chi tiết thuốc</string>
+    <string name="description_label">Mô tả:</string>
+    <string name="dosage_label">Liều lượng:</string>
+    <string name="side_effects_label">Tác dụng phụ:</string>
+    <string name="precautions_label">Thận trọng:</string>
+    <string name="quantity_label">Số lượng:</string>
+    <string name="total_price_label">Tổng:</string>
+    <string name="default_dosage">Liều lượng: Theo chỉ định của bác sĩ.</string>
+    <string name="default_side_effects">Tác dụng phụ: Có thể gây buồn ngủ.</string>
+    <string name="default_precautions">Thận trọng: Tham khảo ý kiến bác sĩ trước khi sử dụng nếu đang mang thai.</string>
+    <string name="error_medicine_not_found">Lỗi: Không tìm thấy chi tiết thuốc</string>
+    <string name="added_to_cart_message">Đã thêm vào giỏ hàng: </string>
+    <string name="stock_label">Tồn kho: </string>
+
+    <!-- Profile screen strings -->
+    <string name="profile_title">Hồ sơ</string>
+    <string name="profile_name_hint">Tên của bạn</string>
+    <string name="profile_email_hint">Email của bạn</string>
+    <string name="profile_phone_hint">Số điện thoại của bạn</string>
+    <string name="profile_address_hint">Địa chỉ của bạn</string>
+    <string name="profile_medical_notice_hint">Tình trạng y tế/Dị ứng</string>
+    <string name="profile_emergency_contact_hint">Tên và số điện thoại liên hệ khẩn cấp</string>
+    <string name="profile_save_button_text">Lưu thay đổi</string>
+    <string name="profile_image">Hình ảnh hồ sơ người dùng</string>
+    <string name="profile_name_label">Tên:</string>
+    <string name="profile_email_label">Email:</string>
+    <string name="profile_phone_label">Điện thoại:</string>
+    <string name="profile_address_label">Địa chỉ:</string>
+    <string name="profile_medical_notice_label">Tình trạng y tế/Dị ứng:</string>
+    <string name="profile_emergency_contact_label">Liên hệ khẩn cấp:</string>
+    <string name="profile_updated">Cập nhật hồ sơ thành công</string>
+    <string name="profile_update_failed">Cập nhật hồ sơ thất bại</string>
+    <string name="please_login_to_save">Vui lòng đăng nhập để lưu thay đổi</string>
+    <string name="changes_saved_successfully">Đã lưu thay đổi thành công</string>
+    <string name="error_saving_changes">Lỗi khi lưu thay đổi</string>
+    <string name="network_error">Lỗi mạng. Vui lòng thử lại</string>
+
+    <!-- Shipping information strings -->
+    <string name="edit_shipping_info">Chỉnh sửa thông tin vận chuyển</string>
+    <string name="done_editing_shipping_info">Hoàn tất chỉnh sửa</string>
+    <string name="more_shipping_info">Thêm thông tin vận chuyển</string>
+    <string name="less_shipping_info">Ẩn bớt thông tin vận chuyển</string>
+    <string name="shipping_name_hint">Tên người nhận</string>
+    <string name="shipping_phone_hint">Số điện thoại người nhận</string>
+    <string name="shipping_address_hint">Địa chỉ vận chuyển</string>
+    <string name="shipping_note_hint">Ghi chú vận chuyển (Tùy chọn)</string>
+    <string name="shipping_information">Thông tin vận chuyển</string>
+    <string name="shipping_note_display">Ghi chú: </string>
+
+    <!-- Admin Dashboard strings -->
+    <string name="admin_login">Đăng nhập với tư cách quản trị viên</string>
+    <string name="admin_dashboard">Bảng điều khiển quản trị</string>
+    <string name="customers">Khách hàng</string>
+    <string name="orders">Đơn hàng</string>
+    <string name="products">Sản phẩm</string>
+    <string name="statistics">Thống kê</string>
+    <string name="hello_admin">Xin chào, Quản trị viên</string>
+    <string name="admin_welcome">Chào mừng đến với Cổng quản trị</string>
+    <string name="search_customers">Tìm kiếm khách hàng...</string>
+    <string name="search_orders">Tìm kiếm đơn hàng...</string>
+    <string name="search_products">Tìm kiếm sản phẩm...</string>
+    <string name="add_product">Thêm sản phẩm</string>
+    <string name="edit_product">Chỉnh sửa sản phẩm</string>
+    <string name="customer_details">Chi tiết khách hàng</string>
+    <string name="order_details">Chi tiết đơn hàng</string>
+    <string name="view_orders">Xem đơn hàng</string>
+    <string name="customer_orders">Đơn hàng của khách hàng</string>
+    <string name="update_status">Cập nhật trạng thái</string>
+    <string name="all_categories">Tất cả danh mục</string>
+    <string name="all_statuses">Tất cả trạng thái</string>
+    <string name="summary_statistics">Thống kê tóm tắt</string>
+    <string name="total_orders">Tổng đơn hàng</string>
+    <string name="total_revenue">Tổng doanh thu</string>
+    <string name="avg_order_value">Giá trị đơn hàng TB</string>
+    <string name="total_customers">Tổng khách hàng</string>
+    <string name="sales_by_category">Doanh số theo danh mục</string>
+    <string name="monthly_sales">Doanh số hàng tháng</string>
+    <string name="close">Đóng</string>
+    <string name="customer_info">Thông tin khách hàng</string>
+
+    <!-- Admin Product Management strings -->
+    <string name="product_management">Quản lý sản phẩm</string>
+    <string name="product_name_hint">Tên sản phẩm</string>
+    <string name="product_description_hint">Mô tả</string>
+    <string name="product_category_label">Danh mục:</string>
+    <string name="product_price_hint">Giá</string>
+    <string name="product_stock_hint">Số lượng tồn kho</string>
+    <string name="product_unit_hint">Đơn vị (ví dụ: hộp, lọ, chai)</string>
+    <string name="product_image_url_hint">URL hình ảnh</string>
+    <string name="product_image">Hình ảnh sản phẩm</string>
+    <string name="save_product">Lưu</string>
+    <string name="delete_product">Xóa</string>
+    <string name="product_added">Thêm sản phẩm thành công</string>
+    <string name="product_updated">Cập nhật sản phẩm thành công</string>
+    <string name="product_deleted">Xóa sản phẩm thành công</string>
+    <string name="product_error">Lưu sản phẩm thất bại</string>
+    <string name="product_fields_required">Vui lòng điền vào tất cả các trường bắt buộc</string>
+    <string name="product_price_invalid">Giá hoặc số lượng tồn kho không hợp lệ</string>
+    <string name="product_price_positive">Giá phải lớn hơn 0</string>
+    <string name="product_stock_negative">Số lượng tồn kho không thể âm</string>
+    <string name="product_delete_confirm_title">Xóa sản phẩm</string>
+    <string name="product_delete_confirm_message">Bạn có chắc chắn muốn xóa sản phẩm này?</string>
+    <string name="product_delete_confirm_button">Xóa</string>
+    <string name="product_delete_cancel_button">Hủy</string>
+    <string name="error_product_not_found">Lỗi: Không tìm thấy sản phẩm</string>
+
+    <!-- Admin Statistics strings -->
+    <string name="sales_statistics">Thống kê doanh số</string>
+    <string name="sales_statistics_title">Thống kê doanh số</string>
+    <string name="daily_sales">Doanh số hàng ngày</string>
+
+    <!-- Order Status strings -->
+    <string name="status_pending">Chờ xử lý</string>
+    <string name="status_processing">Đang xử lý</string>
+    <string name="status_shipping">Đang vận chuyển</string>
+    <string name="status_delivered">Đã giao hàng</string>
+    <string name="status_cancelled">Đã hủy</string>
+    <string name="order_status">Trạng thái đơn hàng</string>
+    <string name="order_status_updated">Cập nhật trạng thái đơn hàng thành công</string>
+    <string name="order_status_update_failed">Cập nhật trạng thái đơn hàng thất bại</string>
+    <string name="order_items">Các mặt hàng</string>
+
+    <!-- Error messages -->
+    <string name="error_customer_not_found">Lỗi: Không tìm thấy khách hàng</string>
+    <string name="error_order_not_found">Lỗi: Không tìm thấy đơn hàng</string>
+    <string name="no_orders">Khách hàng này không có đơn hàng</string>
+    <string name="logout">Đăng xuất</string>
+    <string name="cancel">Hủy</string>
+
+    <!-- Arrays -->
+    <string-array name="customer_sort_options">
+        <item>Tên (A-Z)</item>
+        <item>Tên (Z-A)</item>
+        <item>Email (A-Z)</item>
+        <item>ID (Tăng dần)</item>
+        <item>ID (Giảm dần)</item>
+    </string-array>
+
+    <string-array name="order_sort_options">
+        <item>Ngày (Mới nhất trước)</item>
+        <item>Ngày (Cũ nhất trước)</item>
+        <item>Tổng tiền (Cao xuống thấp)</item>
+        <item>Tổng tiền (Thấp đến cao)</item>
+        <item>Mã đơn hàng</item>
+    </string-array>
+
+    <string-array name="order_status_filter_options">
+        <item>Tất cả trạng thái</item>
+        <item>Chờ xử lý</item>
+        <item>Đang xử lý</item>
+        <item>Đang vận chuyển</item>
+        <item>Đã giao hàng</item>
+        <item>Đã hủy</item>
+    </string-array>
+
+    <string-array name="order_status_options">
+        <item>Chờ xử lý</item>
+        <item>Đang xử lý</item>
+        <item>Đang vận chuyển</item>
+        <item>Đã giao hàng</item>
+        <item>Đã hủy</item>
+    </string-array>
+
+    <string-array name="product_sort_options">
+        <item>Tên (A-Z)</item>
+        <item>Tên (Z-A)</item>
+        <item>Giá (Thấp đến cao)</item>
+        <item>Giá (Cao xuống thấp)</item>
+        <item>Tồn kho (Thấp đến cao)</item>
+        <item>Tồn kho (Cao xuống thấp)</item>
+    </string-array>
+
+    <string-array name="product_categories">
+        <item>Thuốc giảm đau</item>
+        <item>Kháng sinh</item>
+        <item>Vitamin</item>
+        <item>Cảm và cúm</item>
+        <item>Sơ cứu</item>
+    </string-array>
+</resources>

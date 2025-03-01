@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App name and general strings -->
     <string name="app_name">HDPharmacities</string>
     <string name="app_logo">HDPharmacities Logo</string>
+
+    <!-- Authentication strings -->
     <string name="login_signup_title">Login or Sign Up</string>
     <string name="login_tab_text">Login</string>
     <string name="signup_tab_text">Sign Up</string>
@@ -11,7 +14,34 @@
     <string name="forgot_password_text">Forgot Password?</string>
     <string name="login_button_text">Login</string>
     <string name="signup_button_text">Sign Up</string>
+    <string name="login_error_incorrect">Incorrect username or password</string>
+    <string name="login_error_fill_fields">Please fill all fields</string>
+    <string name="signup_error_account_exists">Account already exists</string>
+    <string name="signup_error_password_mismatch">Passwords do not match</string>
+    <string name="signup_error_fill_fields">Please fill all fields</string>
+    <string name="signup_success">Account created successfully</string>
+    <string name="signup_failed">Failed to create account</string>
+    <string name="login_required">Login required</string>
+    <string name="login_required_message">You must log in to view your profile</string>
+
+    <!-- Home screen strings -->
+    <string name="profile_icon">Profile</string>
     <string name="cart_icon">Shopping Cart</string>
+    <string name="search_hint">Search...</string>
+    <string name="search_medicine_hint">Search medicines...</string>
+    <string name="search_title">Search</string>
+    <string name="database_error_message">Database error: %s</string>
+
+    <!-- Category Names -->
+    <string name="category_all_items">All Items</string>
+    <string name="category_pain_relievers">Pain Relievers</string>
+    <string name="category_antibiotics">Antibiotics</string>
+    <string name="category_vitamins">Vitamins</string>
+    <string name="category_cold_flu">Cold and Flu</string>
+    <string name="category_first_aid">First Aid</string>
+    <string name="no_medicines_found">No medicines found</string>
+
+    <!-- Cart and checkout strings -->
     <string name="cart_title">My Cart</string>
     <string name="subtotal">Subtotal:</string>
     <string name="shipping">Shipping:</string>
@@ -21,21 +51,18 @@
     <string name="medicine_image">Medicine Image</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="remove">Remove</string>
+    <string name="add_to_cart_success">Added %1$s to cart successfully!</string>
+    <string name="please_login_to_checkout">Please login to checkout</string>
+    <string name="shipping_info_saved">Shipping info saved</string>
+
+    <!-- Checkout screen strings -->
     <string name="checkout_title">Checkout</string>
     <string name="order_summary">Order Summary</string>
     <string name="order_confirmation_message">Thank you for your order!</string>
     <string name="finish">Finish</string>
+    <string name="order_number">Order Number: %s</string>
 
-    <!-- Category Names (Placeholder - Replace with your actual categories) -->
-    <string name="category_all_items">All Items</string>
-    <string name="category_pain_relievers">Pain Relievers</string>
-    <string name="category_antibiotics">Antibiotics</string>
-    <string name="category_vitamins">Vitamins</string>
-    <string name="category_cold_flu">Cold and Flu</string>
-    <string name="category_first_aid">First Aid</string>
-    <!-- Add more category strings here as needed -->
-
-    <!-- Product Detail Page Strings -->
+    <!-- Product detail strings -->
     <string name="product_detail_title">Medicine Details</string>
     <string name="description_label">Description:</string>
     <string name="dosage_label">Dosage:</string>
@@ -43,11 +70,15 @@
     <string name="precautions_label">Precautions:</string>
     <string name="quantity_label">Quantity:</string>
     <string name="total_price_label">Total:</string>
+    <string name="default_dosage">Please follow doctor\'s prescription</string>
+    <string name="default_side_effects">May cause drowsiness or dizziness</string>
+    <string name="default_precautions">Consult with a doctor before use</string>
+    <string name="error_medicine_not_found">Error: Medicine details not found</string>
+    <string name="added_to_cart_message">Added to cart: </string>
+    <string name="stock_label">Stock: </string>
 
-    <string name="profile_icon">Profile</string>
-    <!-- ... other strings ... -->
+    <!-- Profile screen strings -->
     <string name="profile_title">Profile</string>
-    <!-- ... other profile strings ... -->
     <string name="profile_name_hint">Your Name</string>
     <string name="profile_email_hint">Your Email</string>
     <string name="profile_phone_hint">Your Phone Number</string>
@@ -55,32 +86,33 @@
     <string name="profile_medical_notice_hint">Medical Conditions/Allergies</string>
     <string name="profile_emergency_contact_hint">Emergency Contact Name and Phone</string>
     <string name="profile_save_button_text">Save Changes</string>
-
-    <!-- ... other strings ... -->
-    <!-- ... rest of categories ... -->
     <string name="profile_image">User Profile Image</string>
     <string name="profile_name_label">Name:</string>
     <string name="profile_email_label">Email:</string>
     <string name="profile_phone_label">Phone:</string>
-
     <string name="profile_address_label">Address:</string>
     <string name="profile_medical_notice_label">Medical Conditions/Allergies:</string>
     <string name="profile_emergency_contact_label">Emergency Contact:</string>
+    <string name="profile_updated">Profile updated successfully</string>
+    <string name="profile_update_failed">Failed to update profile</string>
+    <string name="please_login_to_save">Please log in to save changes</string>
+    <string name="changes_saved_successfully">Changes saved successfully</string>
+    <string name="error_saving_changes">Error saving changes</string>
+    <string name="network_error">Network error. Please try again</string>
 
-    <!-- ... other strings ... -->
+    <!-- Shipping information strings -->
     <string name="edit_shipping_info">Edit Shipping Info</string>
     <string name="done_editing_shipping_info">Done Editing Shipping Info</string>
-    <string name="more_shipping_info">More Shipping Info</string> <!-- Keep for backwards compatibility if needed -->
-    <string name="less_shipping_info">Less Shipping Info</string> <!-- Keep for backwards compatibility if needed -->
+    <string name="more_shipping_info">More Shipping Info</string>
+    <string name="less_shipping_info">Less Shipping Info</string>
     <string name="shipping_name_hint">Shipping Name</string>
     <string name="shipping_phone_hint">Shipping Phone Number</string>
     <string name="shipping_address_hint">Shipping Address</string>
     <string name="shipping_note_hint">Shipping Note (Optional)</string>
-    <string name="shipping_information">Shipping Information</string> <!-- Title for Shipping Info in Checkout -->
-    <string name="order_number">Order Number: %s</string> <!-- String format for order number -->
-    <!-- ... other strings ... -->
+    <string name="shipping_information">Shipping Information</string>
+    <string name="shipping_note_display">Note: </string>
 
-    <!-- Admin-related strings -->
+    <!-- Admin Dashboard strings -->
     <string name="admin_login">Login as Admin</string>
     <string name="admin_dashboard">Admin Dashboard</string>
     <string name="customers">Customers</string>
@@ -109,11 +141,58 @@
     <string name="sales_by_category">Sales by Category</string>
     <string name="monthly_sales">Monthly Sales</string>
     <string name="close">Close</string>
+    <string name="customer_info">Customer Information</string>
 
+    <!-- Admin Product Management strings -->
     <string name="product_management">Product Management</string>
-    <string name="search_title">Search</string>
-    <string name="database_error_message">Database error (getAllMedicines())</string>
+    <string name="product_name_hint">Product Name</string>
+    <string name="product_description_hint">Product Description</string>
+    <string name="product_category_label">Category</string>
+    <string name="product_price_hint">Price</string>
+    <string name="product_stock_hint">Stock Quantity</string>
+    <string name="product_unit_hint">Unit (e.g., tablet, bottle)</string>
+    <string name="product_image_url_hint">Image URL</string>
+    <string name="product_image">Product Image</string>
+    <string name="save_product">Save Product</string>
+    <string name="delete_product">Delete Product</string>
+    <string name="product_added">Product added successfully</string>
+    <string name="product_updated">Product updated successfully</string>
+    <string name="product_deleted">Product deleted successfully</string>
+    <string name="product_error">Error processing product</string>
+    <string name="product_fields_required">All fields are required</string>
+    <string name="product_price_invalid">Invalid price format</string>
+    <string name="product_price_positive">Price must be positive</string>
+    <string name="product_stock_negative">Stock cannot be negative</string>
+    <string name="product_delete_confirm_title">Delete Product</string>
+    <string name="product_delete_confirm_message">Are you sure you want to delete this product?</string>
+    <string name="product_delete_confirm_button">Delete</string>
+    <string name="product_delete_cancel_button">Cancel</string>
+    <string name="error_product_not_found">Product not found</string>
 
+    <!-- Admin Statistics strings -->
+    <string name="sales_statistics">Sales Statistics</string>
+    <string name="sales_statistics_title">Sales Statistics</string>
+    <string name="daily_sales">Daily Sales</string>
+
+    <!-- Order Status strings -->
+    <string name="status_pending">Pending</string>
+    <string name="status_processing">Processing</string>
+    <string name="status_shipping">Shipping</string>
+    <string name="status_delivered">Delivered</string>
+    <string name="status_cancelled">Cancelled</string>
+    <string name="order_status">Order Status</string>
+    <string name="order_status_updated">Order status updated successfully</string>
+    <string name="order_status_update_failed">Failed to update order status</string>
+    <string name="order_items">Order Items</string>
+
+    <!-- Error messages -->
+    <string name="error_customer_not_found">Customer not found</string>
+    <string name="error_order_not_found">Order not found</string>
+    <string name="no_orders">No orders found</string>
+    <string name="logout">Logout</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Arrays -->
     <string-array name="customer_sort_options">
         <item>Name (A-Z)</item>
         <item>Name (Z-A)</item>

@@ -56,7 +56,7 @@ public class MedicineAdapter extends RecyclerView.Adapter<MedicineAdapter.Medici
                     HomeActivity homeActivity = (HomeActivity) context;
                     homeActivity.updateCartBadgeCount(CartManager.getInstance().getCartItems().size());
                 }
-                Toast.makeText(context, "Added " + medicine.getName() + " to cart!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.added_to_cart_message + medicine.getName(), Toast.LENGTH_SHORT).show();
                 // You'll need to manage the cart data (e.g., using a CartManager class or similar)
             }
         });

@@ -74,7 +74,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         } else {
             // Not logged in, show message and disable editing
-            Toast.makeText(this, "You must log in to view your profile", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.login_required_message, Toast.LENGTH_LONG).show();
             finish();
         }
 
@@ -115,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void saveProfileChanges() {
         if (!sessionManager.isLoggedIn()) {
-            Toast.makeText(this, "Please log in to save changes", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.please_login_to_save, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -138,9 +138,9 @@ public class ProfileActivity extends AppCompatActivity {
         userDao.close();
 
         if (success) {
-            Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.profile_updated, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.profile_update_failed, Toast.LENGTH_SHORT).show();
         }
     }
 

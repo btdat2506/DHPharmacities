@@ -38,7 +38,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.admin_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Admin Dashboard");
+        getSupportActionBar().setTitle(getString(R.string.admin_dashboard));
 
         adminNameTextView = findViewById(R.id.admin_name_text_view);
         customersCard = findViewById(R.id.customers_card);
@@ -47,7 +47,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         statisticsCard = findViewById(R.id.statistics_card);
 
         // Display admin name
-        adminNameTextView.setText("Hello, Admin");
+        adminNameTextView.setText(getString(R.string.hello_admin));
 
         // Set click listeners for cards
         customersCard.setOnClickListener(new View.OnClickListener() {

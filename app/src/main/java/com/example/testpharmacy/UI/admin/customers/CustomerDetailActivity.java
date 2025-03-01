@@ -50,7 +50,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
         // Get customer ID from intent
         customerId = getIntent().getLongExtra("customer_id", -1);
         if (customerId == -1) {
-            Toast.makeText(this, "Error: Customer not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_customer_not_found), Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -58,7 +58,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.customer_detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Customer Details");
+        getSupportActionBar().setTitle(getString(R.string.customer_details));
 
         nameEditText = findViewById(R.id.customer_detail_name_edit_text);
         emailEditText = findViewById(R.id.customer_detail_email_edit_text);
@@ -122,9 +122,9 @@ public class CustomerDetailActivity extends AppCompatActivity {
         userDao.close();
         
         if (success) {
-            Toast.makeText(this, "Customer data saved successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.profile_updated), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Failed to save customer data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.profile_update_failed), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -135,7 +135,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
         billDao.close();
         
         if (customerBills.isEmpty()) {
-            Toast.makeText(this, "This customer has no orders", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_orders), Toast.LENGTH_SHORT).show();
             return;
         }
         

@@ -68,7 +68,7 @@ public class StatisticsActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.statistics_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Sales Statistics");
+        getSupportActionBar().setTitle(R.string.sales_statistics_title);
 
         totalOrdersTextView = findViewById(R.id.statistics_total_orders_text_view);
         totalRevenueTextView = findViewById(R.id.statistics_total_revenue_text_view);

@@ -75,7 +75,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (medicine != null) {
             populateUI(medicine);
         } else {
-            Toast.makeText(this, "Error: Medicine details not found.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_medicine_not_found, Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -85,7 +85,7 @@ public class ProductDetailActivity extends AppCompatActivity {
                 if (medicine != null) {
                     // TODO: Implement Add to Cart functionality
                     CartManager.getInstance().addToCart(medicine, currentQuantity);
-                    Toast.makeText(ProductDetailActivity.this, "Added " + medicine.getName() + " to cart!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProductDetailActivity.this,  R.string.added_to_cart_message + medicine.getName(), Toast.LENGTH_SHORT).show();
 
                     // TODO: Update the number of carts
                     // You'll need to manage the cart data (e.g., using a CartManager class or similar)
@@ -162,9 +162,11 @@ public class ProductDetailActivity extends AppCompatActivity {
 
         // Placeholder descriptions, dosage, side effects, precautions
         medicineDescriptionTextView.setText(medicine.getDescription());
-        medicineDosageTextView.setText("Dosage: As directed by physician. (Placeholder)");
-        medicineSideEffectsTextView.setText("Side Effects: May cause drowsiness. (Placeholder)");
-        medicinePrecautionsTextView.setText("Precautions: Consult your doctor before use if pregnant. (Placeholder)");
+/*
+        medicineDosageTextView.setText(getString(R.string.default_dosage));
+        medicineSideEffectsTextView.setText(getString(R.string.default_side_effects));
+        medicinePrecautionsTextView.setText(getString(R.string.default_precautions));
+*/
     }
 
     private void updateTotalPrice() {

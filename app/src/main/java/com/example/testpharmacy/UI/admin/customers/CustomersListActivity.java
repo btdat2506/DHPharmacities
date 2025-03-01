@@ -53,7 +53,7 @@ public class CustomersListActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.customers_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Customers");
+        getSupportActionBar().setTitle(getString(R.string.customers));
 
         customersRecyclerView = findViewById(R.id.customers_recycler_view);
         searchEditText = findViewById(R.id.customers_search_edit_text);

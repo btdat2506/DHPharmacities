@@ -45,7 +45,7 @@ public class ProductEditActivity extends AppCompatActivity {
         if (!isNewProduct) {
             productId = getIntent().getLongExtra("product_id", -1);
             if (productId == -1) {
-                Toast.makeText(this, "Error: Product not found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.error_product_not_found), Toast.LENGTH_SHORT).show();
                 finish();
                 return;
             }
@@ -54,7 +54,7 @@ public class ProductEditActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.product_edit_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(isNewProduct ? "Add New Product" : "Edit Product");
+        getSupportActionBar().setTitle(isNewProduct ? getString(R.string.add_product) : getString(R.string.edit_product));
 
         nameEditText = findViewById(R.id.product_edit_name_edit_text);
         descriptionEditText = findViewById(R.id.product_edit_description_edit_text);
@@ -141,7 +141,7 @@ public class ProductEditActivity extends AppCompatActivity {
         String unit = unitEditText.getText().toString().trim();
         
         if (name.isEmpty() || priceStr.isEmpty() || stockQuantityStr.isEmpty() || unit.isEmpty()) {
-            Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.product_fields_required), Toast.LENGTH_SHORT).show();
             return;
         }
         
@@ -152,17 +152,17 @@ public class ProductEditActivity extends AppCompatActivity {
             price = Double.parseDouble(priceStr);
             stockQuantity = Integer.parseInt(stockQuantityStr);
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid price or stock quantity", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.product_price_invalid), Toast.LENGTH_SHORT).show();
             return;
         }
         
         if (price <= 0) {
-            Toast.makeText(this, "Price must be greater than 0", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.product_price_positive), Toast.LENGTH_SHORT).show();
             return;
         }
         
         if (stockQuantity < 0) {
-            Toast.makeText(this, "Stock quantity cannot be negative", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.product_stock_negative), Toast.LENGTH_SHORT).show();
             return;
         }
         
@@ -191,19 +191,21 @@ public class ProductEditActivity extends AppCompatActivity {
         medicineDao.close();
         
         if (success) {
-            Toast.makeText(this, isNewProduct ? "Product added successfully" : "Product updated successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    isNewProduct ? getString(R.string.product_added) : getString(R.string.product_updated),
+                    Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            Toast.makeText(this, "Failed to save product", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.product_error), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void confirmDelete() {
         new AlertDialog.Builder(this)
-                .setTitle("Delete Product")
-                .setMessage("Are you sure you want to delete this product?")
-                .setPositiveButton("Delete", (dialog, which) -> deleteProduct())
-                .setNegativeButton("Cancel", null)
+                .setTitle(getString(R.string.product_delete_confirm_title))
+                .setMessage(getString(R.string.product_delete_confirm_message))
+                .setPositiveButton(getString(R.string.product_delete_confirm_button), (dialog, which) -> deleteProduct())
+                .setNegativeButton(getString(R.string.product_delete_cancel_button), null)
                 .show();
     }
 
@@ -215,10 +217,10 @@ public class ProductEditActivity extends AppCompatActivity {
         medicineDao.close();
         
         if (success) {
-            Toast.makeText(this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.product_deleted), Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            Toast.makeText(this, "Failed to delete product", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.product_error), Toast.LENGTH_SHORT).show();
         }
     }
 
