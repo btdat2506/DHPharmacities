@@ -33,11 +33,12 @@
     <string name="database_error_message">Lỗi cơ sở dữ liệu: %s</string>
 
     <!-- Category Names -->
+    <string name="sort_by">"Sắp xếp: "</string>
     <string name="category_all_items">Tất cả sản phẩm</string>
     <string name="category_pain_relievers">Thuốc giảm đau</string>
     <string name="category_antibiotics">Kháng sinh</string>
     <string name="category_vitamins">Vitamin</string>
-    <string name="category_cold_flu">Cảm và cúm</string>
+    <string name="category_cold_flu">Cảm cúm</string>
     <string name="category_first_aid">Sơ cứu</string>
     <string name="no_medicines_found">Không tìm thấy thuốc</string>
 
@@ -113,14 +114,14 @@
     <string name="shipping_note_display">Ghi chú: </string>
 
     <!-- Admin Dashboard strings -->
-    <string name="admin_login">Đăng nhập với tư cách quản trị viên</string>
-    <string name="admin_dashboard">Bảng điều khiển quản trị</string>
+    <string name="admin_login">Đăng nhập Admin</string>
+    <string name="admin_dashboard">Bảng điều khiển Admin</string>
     <string name="customers">Khách hàng</string>
     <string name="orders">Đơn hàng</string>
     <string name="products">Sản phẩm</string>
     <string name="statistics">Thống kê</string>
     <string name="hello_admin">Xin chào, Quản trị viên</string>
-    <string name="admin_welcome">Chào mừng đến với Cổng quản trị</string>
+    <string name="admin_welcome">Chào mừng đến với Cổng Admin</string>
     <string name="search_customers">Tìm kiếm khách hàng...</string>
     <string name="search_orders">Tìm kiếm đơn hàng...</string>
     <string name="search_products">Tìm kiếm sản phẩm...</string>

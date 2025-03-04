@@ -1,8 +1,10 @@
 package com.example.testpharmacy.UI.admin.orders;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -20,6 +22,8 @@ import com.example.testpharmacy.Database.UserDao;
 import com.example.testpharmacy.Model.Bill;
 import com.example.testpharmacy.Model.User;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.UI.home.HomeActivity;
+import com.example.testpharmacy.Manager.UserSessionManager;
 import com.example.testpharmacy.Utils;
 
 import java.text.SimpleDateFormat;
@@ -43,20 +47,30 @@ public class OrderDetailActivity extends AppCompatActivity {
     private TextView totalTextView;
     private Spinner statusSpinner;
     private Button updateStatusButton;
+    private Button finishButton; // Added for user checkout flow
 
     private BillDao billDao;
     private UserDao userDao;
+    private UserSessionManager sessionManager;
     private Bill order;
     private String orderNumber;
     private OrderItemAdapter orderItemAdapter;
+    private boolean isNewOrder = false; // Flag to identify if this is a new order from checkout
+    private boolean isAdmin = false; // Flag to identify if current user is admin
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
 
+        // Initialize session manager and check user role
+        sessionManager = UserSessionManager.getInstance(this);
+        isAdmin = sessionManager.isAdmin();
+
         // Get order number from intent
         orderNumber = getIntent().getStringExtra("order_number");
+        isNewOrder = getIntent().getBooleanExtra("is_new_order", false);
+
         if (orderNumber == null) {
             Toast.makeText(this, getString(R.string.error_order_not_found), Toast.LENGTH_SHORT).show();
             finish();
@@ -66,8 +80,15 @@ public class OrderDetailActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.order_detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.order_details));
 
+        // Set title based on context (new order vs viewing existing)
+        if (isNewOrder) {
+            getSupportActionBar().setTitle(getString(R.string.checkout_title));
+        } else {
+            getSupportActionBar().setTitle(getString(R.string.order_details));
+        }
+
+        // Find all UI elements
         orderNumberTextView = findViewById(R.id.order_detail_number_text_view);
         orderDateTextView = findViewById(R.id.order_detail_date_text_view);
         customerNameTextView = findViewById(R.id.order_detail_customer_name_text_view);
@@ -84,7 +105,59 @@ public class OrderDetailActivity extends AppCompatActivity {
         statusSpinner = findViewById(R.id.order_detail_status_spinner);
         updateStatusButton = findViewById(R.id.order_detail_update_status_button);
 
-        // Set up RecyclerView
+        if (isNewOrder || !isAdmin) {
+            // Find the parent view that contains the update button
+            ViewGroup parent = (ViewGroup) updateStatusButton.getParent();
+
+            if (parent != null) {
+                // Create finish button
+                finishButton = new Button(this);
+
+                // Copy layout parameters from update button
+                ViewGroup.LayoutParams layoutParams = updateStatusButton.getLayoutParams();
+                finishButton.setLayoutParams(layoutParams);
+
+                finishButton.setText(R.string.finish);
+
+                // Set background and text color programmatically
+                finishButton.setBackgroundResource(R.color.hd_blue_500); // Use your color resource
+                finishButton.setTextColor(getResources().getColor(android.R.color.white));
+
+                finishButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Navigate back to home
+                        Intent intent = new Intent(OrderDetailActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Clear activity stack
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+
+                // Replace update button with finish button
+                int index = parent.indexOfChild(updateStatusButton);
+                parent.removeView(updateStatusButton);
+                parent.addView(finishButton, index);
+            } else {
+                // If we can't find the parent, just hide update button
+                updateStatusButton.setVisibility(View.GONE);
+
+                // Directly set onclick for the update button instead
+                updateStatusButton.setText(R.string.finish);
+                updateStatusButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Navigate back to home
+                        Intent intent = new Intent(OrderDetailActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            }
+        }
+
+        // Initialize RecyclerView
         orderItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Initialize DAOs
@@ -94,16 +167,24 @@ public class OrderDetailActivity extends AppCompatActivity {
         // Load order details
         loadOrderDetails();
 
-        // Set up status spinner
+        // Set up status spinner and show/hide based on user role
         setupStatusSpinner();
 
-        // Set up update button
-        updateStatusButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateOrderStatus();
-            }
-        });
+        // Show/hide admin-only controls
+        statusSpinner.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+        if (updateStatusButton.getVisibility() != View.GONE) {
+            updateStatusButton.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
+        }
+
+        // Set up update button if showing
+        if (isAdmin) {
+            updateStatusButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    updateOrderStatus();
+                }
+            });
+        }
     }
 
     private void loadOrderDetails() {
@@ -118,9 +199,12 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
 
         // Get customer information
-        userDao.open();
-        User customer = userDao.getUserById(order.getUserId());
-        userDao.close();
+        User customer = null;
+        if (order.getUserId() > 0) {
+            userDao.open();
+            customer = userDao.getUserById(order.getUserId());
+            userDao.close();
+        }
 
         // Format date
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
@@ -144,7 +228,8 @@ public class OrderDetailActivity extends AppCompatActivity {
         shippingNameTextView.setText(getString(R.string.profile_name_label) + " " + order.getShippingName());
         shippingPhoneTextView.setText(getString(R.string.profile_phone_label) + " " + order.getShippingPhone());
         shippingAddressTextView.setText(getString(R.string.profile_address_label) + " " + order.getShippingAddress());
-        shippingNoteTextView.setText(getString(R.string.shipping_note_display) + " " + order.getShippingNote());
+        shippingNoteTextView.setText(getString(R.string.shipping_note_display) + " " +
+                (order.getShippingNote() != null ? order.getShippingNote() : ""));
 
         // Set financial information
         subtotalTextView.setText(Utils.formatVND(order.getTotalAmount()));
@@ -154,6 +239,11 @@ public class OrderDetailActivity extends AppCompatActivity {
         // Set up order items
         orderItemAdapter = new OrderItemAdapter(order.getBillItems());
         orderItemsRecyclerView.setAdapter(orderItemAdapter);
+
+        // If this is a new order from checkout, show confirmation message
+        if (isNewOrder) {
+            Toast.makeText(this, R.string.order_confirmation_message, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setupStatusSpinner() {
@@ -162,7 +252,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusSpinner.setAdapter(adapter);
 
-        // Set current status using our constants utility
+        // Set current status
         if (order != null && order.getStatus() != null) {
             int position = OrderStatusConstants.getPositionForStatus(order.getStatus());
             statusSpinner.setSelection(position);

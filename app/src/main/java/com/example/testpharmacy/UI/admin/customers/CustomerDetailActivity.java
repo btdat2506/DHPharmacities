@@ -1,6 +1,8 @@
 package com.example.testpharmacy.UI.admin.customers;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +16,8 @@ import com.example.testpharmacy.Database.UserDao;
 import com.example.testpharmacy.Model.Bill;
 import com.example.testpharmacy.Model.User;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.UI.auth.LoginSignupActivity;
+import com.example.testpharmacy.Manager.UserSessionManager;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
@@ -28,37 +32,25 @@ public class CustomerDetailActivity extends AppCompatActivity {
     private TextInputEditText medicalNoticeEditText;
     private Button saveButton;
     private Button viewOrdersButton;
-    
+
     private UserDao userDao;
     private BillDao billDao;
-//    private UserSessionManager sessionManager;
-    private User customer;
-    private long customerId;
+    private UserSessionManager sessionManager;
+    private User userData;
+    private long userId;
+    private boolean isCurrentUser = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_detail);
 
-        // Initialize session manager and check admin status
-//        sessionManager = UserSessionManager.getInstance(this);
-//        if (!sessionManager.isAdmin()) {
-//            finish();
-//            return;
-//        }
-
-        // Get customer ID from intent
-        customerId = getIntent().getLongExtra("customer_id", -1);
-        if (customerId == -1) {
-            Toast.makeText(this, getString(R.string.error_customer_not_found), Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
+        // Initialize session manager
+        sessionManager = UserSessionManager.getInstance(this);
 
         toolbar = findViewById(R.id.customer_detail_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(getString(R.string.customer_details));
 
         nameEditText = findViewById(R.id.customer_detail_name_edit_text);
         emailEditText = findViewById(R.id.customer_detail_email_edit_text);
@@ -71,56 +63,84 @@ public class CustomerDetailActivity extends AppCompatActivity {
         // Initialize DAOs
         userDao = new UserDao(this);
         billDao = new BillDao(this);
-        
-        // Load customer data
-        loadCustomerData();
-        
+
+        // Determine if this is profile view (current user) or admin viewing customer
+        if (getIntent().hasExtra("customer_id")) {
+            // Admin is viewing a customer
+            userId = getIntent().getLongExtra("customer_id", -1);
+            isCurrentUser = false;
+
+            if (userId == -1) {
+                Toast.makeText(this, getString(R.string.error_customer_not_found), Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+
+            getSupportActionBar().setTitle(getString(R.string.customer_details));
+        } else {
+            // Regular user viewing their own profile
+            if (!sessionManager.isLoggedIn()) {
+                Toast.makeText(this, getString(R.string.login_required_message), Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
+
+            userId = sessionManager.getUserId();
+            isCurrentUser = true;
+            getSupportActionBar().setTitle(getString(R.string.profile_title));
+        }
+
+        // Load user data
+        loadUserData();
+
+        // Configure view orders button visibility
+        viewOrdersButton.setVisibility(isCurrentUser ? View.GONE : View.VISIBLE);
+
         // Set up buttons
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveCustomerData();
+                saveUserData();
             }
         });
-        
+
         viewOrdersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Show orders for this customer
-                showCustomerOrders();
+                showUserOrders();
             }
         });
     }
 
-    private void loadCustomerData() {
+    private void loadUserData() {
         userDao.open();
-        customer = userDao.getUserById(customerId);
+        userData = userDao.getUserById(userId);
         userDao.close();
-        
-        if (customer != null) {
-            nameEditText.setText(customer.getName());
-            emailEditText.setText(customer.getEmail());
-            phoneEditText.setText(customer.getPhoneNumber());
-            addressEditText.setText(customer.getAddress());
-            medicalNoticeEditText.setText(customer.getMedicalNotice());
+
+        if (userData != null) {
+            nameEditText.setText(userData.getName());
+            emailEditText.setText(userData.getEmail());
+            phoneEditText.setText(userData.getPhoneNumber());
+            addressEditText.setText(userData.getAddress());
+            medicalNoticeEditText.setText(userData.getMedicalNotice());
         }
     }
 
-    private void saveCustomerData() {
-        if (customer == null) return;
-        
-        // Update customer object with form data
-        customer.setName(nameEditText.getText().toString());
-        customer.setEmail(emailEditText.getText().toString());
-        customer.setPhoneNumber(phoneEditText.getText().toString());
-        customer.setAddress(addressEditText.getText().toString());
-        customer.setMedicalNotice(medicalNoticeEditText.getText().toString());
-        
+    private void saveUserData() {
+        if (userData == null) return;
+
+        // Update user object with form data
+        userData.setName(nameEditText.getText().toString());
+        userData.setEmail(emailEditText.getText().toString());
+        userData.setPhoneNumber(phoneEditText.getText().toString());
+        userData.setAddress(addressEditText.getText().toString());
+        userData.setMedicalNotice(medicalNoticeEditText.getText().toString());
+
         // Save to database
         userDao.open();
-        boolean success = userDao.updateUser(customer);
+        boolean success = userDao.updateUser(userData);
         userDao.close();
-        
+
         if (success) {
             Toast.makeText(this, getString(R.string.profile_updated), Toast.LENGTH_SHORT).show();
         } else {
@@ -128,28 +148,50 @@ public class CustomerDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void showCustomerOrders() {
-        // Get orders for this customer
+    private void showUserOrders() {
+        // Get orders for this user
         billDao.open();
-        List<Bill> customerBills = billDao.getBillsByUserId(customerId);
+        List<Bill> userBills = billDao.getBillsByUserId(userId);
         billDao.close();
-        
-        if (customerBills.isEmpty()) {
+
+        if (userBills.isEmpty()) {
             Toast.makeText(this, getString(R.string.no_orders), Toast.LENGTH_SHORT).show();
             return;
         }
-        
-        // Show orders dialog or navigate to orders list filtered for this customer
-        CustomerOrdersDialog dialog = new CustomerOrdersDialog(this, customerBills);
+
+        // Show orders dialog
+        CustomerOrdersDialog dialog = new CustomerOrdersDialog(this, userBills);
         dialog.show();
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Only add logout option for regular users viewing their profile
+        if (isCurrentUser) {
+            getMenuInflater().inflate(R.menu.logout_menu, menu);
+        }
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
             onBackPressed();
             return true;
+        } else if (id == R.id.action_logout) {
+            logout();
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        sessionManager.logout();
+        Intent intent = new Intent(CustomerDetailActivity.this, LoginSignupActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

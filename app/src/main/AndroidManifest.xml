@@ -17,70 +17,60 @@
 
         <activity
             android:name=".UI.SplashScreenActivity"
-        android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
-    <activity
-        android:name=".UI.auth.LoginSignupActivity"
-    android:exported="false"/>
-
-    <activity
-        android:name=".UI.home.HomeActivity"
-    android:exported="false"/>
-
-    <activity
-        android:name=".UI.cart.CartActivity"
-    android:exported="false"/>
-
-    <activity
-        android:name=".UI.cart.CheckoutActivity"
-    android:exported="false"/>
-
-    <activity
-        android:name=".UI.home.ProductDetailActivity"
+        <activity
+            android:name=".UI.auth.LoginSignupActivity"
         android:exported="false"/>
 
-    <activity
-        android:name=".UI.home.ProfileActivity"
+        <activity
+            android:name=".UI.home.HomeActivity"
         android:exported="false"/>
 
-    <activity
-        android:name=".UI.admin.customers.CustomerDetailActivity"
+        <activity
+            android:name=".UI.cart.CartActivity"
         android:exported="false"/>
 
-    <activity
-        android:name=".UI.admin.orders.OrderDetailActivity"
-        android:exported="false"/>
+        <activity
+            android:name=".UI.home.ProductDetailActivity"
+            android:exported="false"/>
 
-    <activity
-        android:name=".UI.admin.AdminDashboardActivity"
-        android:exported="false"/>
+        <activity
+            android:name=".UI.admin.customers.CustomerDetailActivity"
+            android:exported="false"/>
 
-    <activity
-        android:name=".UI.admin.customers.CustomersListActivity"
-        android:exported="false"/>
+        <activity
+            android:name=".UI.admin.orders.OrderDetailActivity"
+            android:exported="false"/>
 
-    <activity
-        android:name=".UI.admin.orders.OrdersListActivity"
-        android:exported="false"/>
+        <activity
+            android:name=".UI.admin.AdminDashboardActivity"
+            android:exported="false"/>
 
-    <activity
-        android:name=".UI.admin.products.ProductEditActivity"
-        android:exported="false"/>
+        <activity
+            android:name=".UI.admin.customers.CustomersListActivity"
+            android:exported="false"/>
 
-    <activity
-        android:name=".UI.admin.products.ProductManagementActivity"
-        android:exported="false"/>
+        <activity
+            android:name=".UI.admin.orders.OrdersListActivity"
+            android:exported="false"/>
 
-    <activity
-        android:name=".UI.admin.StatisticsActivity"
-        android:exported="false"/>
+        <activity
+            android:name=".UI.admin.products.ProductEditActivity"
+            android:exported="false"/>
 
+        <activity
+            android:name=".UI.admin.products.ProductManagementActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".UI.admin.StatisticsActivity"
+            android:exported="false"/>
 
     </application>
-
-    </manifest>
+</manifest>

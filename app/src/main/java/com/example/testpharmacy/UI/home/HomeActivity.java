@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.testpharmacy.Constants.CategoryConstants;
 import com.example.testpharmacy.UI.admin.AdminDashboardActivity;
+import com.example.testpharmacy.UI.admin.customers.CustomerDetailActivity;
 import com.example.testpharmacy.UI.cart.CartActivity;
 import com.example.testpharmacy.UI.cart.CartManager;
 import com.example.testpharmacy.Database.DatabaseHelper;
@@ -37,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextView cartBadgeCountTextView;
     private View cartIconContainer;
     private View profileIconContainer;
+
 
     // At the class level:
     private UserSessionManager sessionManager;
@@ -105,7 +107,8 @@ public class HomeActivity extends AppCompatActivity {
                     if (isAdmin) {
                         intent = new Intent(HomeActivity.this, AdminDashboardActivity.class);
                     } else {
-                        intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                        // intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                        intent = new Intent(HomeActivity.this, CustomerDetailActivity.class);
                     }
                     startActivity(intent);
                 } else {

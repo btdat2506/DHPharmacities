@@ -2,13 +2,13 @@ package com.example.testpharmacy.Model;
 
 public class User {
     private long userId;         // Maps to COLUMN_USER_ID in DatabaseHelper
-    private String name;         // Maps to COLUMN_USER_NAME
-    private String email;        // Maps to COLUMN_USER_EMAIL
-    private String phoneNumber;  // Maps to COLUMN_USER_PHONE
-    private String password; // Maps to COLUMN_USER_PASSWORD
-    private String address;      // Maps to COLUMN_USER_ADDRESS
-    private String medicalNotice; // Maps to COLUMN_USER_MEDICAL_NOTICE
-
+    private String name = "";         // Maps to COLUMN_USER_NAME
+    private String email = "";        // Maps to COLUMN_USER_EMAIL
+    private String phoneNumber = "";  // Maps to COLUMN_USER_PHONE
+    private String password = ""; // Maps to COLUMN_USER_PASSWORD
+    private String address = "";      // Maps to COLUMN_USER_ADDRESS
+    private String medicalNotice = ""; // Maps to COLUMN_USER_MEDICAL_NOTICE
+    // Declaration all variables blank at first will make sure no error.
     // In User.java, add an isAdmin field
     private boolean isAdmin;
 

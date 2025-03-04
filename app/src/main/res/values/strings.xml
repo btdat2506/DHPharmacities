@@ -31,6 +31,7 @@
     <string name="search_medicine_hint">Search medicines...</string>
     <string name="search_title">Search</string>
     <string name="database_error_message">Database error: %s</string>
+    <string name="sort_by">Sort by: </string>
 
     <!-- Category Names -->
     <string name="category_all_items">All Items</string>

@@ -5,6 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +21,8 @@ import com.example.testpharmacy.Model.Medicine;
 import com.example.testpharmacy.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class GenericCategoryFragment extends Fragment {
@@ -30,6 +35,10 @@ public class GenericCategoryFragment extends Fragment {
     private List<Medicine> allMedicineList; // All medicines in this category
     private List<Medicine> filteredMedicineList; // Filtered medicines to display
     private TextView noResultsTextView;
+    private Spinner sortSpinner;
+
+    private int currentSortOption = 0; // Default sort option
+    private String currentSearchQuery = ""; // Current search query
 
     private MedicineDao medicineDao;
     private String categoryName;
@@ -83,6 +92,7 @@ public class GenericCategoryFragment extends Fragment {
 
         medicineRecyclerView = view.findViewById(R.id.category_medicine_recycler_view);
         noResultsTextView = view.findViewById(R.id.no_results_text_view);
+        sortSpinner = view.findViewById(R.id.category_sort_spinner);
 
         medicineRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // 2 columns grid
 
@@ -90,51 +100,116 @@ public class GenericCategoryFragment extends Fragment {
         allMedicineList = loadMedicinesForCategory(categoryName);
         filteredMedicineList = new ArrayList<>(allMedicineList);
 
+        // Setup sort spinner
+        setupSortSpinner();
+
         medicineAdapter = new MedicineAdapter(getContext(), filteredMedicineList);
         medicineRecyclerView.setAdapter(medicineAdapter);
     }
 
-    public void filterMedicines(String query) {
-        if (allMedicineList == null || medicineAdapter == null) return;
+    private void setupSortSpinner() {
 
-        // If query is empty, show all medicines
-        if (query.isEmpty()) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.product_sort_options, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(adapter);
+
+        // Handle selection changes
+        sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                currentSortOption = position;
+                applyFilterAndSort();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+    }
+
+    // Combined method to apply both filtering and sorting
+    private void applyFilterAndSort() {
+        // First apply filter
+        if (currentSearchQuery.isEmpty()) {
+            // If no search query, use all medicines
             filteredMedicineList = new ArrayList<>(allMedicineList);
-            medicineAdapter = new MedicineAdapter(getContext(), filteredMedicineList);
-            medicineRecyclerView.setAdapter(medicineAdapter);
+        } else {
+            // Filter medicines based on query
+            filteredMedicineList = new ArrayList<>();
+            String query = currentSearchQuery.toLowerCase().trim();
 
-            // Update visibility
-            noResultsTextView.setVisibility(View.GONE);
-            medicineRecyclerView.setVisibility(View.VISIBLE);
-            return;
-        }
-
-        // Filter medicines based on query
-        List<Medicine> filteredList = new ArrayList<>();
-        query = query.toLowerCase().trim();
-
-        for (Medicine medicine : allMedicineList) {
-            // Search in name, description, category
-            if (medicine.getName().toLowerCase().contains(query) ||
-                    medicine.getDescription().toLowerCase().contains(query) ||
-                    medicine.getCategory().toLowerCase().contains(query)) {
-                filteredList.add(medicine);
+            for (Medicine medicine : allMedicineList) {
+                // Search in name, description, category
+                if (medicine.getName().toLowerCase().contains(query) ||
+                        medicine.getDescription().toLowerCase().contains(query) ||
+                        medicine.getCategory().toLowerCase().contains(query)) {
+                    filteredMedicineList.add(medicine);
+                }
             }
         }
 
-        // Update adapter with filtered list
-        filteredMedicineList = filteredList;
+        // Now apply sorting
+        switch (currentSortOption) {
+            case 0: // Name (A-Z)
+                Collections.sort(filteredMedicineList, new Comparator<Medicine>() {
+                    @Override
+                    public int compare(Medicine m1, Medicine m2) {
+                        return m1.getName().compareToIgnoreCase(m2.getName());
+                    }
+                });
+                break;
+
+            case 1: // Name (Z-A)
+                Collections.sort(filteredMedicineList, new Comparator<Medicine>() {
+                    @Override
+                    public int compare(Medicine m1, Medicine m2) {
+                        return m2.getName().compareToIgnoreCase(m1.getName());
+                    }
+                });
+                break;
+
+            case 2: // Price (Low to High)
+                Collections.sort(filteredMedicineList, new Comparator<Medicine>() {
+                    @Override
+                    public int compare(Medicine m1, Medicine m2) {
+                        return Double.compare(m1.getPrice(), m2.getPrice());
+                    }
+                });
+                break;
+
+            case 3: // Price (High to Low)
+                Collections.sort(filteredMedicineList, new Comparator<Medicine>() {
+                    @Override
+                    public int compare(Medicine m1, Medicine m2) {
+                        return Double.compare(m2.getPrice(), m1.getPrice());
+                    }
+                });
+                break;
+
+            default: // Default - anti-bug
+                break;
+        }
+
+        // Update adapter and UI
         medicineAdapter = new MedicineAdapter(getContext(), filteredMedicineList);
         medicineRecyclerView.setAdapter(medicineAdapter);
 
         // Update visibility based on results
-        if (filteredList.isEmpty()) {
+        if (filteredMedicineList.isEmpty()) {
             noResultsTextView.setVisibility(View.VISIBLE);
             medicineRecyclerView.setVisibility(View.GONE);
         } else {
             noResultsTextView.setVisibility(View.GONE);
             medicineRecyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void filterMedicines(String query) {
+        currentSearchQuery = query;
+        applyFilterAndSort();
     }
 
     private List<Medicine> loadMedicinesForCategory(String categoryName) {

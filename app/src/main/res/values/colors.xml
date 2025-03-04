@@ -1,30 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Brand Colors -->
-<!--    <color name="colorPrimary">#4CAF50</color> &lt;!&ndash; Example: Green 500 &ndash;&gt;
-    <color name="colorPrimaryDark">#388E3C</color> &lt;!&ndash; Example: Green 700 (Darker shade of primary) &ndash;&gt;
-    <color name="colorAccent">#FF4081</color> &lt;!&ndash; Example: Pink A200 (Accent color) &ndash;&gt;
-
-    &lt;!&ndash; Background Colors &ndash;&gt;
-    <color name="white">#FFFFFF</color>
-    <color name="light_gray">#F0F0F0</color>
-    <color name="cart_summary_background">#F5F5F5</color> &lt;!&ndash; Slightly darker gray for cart summary &ndash;&gt;
-    <color name="checkout_summary_background">#F5F5F5</color> &lt;!&ndash; Same for checkout summary &ndash;&gt;
-
-    &lt;!&ndash; Text Colors &ndash;&gt;
-    <color name="black">#000000</color>
-    <color name="dark_gray_text">#424242</color> &lt;!&ndash; Dark Gray for primary text &ndash;&gt;
-    <color name="gray_text">#757575</color> &lt;!&ndash; Gray for secondary text or hints &ndash;&gt;
-
-    &lt;!&ndash; Error Color &ndash;&gt;
-    <color name="error_red">#D32F2F</color> &lt;!&ndash; Example: Red 700 for errors &ndash;&gt;-->
-
-    <!-- Other UI Colors (Optional, add as needed) -->
-    <!-- Example:  If you want a specific color for your buttons -->
-    <!-- <color name="button_background">#....</color> -->
-    <!-- <color name="button_text_color">#....</color> -->
-
-
     <!-- **Blue Palette from Color Picker (HDPharmacities Brand Color)** -->
     <color name="hd_blue_500">#012995</color> <!-- Your primary blue - HEX: 012995 -->
     <color name="hd_blue_700">#001E6A</color> <!-- Darker shade of blue for status bar, etc. (Adjust if needed) -->

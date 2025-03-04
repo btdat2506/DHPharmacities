@@ -11,19 +11,20 @@
 
     <ImageView
         android:id="@+id/login_signup_logo_image"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_placeholder_logo"
+        android:src="@drawable/logo_text_black"
     android:contentDescription="@string/app_logo" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
         android:text="@string/login_signup_title"
-    android:textSize="24sp"
-    android:layout_marginBottom="24dp"
-    android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:visibility="gone" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/login_signup_tab_layout"
