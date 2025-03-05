@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,6 +47,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private TextView shippingTextView;
     private TextView totalTextView;
     private Spinner statusSpinner;
+    private CardView order_detail_status_card_view;
     private Button updateStatusButton;
     private Button finishButton; // Added for user checkout flow
 
@@ -102,59 +104,26 @@ public class OrderDetailActivity extends AppCompatActivity {
         subtotalTextView = findViewById(R.id.order_detail_subtotal_text_view);
         shippingTextView = findViewById(R.id.order_detail_shipping_text_view);
         totalTextView = findViewById(R.id.order_detail_total_text_view);
+        order_detail_status_card_view = findViewById(R.id.order_detail_status_card_view);
         statusSpinner = findViewById(R.id.order_detail_status_spinner);
         updateStatusButton = findViewById(R.id.order_detail_update_status_button);
 
         if (isNewOrder || !isAdmin) {
+            order_detail_status_card_view.setVisibility(View.GONE);
             // Find the parent view that contains the update button
-            ViewGroup parent = (ViewGroup) updateStatusButton.getParent();
+            // ViewGroup parent = (ViewGroup) updateStatusButton.getParent();
 
-            if (parent != null) {
-                // Create finish button
-                finishButton = new Button(this);
-
-                // Copy layout parameters from update button
-                ViewGroup.LayoutParams layoutParams = updateStatusButton.getLayoutParams();
-                finishButton.setLayoutParams(layoutParams);
-
-                finishButton.setText(R.string.finish);
-
-                // Set background and text color programmatically
-                finishButton.setBackgroundResource(R.color.hd_blue_500); // Use your color resource
-                finishButton.setTextColor(getResources().getColor(android.R.color.white));
-
-                finishButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Navigate back to home
-                        Intent intent = new Intent(OrderDetailActivity.this, HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Clear activity stack
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-
-                // Replace update button with finish button
-                int index = parent.indexOfChild(updateStatusButton);
-                parent.removeView(updateStatusButton);
-                parent.addView(finishButton, index);
-            } else {
-                // If we can't find the parent, just hide update button
-                updateStatusButton.setVisibility(View.GONE);
-
-                // Directly set onclick for the update button instead
-                updateStatusButton.setText(R.string.finish);
-                updateStatusButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Navigate back to home
-                        Intent intent = new Intent(OrderDetailActivity.this, HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-            }
+            updateStatusButton.setText(R.string.finish);
+            updateStatusButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Navigate back to home
+                    Intent intent = new Intent(OrderDetailActivity.this, HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Clear activity stack
+                    startActivity(intent);
+                    finish();
+                }
+            });
         }
 
         // Initialize RecyclerView
@@ -169,12 +138,6 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         // Set up status spinner and show/hide based on user role
         setupStatusSpinner();
-
-        // Show/hide admin-only controls
-        statusSpinner.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
-        if (updateStatusButton.getVisibility() != View.GONE) {
-            updateStatusButton.setVisibility(isAdmin ? View.VISIBLE : View.GONE);
-        }
 
         // Set up update button if showing
         if (isAdmin) {
@@ -215,11 +178,11 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         // Set customer details
         if (customer != null) {
-            customerNameTextView.setText(getString(R.string.customer_info) + ": " + customer.getName());
+            customerNameTextView.setText(getString(R.string.profile_name_label) + " " + customer.getName());
             customerEmailTextView.setText(getString(R.string.profile_email_label) + " " + customer.getEmail());
             customerPhoneTextView.setText(getString(R.string.profile_phone_label) + " " + customer.getPhoneNumber());
         } else {
-            customerNameTextView.setText(getString(R.string.customer_info) + ": " + order.getShippingName());
+            customerNameTextView.setText(getString(R.string.profile_name_label) + " " + order.getShippingName());
             customerEmailTextView.setText(getString(R.string.profile_email_label) + " N/A");
             customerPhoneTextView.setText(getString(R.string.profile_phone_label) + " " + order.getShippingPhone());
         }

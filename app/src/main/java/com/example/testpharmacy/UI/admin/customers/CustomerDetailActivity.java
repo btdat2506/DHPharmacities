@@ -6,18 +6,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.testpharmacy.Database.BillDao;
 import com.example.testpharmacy.Database.UserDao;
+import com.example.testpharmacy.Manager.UserSessionManager;
 import com.example.testpharmacy.Model.Bill;
 import com.example.testpharmacy.Model.User;
 import com.example.testpharmacy.R;
+import com.example.testpharmacy.UI.admin.orders.OrderAdapter;
+import com.example.testpharmacy.UI.admin.orders.OrderDetailActivity;
 import com.example.testpharmacy.UI.auth.LoginSignupActivity;
-import com.example.testpharmacy.Manager.UserSessionManager;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
@@ -32,6 +39,10 @@ public class CustomerDetailActivity extends AppCompatActivity {
     private TextInputEditText medicalNoticeEditText;
     private Button saveButton;
     private Button viewOrdersButton;
+    private RecyclerView ordersRecyclerView;
+    private ScrollView detailScrollView;
+    private TextView ordersHeaderTitle;
+    private LinearLayout buttonContainer;
 
     private UserDao userDao;
     private BillDao billDao;
@@ -39,6 +50,9 @@ public class CustomerDetailActivity extends AppCompatActivity {
     private User userData;
     private long userId;
     private boolean isCurrentUser = false;
+    private boolean showingOrders = false;
+    private List<Bill> userBills;
+    private OrderAdapter orderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +66,7 @@ public class CustomerDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Find views
         nameEditText = findViewById(R.id.customer_detail_name_edit_text);
         emailEditText = findViewById(R.id.customer_detail_email_edit_text);
         phoneEditText = findViewById(R.id.customer_detail_phone_edit_text);
@@ -59,6 +74,10 @@ public class CustomerDetailActivity extends AppCompatActivity {
         medicalNoticeEditText = findViewById(R.id.customer_detail_medical_notice_edit_text);
         saveButton = findViewById(R.id.customer_detail_save_button);
         viewOrdersButton = findViewById(R.id.customer_detail_view_orders_button);
+        ordersRecyclerView = findViewById(R.id.customer_orders_recycler_view);
+        detailScrollView = findViewById(R.id.customer_detail_scroll_view);
+        ordersHeaderTitle = findViewById(R.id.customer_orders_title);
+        buttonContainer = findViewById(R.id.customer_detail_button_container);
 
         // Initialize DAOs
         userDao = new UserDao(this);
@@ -77,6 +96,13 @@ public class CustomerDetailActivity extends AppCompatActivity {
             }
 
             getSupportActionBar().setTitle(getString(R.string.customer_details));
+
+            // Load orders for this customer
+            loadUserOrders();
+
+            // Set up ViewOrders button to toggle between information and orders
+            viewOrdersButton.setText(getString(R.string.view_orders));
+
         } else {
             // Regular user viewing their own profile
             if (!sessionManager.isLoggedIn()) {
@@ -88,13 +114,16 @@ public class CustomerDetailActivity extends AppCompatActivity {
             userId = sessionManager.getUserId();
             isCurrentUser = true;
             getSupportActionBar().setTitle(getString(R.string.profile_title));
+
+            // Load orders for current user
+            loadUserOrders();
+
+            // Set up ViewOrders button to toggle between information and orders
+            viewOrdersButton.setText(getString(R.string.view_orders));
         }
 
         // Load user data
         loadUserData();
-
-        // Configure view orders button visibility
-        viewOrdersButton.setVisibility(isCurrentUser ? View.GONE : View.VISIBLE);
 
         // Set up buttons
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -107,9 +136,56 @@ public class CustomerDetailActivity extends AppCompatActivity {
         viewOrdersButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showUserOrders();
+                toggleView();
             }
         });
+
+        // Setup RecyclerView
+        setupOrdersRecyclerView();
+    }
+
+    private void setupOrdersRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        ordersRecyclerView.setLayoutManager(layoutManager);
+
+        if (userBills != null && !userBills.isEmpty()) {
+            orderAdapter = new OrderAdapter(userBills, new OrderAdapter.OnOrderClickListener() {
+                @Override
+                public void onOrderClick(Bill order) {
+                    Intent intent = new Intent(CustomerDetailActivity.this, OrderDetailActivity.class);
+                    intent.putExtra("order_number", order.getOrderNumber());
+                    startActivity(intent);
+                }
+            });
+            ordersRecyclerView.setAdapter(orderAdapter);
+        }
+    }
+
+    private void toggleView() {
+        showingOrders = !showingOrders;
+
+        if (showingOrders) {
+            // Show orders
+            detailScrollView.setVisibility(View.GONE);
+            ordersRecyclerView.setVisibility(View.VISIBLE);
+
+            // Update button text
+            viewOrdersButton.setText(getString(R.string.view_profile));
+
+            // Check if we have orders to display
+            if (userBills == null || userBills.isEmpty()) {
+                Toast.makeText(this, getString(R.string.no_orders), Toast.LENGTH_SHORT).show();
+                // Toggle back to profile view if no orders
+                toggleView();
+            }
+        } else {
+            // Show profile info
+            detailScrollView.setVisibility(View.VISIBLE);
+            ordersRecyclerView.setVisibility(View.GONE);
+
+            // Update button text
+            viewOrdersButton.setText(getString(R.string.view_orders));
+        }
     }
 
     private void loadUserData() {
@@ -124,6 +200,12 @@ public class CustomerDetailActivity extends AppCompatActivity {
             addressEditText.setText(userData.getAddress());
             medicalNoticeEditText.setText(userData.getMedicalNotice());
         }
+    }
+
+    private void loadUserOrders() {
+        billDao.open();
+        userBills = billDao.getBillsByUserId(userId);
+        billDao.close();
     }
 
     private void saveUserData() {
@@ -146,22 +228,6 @@ public class CustomerDetailActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, getString(R.string.profile_update_failed), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void showUserOrders() {
-        // Get orders for this user
-        billDao.open();
-        List<Bill> userBills = billDao.getBillsByUserId(userId);
-        billDao.close();
-
-        if (userBills.isEmpty()) {
-            Toast.makeText(this, getString(R.string.no_orders), Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Show orders dialog
-        CustomerOrdersDialog dialog = new CustomerOrdersDialog(this, userBills);
-        dialog.show();
     }
 
     @Override

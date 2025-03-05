@@ -35,7 +35,7 @@
     <!-- Category Names -->
     <string name="sort_by">"Sắp xếp: "</string>
     <string name="category_all_items">Tất cả sản phẩm</string>
-    <string name="category_pain_relievers">Thuốc giảm đau</string>
+    <string name="category_pain_relievers">Giảm đau</string>
     <string name="category_antibiotics">Kháng sinh</string>
     <string name="category_vitamins">Vitamin</string>
     <string name="category_cold_flu">Cảm cúm</string>
@@ -44,13 +44,13 @@
 
     <!-- Cart and checkout strings -->
     <string name="cart_title">Giỏ hàng của tôi</string>
-    <string name="subtotal">Tổng phụ:</string>
+    <string name="subtotal">Tổng:</string>
     <string name="shipping">Vận chuyển:</string>
     <string name="free">Miễn phí</string>
     <string name="total">Tổng cộng:</string>
     <string name="checkout">Thanh toán</string>
     <string name="medicine_image">Hình ảnh thuốc</string>
-    <string name="add_to_cart">Thêm vào giỏ</string>
+    <string name="add_to_cart">Thêm</string>
     <string name="remove">Xóa</string>
     <string name="add_to_cart_success">Đã thêm %1$s vào giỏ hàng!</string>
     <string name="please_login_to_checkout">Vui lòng đăng nhập để thanh toán</string>
@@ -79,6 +79,7 @@
     <string name="stock_label">Tồn kho: </string>
 
     <!-- Profile screen strings -->
+    <string name="view_profile">Xem hồ sơ</string>
     <string name="profile_title">Hồ sơ</string>
     <string name="profile_name_hint">Tên của bạn</string>
     <string name="profile_email_hint">Email của bạn</string>
@@ -184,7 +185,7 @@
     <string name="order_status">Trạng thái đơn hàng</string>
     <string name="order_status_updated">Cập nhật trạng thái đơn hàng thành công</string>
     <string name="order_status_update_failed">Cập nhật trạng thái đơn hàng thất bại</string>
-    <string name="order_items">Các mặt hàng</string>
+    <string name="order_items">Danh sách mặt hàng</string>
 
     <!-- Error messages -->
     <string name="error_customer_not_found">Lỗi: Không tìm thấy khách hàng</string>
@@ -237,7 +238,7 @@
     </string-array>
 
     <string-array name="product_categories">
-        <item>Thuốc giảm đau</item>
+        <item>Giảm đau</item>
         <item>Kháng sinh</item>
         <item>Vitamin</item>
         <item>Cảm và cúm</item>

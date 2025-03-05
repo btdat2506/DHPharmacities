@@ -99,15 +99,15 @@ public class OrderStatusConstants {
 
         switch (status.toLowerCase()) {
             case STATUS_PENDING:
-                return 0xFF808080; // Gray
+                return 0xFFFFFFFF; // White
             case STATUS_PROCESSING:
-                return 0xFF2196F3; // Blue
+                return 0xFF0D47A1; // Deep Blue
             case STATUS_SHIPPING:
-                return 0xFFFF9800; // Orange
+                return 0xFFE65100; // Deep Orange
             case STATUS_DELIVERED:
-                return 0xFF4CAF50; // Green
+                return 0xFF2E7D32; // Dark Green
             case STATUS_CANCELLED:
-                return 0xFFF44336; // Red
+                return 0xFFB71C1C; // Dark Red
             default:
                 return 0xFF808080; // Gray
         }
