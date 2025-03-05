@@ -26,7 +26,6 @@ public class LoginFragment extends Fragment {
     private EditText emailPhoneEditText;
     private EditText passwordEditText;
     private Button loginButton;
-    private Button adminLoginButton;
     private TextView forgotPasswordTextView;
     private TextView errorTextView;
 
@@ -60,21 +59,13 @@ public class LoginFragment extends Fragment {
         emailPhoneEditText = view.findViewById(R.id.login_email_phone_edit_text);
         passwordEditText = view.findViewById(R.id.login_password_edit_text);
         loginButton = view.findViewById(R.id.login_button);
-        adminLoginButton = view.findViewById(R.id.admin_login_button);
         forgotPasswordTextView = view.findViewById(R.id.login_forgot_password_text);
         errorTextView = view.findViewById(R.id.login_error_text);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                performLogin(false);
-            }
-        });
-
-        adminLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                performLogin(true);
+                performLogin();
             }
         });
 
@@ -89,7 +80,7 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    private void performLogin(Boolean isAdmin) {
+    private void performLogin() {
         String emailPhone = emailPhoneEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString();
 
@@ -109,8 +100,8 @@ public class LoginFragment extends Fragment {
 
                 // Navigate based on user type
                 Intent intent;
-                if (userId <= numAdmin) sessionManager.setAdmin(true);
-                if (isAdmin && userId <= numAdmin) {
+                if (userId <= numAdmin) {
+                    sessionManager.setAdmin(true);
                     intent = new Intent(getActivity(), AdminDashboardActivity.class);
                 } else {
                     intent = new Intent(getActivity(), HomeActivity.class);
